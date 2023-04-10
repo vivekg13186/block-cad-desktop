@@ -7,7 +7,7 @@ import {
 	Vector3
 } from 'three';
 
-import axios from 'axios';
+import {compile_to_stl} from './openscad_compiler';
 /**
  * Description: A THREE loader for STL ASCII files, as created by Solidworks and other CAD programs.
  *
@@ -71,19 +71,10 @@ class STLLoader extends Loader {
 
 	loadModel(code,onLoad,onError){
 		const scope = this;
-		var config = {
-			method: 'post',
-		  	maxBodyLength: Infinity,
-			url: '/gen_stl',
-			headers: { 
-			  'Content-Type': 'text/plain'
-			},
-			data : code
-		  };
-		  
-		  axios(config)
-		  .then(function (response) {
-			onLoad(scope.parse(response.data));
+		 
+		compile_to_stl(code).then(function (data) {
+			console.log(data,"da");
+			onLoad(scope.parse(data));
 		  })
 		  .catch(function (error) {
 			onError(error);
