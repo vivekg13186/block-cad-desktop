@@ -29969,12 +29969,17 @@ function loadViewer() {
     const material = new _three.MeshBasicMaterial({
         color: 0x00ff00
     });
+    const axesHelper = new _three.AxesHelper(50);
+    scene.add(axesHelper);
+    const size = 100;
+    const divisions = 100;
+    const gridHelper = new _three.GridHelper(size, divisions);
+    scene.add(gridHelper);
+    scene.background = new _three.Color("rgb(40, 40, 40)");
     const cube = new _three.Mesh(geometry, material);
-    scene.add(cube);
+    //scene.add(cube);
     camera.position.z = 5;
-    /**
-     * Light setup
-     */ const secondaryLight = new _three.PointLight(0xff0000, 1, 100);
+    const secondaryLight = new _three.PointLight(0xff0000, 1, 100);
     secondaryLight.position.set(5, 5, 5);
     scene.add(secondaryLight);
     renderer.setSize(pos.width, pos.height);

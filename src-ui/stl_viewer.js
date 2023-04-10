@@ -32,12 +32,24 @@ export function loadViewer() {
 
     const geometry = new THREE.BoxGeometry(10, 10, 10);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+    const axesHelper = new THREE.AxesHelper( 50 );
+    scene.add( axesHelper );
+
+    const size = 100;
+    const divisions = 100;
+    
+    const gridHelper = new THREE.GridHelper( size, divisions );
+    scene.add( gridHelper );
+    scene.background = new THREE.Color("rgb(40, 40, 40)");
+ 
+
+
     const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    
+    //scene.add(cube);
     camera.position.z = 5;
-    /**
-     * Light setup
-     */
+  
     const secondaryLight = new THREE.PointLight(0xff0000, 1, 100);
     secondaryLight.position.set(5, 5, 5);
     scene.add(secondaryLight);
