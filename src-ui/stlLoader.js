@@ -72,7 +72,7 @@ class STLLoader extends Loader {
 	loadModel(code,onLoad,onError){
 		const scope = this;
 		 
-		compile_to_stl(code).then(function (data) {
+		compile_to_stl(code,function (data) {
 			console.log(data,"da");
 			onLoad(scope.parse(data));
 		  })

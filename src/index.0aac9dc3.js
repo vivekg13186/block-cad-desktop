@@ -566,9 +566,11 @@ var _opencadCodeGen = require("./opencad_code_gen");
 var _toolbox = require("./toolbox");
 var _javascript = require("blockly/javascript");
 var _stlViewer = require("./stl_viewer");
-(0, _opencadBlocks.init)();
+var _blocksGenerator = require("./blocks_generator");
+var gen_code = (0, _blocksGenerator.generate)();
+(0, _blocklyDefault.default).defineBlocksWithJsonArray(gen_code.blocks);
 var options = {
-    toolbox: (0, _toolbox.toolbox),
+    toolbox: gen_code.toolbox,
     collapse: false,
     comments: true,
     disable: true,
@@ -606,7 +608,7 @@ const runCode = ()=>{
 document.getElementById("gen-code").addEventListener("click", runCode);
 (0, _stlViewer.loadViewer)();
 
-},{"./app.css":"2yJcC","blockly":"9OIg0","./opencad_blocks":"bPEsP","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","./toolbox":"frFIV","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
+},{"./app.css":"2yJcC","blockly":"9OIg0","./opencad_blocks":"bPEsP","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","./toolbox":"frFIV","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk","./blocks_generator":"Tbo3C"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define([
         "./browser"
@@ -26061,6 +26063,28 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "init", ()=>init);
 var _blockly = require("blockly");
 var _blocklyDefault = parcelHelpers.interopDefault(_blockly);
+function title(b, t) {
+    b.appendDummyInput().appendField(t);
+}
+function numberInput(b, title, field) {
+    b.appendValueInput(field).setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField(title);
+}
+//[["radius","r"], ["diameter","d"]]
+function dropDown(b, data, field) {
+    b.appendField(new (0, _blocklyDefault.default).FieldDropdown(data), field);
+}
+function init_block_1(b) {
+    b.setPreviousStatement(true, null);
+    b.setNextStatement(true, null);
+    b.setColour(230);
+}
+(0, _blocklyDefault.default).Blocks["cube_1"] = {
+    init: function() {
+        init_block_1(this);
+        title(this, "Cube");
+        numberInput(this, "Size", "size");
+    }
+};
 (0, _blocklyDefault.default).Blocks["circle_1"] = {
     init: function() {
         this.appendDummyInput().appendField("Circle");
@@ -26197,16 +26221,18 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "generate_code", ()=>generate_code);
 var _interpreter = require("./interpreter");
 var _javascript = require("blockly/javascript");
+function getNumVal(b, prop) {
+    return (0, _javascript.javascriptGenerator).valueToCode(b, prop, (0, _javascript.javascriptGenerator).ORDER_MEMBER);
+}
 (0, _javascript.javascriptGenerator)["sphere_1"] = function(block) {
     var r_or_d = block.getFieldValue("type");
-    var value = (0, _javascript.javascriptGenerator).valueToCode(block, "value", (0, _javascript.javascriptGenerator).ORDER_MEMBER);
+    var value = getNumVal(block, "value");
     var code = `sphere_1('${r_or_d}',${value});\n`;
     return code;
 };
-(0, _javascript.javascriptGenerator)["cube"] = function(block) {
-    var r_or_d = block.getFieldValue("type");
-    var value = (0, _javascript.javascriptGenerator).valueToCode(block, "value", (0, _javascript.javascriptGenerator).ORDER_MEMBER);
-    var code = `sphere_1('${r_or_d}',${value});\n`;
+(0, _javascript.javascriptGenerator)["cube_1"] = function(block) {
+    var value = getNumVal(block, "size", (0, _javascript.javascriptGenerator).ORDER_MEMBER);
+    var code = `cube_1(${value});\n`;
     return code;
 };
 function addFunc(name, func, i, g) {
@@ -26218,6 +26244,9 @@ function generate_code(js) {
         i.setProperty(g, "code", code);
         addFunc("sphere_1", function(r, v) {
             code.push(`sphere(${r}=${v});`);
+        }, i, g);
+        addFunc("cube_1", function(s) {
+            code.push(`cube(size=${s});`);
         }, i, g);
     };
     var myInterpreter = new (0, _interpreter.Interpreter)(js, init_gen);
@@ -29690,7 +29719,7 @@ const toolbox = {
                 },
                 {
                     "kind": "block",
-                    "type": "sphere_2"
+                    "type": "cube_1"
                 }
             ]
         },
@@ -29957,6 +29986,7 @@ const textureLoader = new _three.TextureLoader();
 const imageLoader = new _three.ImageLoader();
 const renderer = new _three.WebGLRenderer();
 const scene = new _three.Scene();
+const group = new _three.Group();
 var camera = null;
 function loadViewer() {
     var right = document.getElementById("viewer");
@@ -29982,6 +30012,7 @@ function loadViewer() {
     const secondaryLight = new _three.PointLight(0xff0000, 1, 100);
     secondaryLight.position.set(5, 5, 5);
     scene.add(secondaryLight);
+    scene.add(group);
     renderer.setSize(pos.width, pos.height);
     right.appendChild(renderer.domElement);
     function onWindowResize() {
@@ -30003,9 +30034,8 @@ function render_cad(code) {
         const mesh = new _three.Mesh(geometry, material);
         mesh.geometry.computeVertexNormals(true);
         mesh.geometry.center();
-        scene.clear();
-        scene.add(mesh);
-        mesh.rotation.x = -1.2;
+        group.clear();
+        group.add(mesh);
     }, (err)=>{
         console.error(err);
     });
@@ -59803,7 +59833,7 @@ var _openscadCompiler = require("./openscad_compiler");
     }
     loadModel(code, onLoad, onError) {
         const scope = this;
-        (0, _openscadCompiler.compile_to_stl)(code).then(function(data) {
+        (0, _openscadCompiler.compile_to_stl)(code, function(data) {
             console.log(data, "da");
             onLoad(scope.parse(data));
         }).catch(function(error) {
@@ -60000,10 +60030,10 @@ var _os = require("@tauri-apps/api/os");
 var _fs = require("@tauri-apps/api/fs");
 var _path = require("@tauri-apps/api/path");
 const scad_location = "/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD";
-async function compile_to_stl(openscad_code) {
+async function compile_to_stl(openscad_code, callback) {
     const root = await (0, _path.desktopDir)();
     //write code  to temp dir
-    await (0, _fs.writeTextFile)("request_1234.scad", openscad_code, {
+    await (0, _fs.writeTextFile)("request.scad", openscad_code, {
         dir: (0, _fs.BaseDirectory).Desktop
     });
     var file_input = await (0, _path.join)(root, "request.scad");
@@ -60016,17 +60046,17 @@ async function compile_to_stl(openscad_code) {
         "-o",
         file_output
     ]);
-    command.on("close", (data)=>{
+    command.on("close", async function(data) {
         console.log(`command finished with code ${data.code} and signal ${data.signal}`);
+        const contents = await (0, _fs.readTextFile)("response.stl", {
+            dir: (0, _fs.BaseDirectory).Desktop
+        });
+        callback(contents);
     });
     command.on("error", (error)=>console.error(`command error: "${error}"`));
     command.stdout.on("data", (line)=>console.log(`command stdout: "${line}"`));
     command.stderr.on("data", (line)=>console.log(`command stderr: "${line}"`));
     const child = await command.spawn();
-    const contents = await (0, _fs.readTextFile)("response.stl", {
-        dir: (0, _fs.BaseDirectory).Desktop
-    });
-    return contents;
 }
 
 },{"@tauri-apps/api/shell":"bb0et","@tauri-apps/api/os":"gI59C","@tauri-apps/api/fs":"5Ublj","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","@tauri-apps/api/path":"hQneX"}],"bb0et":[function(require,module,exports) {
@@ -61646,6 +61676,140 @@ class OrbitControls extends (0, _three.EventDispatcher) {
     }
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"Tbo3C":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "generate", ()=>generate);
+var _blocksYaml = require("./blocks.yaml");
+var _blocksYamlDefault = parcelHelpers.interopDefault(_blocksYaml);
+var _baseBlocksJson = require("./base_blocks.json");
+var _baseBlocksJsonDefault = parcelHelpers.interopDefault(_baseBlocksJson);
+var _baseToolsJson = require("./base_tools.json");
+var _baseToolsJsonDefault = parcelHelpers.interopDefault(_baseToolsJson);
+function getName(text) {
+    return text.split("(")[0];
+}
+function getArgs(text) {
+    var start = text.indexOf("(");
+    var len = text.length;
+    var parts = text.substring(start + 1, len - 1).split(",");
+    return parts.map((p)=>{
+        var g = p.split(":");
+        return {
+            name: g[0],
+            type: g[1]
+        };
+    });
+}
+function createBlockFromText(id, text) {
+    var name = getName(text);
+    var args = getArgs(text);
+    console.log(args);
+    var message = [];
+    message.push(`${name} %1`);
+    for(var i = 0; i < args.length; i++)message.push(`${args[i].name} %${i + 2}`);
+    message = message.join(" ");
+    var base = {
+        "type": id,
+        "message0": message,
+        "args0": [
+            {
+                "type": "input_dummy"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 105,
+        "tooltip": "",
+        "helpUrl": ""
+    };
+    args.map((v)=>{
+        base.args0.push({
+            "type": "input_value",
+            "name": v.name,
+            "check": v.type
+        });
+    });
+    console.log(base);
+    return base;
+}
+var colors = [
+    "#4C4DAD",
+    "#6162FA",
+    "#EFFA55",
+    "#AD2A98",
+    "#FA48DD"
+];
+function generate() {
+    var ci = 0;
+    for(var cat_name in 0, _blocksYamlDefault.default){
+        var cat = (0, _blocksYamlDefault.default)[cat_name];
+        var tool = {
+            "kind": "category",
+            "name": cat_name,
+            "colour": colors[ci],
+            "contents": []
+        };
+        for(var blk_id in cat){
+            var blk = createBlockFromText(blk_id, cat[blk_id]);
+            blk.color = colors[ci];
+            (0, _baseBlocksJsonDefault.default).push(blk);
+            tool.contents.push({
+                "kind": "block",
+                "type": blk_id
+            });
+        }
+        (0, _baseToolsJsonDefault.default).push(tool);
+        ci++;
+    }
+    return {
+        blocks: (0, _baseBlocksJsonDefault.default),
+        toolbox: {
+            "kind": "categoryToolbox",
+            "contents": (0, _baseToolsJsonDefault.default)
+        }
+    };
+}
+
+},{"./blocks.yaml":"aZPcE","./base_blocks.json":"lEMyO","./base_tools.json":"9g72e","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"aZPcE":[function(require,module,exports) {
+module.exports = {
+    "3D Primitive": {
+        "cube1": "Cube(length:Number,width:Number,height:Number,center:Boolean)",
+        "cube2": "Cube(size:Number,center:Boolean)",
+        "sphere1": "Sphere(radius:Number)",
+        "sphere2": "Sphere(diameter:Number)",
+        "sphere3": "Sphere(radius:Number,$fa:Number,$fs:Number,$fn:Number)",
+        "sphere4": "Sphere(diameter:Number,$fa:Number,$fs:Number,$fn:Number)",
+        "cylinder1": "Cylinder(r:Number,h:Number,center:Boolean)",
+        "cylinder2": "Cylinder(r1:Number,r2:Number,h:Number,center:Boolean)",
+        "cylinder3": "Cylinder(r1:Number,r2:Number,h:Number,center:Boolean,$fa:Number,$fs:Number,$fn:Number)"
+    },
+    "2D Primitive": {
+        "square1": "square(size:vec2,center:Boolean)",
+        "square2": "square(size:Number,center:Boolean)",
+        "circle1": "circle(r:Number,center:Boolean)",
+        "circle2": "circle(d:Number,center:Boolean)",
+        "circle3": "circle(r:Number,center:Boolean,$fa:Number,$fs:Number,$fn:Number)",
+        "circle4": "circle(d:Number,center:Boolean,$fa:Number,$fs:Number,$fn:Number)",
+        "ploygon": "polygon(points:String,paths:String,convexity:Number)",
+        "text": "text(text:String)"
+    },
+    "Transform": {
+        "translate": "translate(v:vec3)",
+        "mirror": "mirror(v:vec3)",
+        "rotate1": "rotate(a:Number)",
+        "rotate2": "rotate(a:Number,v:vec3)",
+        "rotate3": "rotate(a:vec3)"
+    }
+};
+
+},{}],"lEMyO":[function(require,module,exports) {
+module.exports = JSON.parse("[]");
+
+},{}],"9g72e":[function(require,module,exports) {
+module.exports = JSON.parse("[]");
+
+},{}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
 
 //# sourceMappingURL=index.0aac9dc3.js.map

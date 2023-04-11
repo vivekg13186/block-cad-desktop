@@ -1,0 +1,153 @@
+{
+    "cube_1": {
+        "catogery":"Primitive Solids",
+        "title": "Cube",
+        "args": [
+            [
+                "length",
+                "Number"
+            ],
+            [
+                "width",
+                "Number"
+            ],
+            [
+                "height",
+                "Number"
+            ],
+            [
+                "center",
+                "Boolean"
+            ]
+        ]
+    },
+    "cube_2": {
+        "catogery":"Primitive Solids",
+        "title": "Cube",
+        "args": [
+            [
+                "size",
+                "Number"
+            ],
+            [
+                "center",
+                "Boolean"
+            ]
+        ]
+    },
+    "sphere_1": {
+        "catogery":"Primitive Solids",
+        "title": "Sphere",
+        "args": [
+            [
+                "radius",
+                "Number"
+            ]
+        ]
+    },
+    "sphere_2": {
+        "catogery":"Primitive Solids",
+        "title": "Sphere",
+        "args": [
+            [
+                "radius",
+                "Number"
+            ],
+            [
+                "$fa",
+                "Number"
+            ],
+            [
+                "$fs",
+                "Number"
+            ],
+            [
+                "$fn",
+                "Number"
+            ]
+        ]
+    },
+    "cylinder_1": {
+        "catogery":"Primitive Solids",
+        "title": "Cylinder",
+        "args": [
+            [
+                "radius",
+                "Number"
+            ],
+            [
+                "height",
+                "Number"
+            ],
+            [
+                "center",
+                "Boolean"
+            ]
+        ]
+    },
+    "cylinder_2": {
+        "catogery":"Primitive Solids",
+        "title": "Cylinder",
+        "args": [
+            [
+                "radiusTop",
+                "Number"
+            ],
+            [
+                "radiusBottom",
+                "Number"
+            ],
+            [
+                "height",
+                "Number"
+            ],
+            [
+                "center",
+                "Boolean"
+            ]
+        ]
+    },
+    "cylinder_3": {
+        "catogery":"Primitive Solids",
+        "title": "Cylinder",
+        "args": [
+            [
+                "radiusTop",
+                "Number"
+            ],
+            [
+                "radiusBottom",
+                "Number"
+            ],
+            [
+                "height",
+                "Number"
+            ],
+            [
+                "center",
+                "Boolean"
+            ],
+            [
+                "$fa",
+                "Number"
+            ],
+            [
+                "$fs",
+                "Number"
+            ],
+            [
+                "$fn",
+                "Number"
+            ]
+        ]
+    },
+    "polyhedron":{
+        "catogery":"Primitive Solids",
+        "title": "Polyhedron",
+        "args": [
+            ["points","String"],
+            ["faces","String"],
+            ["convexity","Number"]
+        ]
+    }
+}

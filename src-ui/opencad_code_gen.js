@@ -1,17 +1,20 @@
 import  {Interpreter}  from "./interpreter";
 import { javascriptGenerator } from 'blockly/javascript';
 
+function getNumVal(b,prop){
+    return javascriptGenerator.valueToCode(b,prop, javascriptGenerator.ORDER_MEMBER);
+}
 javascriptGenerator['sphere_1'] = function (block) {
     var r_or_d = block.getFieldValue('type');
-    var value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_MEMBER);
+    var value = getNumVal(block,'value');
     var code = `sphere_1('${r_or_d}',${value});\n`;
     return code;
 };
 
-javascriptGenerator['cube'] = function (block) {
-    var r_or_d = block.getFieldValue('type');
-    var value = javascriptGenerator.valueToCode(block, 'value', javascriptGenerator.ORDER_MEMBER);
-    var code = `sphere_1('${r_or_d}',${value});\n`;
+javascriptGenerator['cube_1'] = function (block) {
+     
+    var value = getNumVal(block,'size', javascriptGenerator.ORDER_MEMBER);
+    var code = `cube_1(${value});\n`;
     return code;
 };
 
@@ -27,6 +30,7 @@ export function generate_code(js) {
     var init_gen = function (i, g) {
         i.setProperty(g, "code", code);
         addFunc('sphere_1',  function (r, v) {code.push(`sphere(${r}=${v});`);}, i, g);
+        addFunc('cube_1',  function (s) {code.push(`cube(size=${s});`);}, i, g);
     }
     var myInterpreter = new Interpreter(js, init_gen);
     myInterpreter.run();

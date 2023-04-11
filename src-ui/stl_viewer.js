@@ -10,6 +10,7 @@ const imageLoader = new THREE.ImageLoader();
 
 const renderer = new THREE.WebGLRenderer();
 const scene = new THREE.Scene();
+const group = new THREE.Group();
 var camera=null;
 export function loadViewer() {
     var right = document.getElementById("viewer");
@@ -54,6 +55,8 @@ export function loadViewer() {
     secondaryLight.position.set(5, 5, 5);
     scene.add(secondaryLight);
 
+    scene.add(group);
+
    
 
     renderer.setSize(pos.width, pos.height);
@@ -81,9 +84,8 @@ export function render_cad(code){
         const mesh = new THREE.Mesh(geometry, material);
         mesh.geometry.computeVertexNormals(true);
         mesh.geometry.center();
-        scene.clear();
-        scene.add(mesh);
-        mesh.rotation.x = -1.2;
+        group.clear();
+        group.add(mesh);
     },(err)=>{
         console.error(err);
     });

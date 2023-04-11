@@ -31,7 +31,7 @@ export const toolbox = {
                 },
                 {
                     "kind": "block",
-                    "type": "sphere_2"
+                    "type": "cube_1"
                 }
             ]
         },

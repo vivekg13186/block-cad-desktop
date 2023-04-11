@@ -3,11 +3,16 @@ import Blockly from 'blockly';
 import { init } from "./opencad_blocks";
 import { generate_code } from "./opencad_code_gen";
 import { toolbox } from "./toolbox";
-init();
+
 import { javascriptGenerator } from 'blockly/javascript';
 import {loadViewer,render_cad} from "./stl_viewer";
+
+import {generate} from "./blocks_generator";
+var gen_code = generate();
+Blockly.defineBlocksWithJsonArray(gen_code.blocks);
+
 var options = {
-    toolbox: toolbox,
+    toolbox: gen_code.toolbox,
     collapse: false,
     comments: true,
     disable: true,
