@@ -1,1 +1,15 @@
-[]
+[ {
+    "kind": "category",
+    "name": "Inputs",
+    "colour":"rgb(158, 1, 66)",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "variables9"
+        },
+        {
+            "kind":"block",
+            "type":"constants"
+        }
+    ]
+}]

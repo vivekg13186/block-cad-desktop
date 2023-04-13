@@ -1,23 +1,19 @@
 import "./app.css"
 import Blockly from 'blockly';
-import { init } from "./opencad_blocks";
 import { generate_code } from "./opencad_code_gen";
-import { toolbox } from "./toolbox";
-
 import { javascriptGenerator } from 'blockly/javascript';
 import {loadViewer,render_cad} from "./stl_viewer";
-
 import {generate} from "./blocks_generator";
 var gen_code = generate();
 Blockly.defineBlocksWithJsonArray(gen_code.blocks);
 
 var options = {
     toolbox: gen_code.toolbox,
-    collapse: false,
+    collapse: true,
     comments: true,
     disable: true,
     maxBlocks: Infinity,
-    trashcan: true,
+    trashcan: false,
     horizontalLayout: false,
     toolboxPosition: 'start',
     css: true,
@@ -35,7 +31,7 @@ var options = {
     },
     zoom: {
         controls: true,
-        startScale: 1,
+        startScale: 0.8,
         maxScale: 3,
         minScale: 0.3,
         scaleSpeed: 1.2

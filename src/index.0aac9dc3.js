@@ -561,9 +561,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _appCss = require("./app.css");
 var _blockly = require("blockly");
 var _blocklyDefault = parcelHelpers.interopDefault(_blockly);
-var _opencadBlocks = require("./opencad_blocks");
 var _opencadCodeGen = require("./opencad_code_gen");
-var _toolbox = require("./toolbox");
 var _javascript = require("blockly/javascript");
 var _stlViewer = require("./stl_viewer");
 var _blocksGenerator = require("./blocks_generator");
@@ -571,11 +569,11 @@ var gen_code = (0, _blocksGenerator.generate)();
 (0, _blocklyDefault.default).defineBlocksWithJsonArray(gen_code.blocks);
 var options = {
     toolbox: gen_code.toolbox,
-    collapse: false,
+    collapse: true,
     comments: true,
     disable: true,
     maxBlocks: Infinity,
-    trashcan: true,
+    trashcan: false,
     horizontalLayout: false,
     toolboxPosition: "start",
     css: true,
@@ -593,7 +591,7 @@ var options = {
     },
     zoom: {
         controls: true,
-        startScale: 1,
+        startScale: 0.8,
         maxScale: 3,
         minScale: 0.3,
         scaleSpeed: 1.2
@@ -608,7 +606,7 @@ const runCode = ()=>{
 document.getElementById("gen-code").addEventListener("click", runCode);
 (0, _stlViewer.loadViewer)();
 
-},{"./app.css":"2yJcC","blockly":"9OIg0","./opencad_blocks":"bPEsP","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","./toolbox":"frFIV","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk","./blocks_generator":"Tbo3C"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
+},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk","./blocks_generator":"Tbo3C"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define([
         "./browser"
@@ -26057,135 +26055,7 @@ function ${module$exports$Blockly$JavaScript.javascriptGenerator.FUNCTION_NAME_P
     return module$exports$Blockly$JavaScript;
 });
 
-},{"65c0b8d9ff348941":"1Qa2i"}],"bPEsP":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "init", ()=>init);
-var _blockly = require("blockly");
-var _blocklyDefault = parcelHelpers.interopDefault(_blockly);
-function title(b, t) {
-    b.appendDummyInput().appendField(t);
-}
-function numberInput(b, title, field) {
-    b.appendValueInput(field).setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField(title);
-}
-//[["radius","r"], ["diameter","d"]]
-function dropDown(b, data, field) {
-    b.appendField(new (0, _blocklyDefault.default).FieldDropdown(data), field);
-}
-function init_block_1(b) {
-    b.setPreviousStatement(true, null);
-    b.setNextStatement(true, null);
-    b.setColour(230);
-}
-(0, _blocklyDefault.default).Blocks["cube_1"] = {
-    init: function() {
-        init_block_1(this);
-        title(this, "Cube");
-        numberInput(this, "Size", "size");
-    }
-};
-(0, _blocklyDefault.default).Blocks["circle_1"] = {
-    init: function() {
-        this.appendDummyInput().appendField("Circle");
-        this.appendValueInput("NAME").setCheck("Number").appendField(new (0, _blocklyDefault.default).FieldDropdown([
-            [
-                "radius",
-                "r"
-            ],
-            [
-                "diameter",
-                "d"
-            ]
-        ]), "NAME");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(230);
-        this.setTooltip("");
-        this.setHelpUrl("https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Using_the_2D_Subsystem#circle");
-    }
-};
-(0, _blocklyDefault.default).Blocks["circle_2"] = {
-    init: function() {
-        this.appendDummyInput().appendField("Circle");
-        this.appendValueInput("type").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField(new (0, _blocklyDefault.default).FieldDropdown([
-            [
-                "radius",
-                "r"
-            ],
-            [
-                "diameter",
-                "d"
-            ]
-        ]), "type");
-        this.appendValueInput("$fa").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("$fa");
-        this.appendValueInput("$fs").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("$fs");
-        this.appendValueInput("$fn").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("$fn");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(230);
-        this.setTooltip("");
-        this.setHelpUrl("https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Using_the_2D_Subsystem#circle");
-    }
-};
-(0, _blocklyDefault.default).Blocks["square"] = {
-    init: function() {
-        this.appendDummyInput().appendField("Square");
-        this.appendValueInput("size").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("size");
-        this.appendValueInput("center").setCheck("Boolean").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("center");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(230);
-        this.setTooltip("");
-        this.setHelpUrl("https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Using_the_2D_Subsystem#square");
-    }
-};
-(0, _blocklyDefault.default).Blocks["sphere_1"] = {
-    init: function() {
-        this.appendDummyInput().appendField("Sphere");
-        this.appendValueInput("value").setCheck("Number").appendField(new (0, _blocklyDefault.default).FieldDropdown([
-            [
-                "radius",
-                "r"
-            ],
-            [
-                "diameter",
-                "d"
-            ]
-        ]), "type");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(120);
-        this.setTooltip("");
-        this.setHelpUrl("");
-    }
-};
-(0, _blocklyDefault.default).Blocks["sphere_2"] = {
-    init: function() {
-        this.appendDummyInput().appendField("Sphere");
-        this.appendValueInput("type").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField(new (0, _blocklyDefault.default).FieldDropdown([
-            [
-                "radius",
-                "r"
-            ],
-            [
-                "diameter",
-                "d"
-            ]
-        ]), "type");
-        this.appendValueInput("$fa").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("$fa");
-        this.appendValueInput("$fs").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("$fs");
-        this.appendValueInput("$fn").setCheck("Number").setAlign((0, _blocklyDefault.default).ALIGN_RIGHT).appendField("$fn");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(120);
-        this.setTooltip("");
-        this.setHelpUrl("");
-    }
-};
-function init() {}
-
-},{"blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"jho5n":[function(require,module,exports) {
+},{"65c0b8d9ff348941":"1Qa2i"}],"jho5n":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -29682,298 +29552,7 @@ exports.createContext = Script.createContext = function(context) {
     return copy;
 };
 
-},{}],"frFIV":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "toolbox", ()=>toolbox);
-const toolbox = {
-    "kind": "categoryToolbox",
-    "contents": [
-        {
-            "kind": "category",
-            "name": "2D Primitives",
-            "colour": "#0000ff",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "circle_1"
-                },
-                {
-                    "kind": "block",
-                    "type": "circle_2"
-                },
-                {
-                    "kind": "block",
-                    "type": "square"
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "3D Primitives",
-            "colour": "#00ff00",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "sphere_1"
-                },
-                {
-                    "kind": "block",
-                    "type": "cube_1"
-                }
-            ]
-        },
-        //
-        {
-            "kind": "category",
-            "name": "Logic",
-            "colour": "#5b80a5",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "controls_if"
-                },
-                {
-                    "kind": "block",
-                    "type": "logic_compare"
-                },
-                {
-                    "kind": "block",
-                    "type": "logic_operation"
-                },
-                {
-                    "kind": "block",
-                    "type": "logic_negate"
-                },
-                {
-                    "kind": "block",
-                    "type": "logic_boolean"
-                },
-                {
-                    "kind": "block",
-                    "type": "logic_null"
-                },
-                {
-                    "kind": "block",
-                    "type": "logic_ternary"
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Loops",
-            "colour": "#5ba55b",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "controls_repeat_ext"
-                },
-                {
-                    "kind": "block",
-                    "type": "controls_whileUntil"
-                },
-                {
-                    "kind": "block",
-                    "type": "controls_for"
-                },
-                {
-                    "kind": "block",
-                    "type": "controls_forEach"
-                },
-                {
-                    "kind": "block",
-                    "type": "controls_flow_statements"
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Math",
-            "colour": "#5b67a5",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "math_number"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_arithmetic"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_single"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_trig"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_constant"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_number_property"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_round"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_on_list"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_modulo"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_constrain"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_random_int"
-                },
-                {
-                    "kind": "block",
-                    "type": "math_random_float"
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Text",
-            "colour": "#5ba58c",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "text"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_join"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_append"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_length"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_isEmpty"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_indexOf"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_charAt"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_getSubstring"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_changeCase"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_trim"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_print"
-                },
-                {
-                    "kind": "block",
-                    "type": "text_prompt_ext"
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Lists",
-            "colour": "#745ba5",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "lists_create_with"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_create_with"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_repeat"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_length"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_isEmpty"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_indexOf"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_getIndex"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_setIndex"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_getSublist"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_split"
-                },
-                {
-                    "kind": "block",
-                    "type": "lists_sort"
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Colour",
-            "colour": "#a5745b",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "colour_picker"
-                },
-                {
-                    "kind": "block",
-                    "type": "colour_random"
-                },
-                {
-                    "kind": "block",
-                    "type": "colour_rgb"
-                },
-                {
-                    "kind": "block",
-                    "type": "colour_blend"
-                }
-            ]
-        }
-    ]
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"cMhuk":[function(require,module,exports) {
+},{}],"cMhuk":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "loadViewer", ()=>loadViewer);
@@ -61707,16 +61286,15 @@ function createBlockFromText(id, text) {
     console.log(args);
     var message = [];
     message.push(`${name} %1`);
-    for(var i = 0; i < args.length; i++)message.push(`${args[i].name} %${i + 2}`);
+    for(var i = 0; i < args.length; i++){
+        var name = args[i].type == "statement" ? args[i].name : "";
+        message.push(` %${i + 2}`);
+    }
     message = message.join(" ");
     var base = {
         "type": id,
         "message0": message,
-        "args0": [
-            {
-                "type": "input_dummy"
-            }
-        ],
+        "args0": [],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
@@ -61724,22 +61302,39 @@ function createBlockFromText(id, text) {
         "tooltip": "",
         "helpUrl": ""
     };
+    var has_statement = args.filter((v)=>v.type == "statement").length > 0;
+    if (!has_statement) base.args0.push({
+        "type": "input_dummy"
+    });
     args.map((v)=>{
-        base.args0.push({
-            "type": "input_value",
+        if (v.type == "statement") {
+            base.args0.push({
+                "type": "input_dummy"
+            });
+            base.args0.push({
+                "type": "input_statement",
+                "name": v.name
+            });
+        } else base.args0.push({
+            "type": "field_input",
             "name": v.name,
-            "check": v.type
+            "text": v.type
         });
     });
     console.log(base);
     return base;
 }
 var colors = [
-    "#4C4DAD",
-    "#6162FA",
-    "#EFFA55",
-    "#AD2A98",
-    "#FA48DD"
+    //"rgb(158, 1, 66)",
+    "rgb(213, 62, 79)",
+    "rgb(244, 109, 67)",
+    "rgb(253, 174, 97)",
+    "rgb(254, 224, 139)",
+    "rgb(230, 245, 152)",
+    "rgb(171, 221, 164)",
+    "rgb(102, 194, 165)",
+    "rgb(50, 136, 189)",
+    "rgb(94, 79, 162)"
 ];
 function generate() {
     var ci = 0;
@@ -61753,7 +61348,7 @@ function generate() {
         };
         for(var blk_id in cat){
             var blk = createBlockFromText(blk_id, cat[blk_id]);
-            blk.color = colors[ci];
+            blk.colour = colors[ci];
             (0, _baseBlocksJsonDefault.default).push(blk);
             tool.contents.push({
                 "kind": "block",
@@ -61775,40 +61370,45 @@ function generate() {
 },{"./blocks.yaml":"aZPcE","./base_blocks.json":"lEMyO","./base_tools.json":"9g72e","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"aZPcE":[function(require,module,exports) {
 module.exports = {
     "3D Primitive": {
-        "cube1": "Cube(length:Number,width:Number,height:Number,center:Boolean)",
-        "cube2": "Cube(size:Number,center:Boolean)",
-        "sphere1": "Sphere(radius:Number)",
-        "sphere2": "Sphere(diameter:Number)",
-        "sphere3": "Sphere(radius:Number,$fa:Number,$fs:Number,$fn:Number)",
-        "sphere4": "Sphere(diameter:Number,$fa:Number,$fs:Number,$fn:Number)",
-        "cylinder1": "Cylinder(r:Number,h:Number,center:Boolean)",
-        "cylinder2": "Cylinder(r1:Number,r2:Number,h:Number,center:Boolean)",
-        "cylinder3": "Cylinder(r1:Number,r2:Number,h:Number,center:Boolean,$fa:Number,$fs:Number,$fn:Number)"
+        "sphere1": "sphere(r:10)",
+        "sphere2": "sphere(d:10)",
+        "sphere3": "sphere(r:10,$fa:10,$fs:10,$fn:10)",
+        "sphere4": "sphere(d:10,$fa:10,$fs:10,$fn:10)",
+        "cube1": "cube(size:10,center:true)",
+        "cube2": "cube(x:10,y:10,center:true)",
+        "cylinder1": "cylinder(r:10,h:20,center:true)",
+        "cylinder2": "cylinder(r1:10,r2:10,h:10,center:true)",
+        "cylinder3": "cylinder(r1:10,r2:10,h:10,center:true,$fa:10,$fs:10,$fn:10)"
     },
     "2D Primitive": {
-        "square1": "square(size:vec2,center:Boolean)",
-        "square2": "square(size:Number,center:Boolean)",
-        "circle1": "circle(r:Number,center:Boolean)",
-        "circle2": "circle(d:Number,center:Boolean)",
-        "circle3": "circle(r:Number,center:Boolean,$fa:Number,$fs:Number,$fn:Number)",
-        "circle4": "circle(d:Number,center:Boolean,$fa:Number,$fs:Number,$fn:Number)",
-        "ploygon": "polygon(points:String,paths:String,convexity:Number)",
+        "square1": "square(size:12,center:true)",
+        "square2": "square(x:10,y:20,center:true)",
+        "square3": "square(size:10,center:true)",
+        "circle1": "circle(r:10,center:true)",
+        "circle2": "circle(d:10,center:true)",
+        "circle3": "circle(r:10,center:true,$fa:10,$fs:10,$fn:10)",
+        "circle4": "circle(d:10,center:true,$fa:10,$fs:10,$fn:10)",
+        "ploygon": "polygon(points:[90],paths:[90],convexity:10)",
         "text": "text(text:String)"
     },
     "Transform": {
-        "translate": "translate(v:vec3)",
-        "mirror": "mirror(v:vec3)",
-        "rotate1": "rotate(a:Number)",
-        "rotate2": "rotate(a:Number,v:vec3)",
-        "rotate3": "rotate(a:vec3)"
+        "translate": "translate(x:10,y:10,z:10,s:statement)",
+        "mirror": "mirror(x:10,y:10,z:10,s:statement)",
+        "rotate1": "rotate(a:10,s:statement)",
+        "rotate2": "rotate(a:10,x:10,y:10,z:10,s:statement)"
+    },
+    "Boolean Operation": {
+        "union": "union(s:statement)",
+        "difference": "difference(s:statement)",
+        "intersection": "difference(s:statement)"
     }
 };
 
 },{}],"lEMyO":[function(require,module,exports) {
-module.exports = JSON.parse("[]");
+module.exports = JSON.parse('[{"type":"variables9","message0":"var %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(158, 1, 66)","tooltip":"","helpUrl":""},{"type":"constants","message0":"const %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(158, 1, 66)","tooltip":"","helpUrl":""}]');
 
 },{}],"9g72e":[function(require,module,exports) {
-module.exports = JSON.parse("[]");
+module.exports = JSON.parse('[{"kind":"category","name":"Inputs","colour":"rgb(158, 1, 66)","contents":[{"kind":"block","type":"variables9"},{"kind":"block","type":"constants"}]}]');
 
 },{}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
 
