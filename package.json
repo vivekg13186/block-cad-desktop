@@ -14,6 +14,7 @@
     "vm-browserify": "^1.1.2"
   },
   "dependencies": {
+    "@blockly/theme-dark": "^4.0.7",
     "@tauri-apps/api": "^1.2.0",
     "axios": "^1.3.5",
     "blockly": "^9.3.2",

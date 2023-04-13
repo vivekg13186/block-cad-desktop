@@ -1,7 +1,7 @@
 [ {
     "kind": "category",
     "name": "Inputs",
-    "colour":"rgb(158, 1, 66)",
+    "colour":"rgb(227, 201, 170)",
     "contents": [
         {
             "kind": "block",

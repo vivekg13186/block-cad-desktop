@@ -26,20 +26,20 @@ body {
 
 .toolbar {
   width: 100%;
-  border-bottom: 1px solid #ccc;
+  background-color: #333;
+  border-bottom: 1px solid #ffffff35;
   flex-direction: row;
   display: flex;
 }
 
 .toolbar-icon {
-  color: #555;
+  color: #aaa;
   cursor: pointer;
   padding: 5px;
 }
 
 .toolbar-icon:hover {
-  color: #000;
-  background-color: #eee;
+  color: #fff;
 }
 
 #block-editor {
@@ -54,6 +54,14 @@ body {
 
 #viewer {
   flex: auto;
+}
+
+.blocklyTreeRow {
+  padding-top: 5px;
+}
+
+.geras-renderer.dark-theme .blocklyText {
+  fill: #000;
 }
 
 /*# sourceMappingURL=index.14472006.css.map */

@@ -28,17 +28,17 @@ body {
     width: 100%;
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ffffff35;
+    background-color: rgb(51, 51, 51);
 }
 .toolbar-icon{
     padding: 5px;
-    color: #555;
+    color: #aaa;
     cursor: pointer;
     
 }
 .toolbar-icon:hover{
-    color: #000;
-    background-color: #eee;
+    color: #fff;
 }
 #block-editor{
     flex-grow: 1;
@@ -51,4 +51,12 @@ body {
 
 #viewer{
     flex: auto 1 1;
+}
+.blocklyTreeRow{
+    padding-top: 5px;
+   
+}
+
+.geras-renderer.dark-theme .blocklyText{
+    fill: #000;
 }

@@ -565,6 +565,8 @@ var _opencadCodeGen = require("./opencad_code_gen");
 var _javascript = require("blockly/javascript");
 var _stlViewer = require("./stl_viewer");
 var _blocksGenerator = require("./blocks_generator");
+var _themeDark = require("@blockly/theme-dark");
+var _themeDarkDefault = parcelHelpers.interopDefault(_themeDark);
 var gen_code = (0, _blocksGenerator.generate)();
 (0, _blocklyDefault.default).defineBlocksWithJsonArray(gen_code.blocks);
 var options = {
@@ -580,22 +582,17 @@ var options = {
     media: "https://blockly-demo.appspot.com/static/media/",
     rtl: false,
     scrollbars: true,
-    sounds: true,
-    // renderer: 'zelos',
+    sounds: false,
+    //renderer: 'zelos',
     oneBasedIndex: true,
-    grid: {
-        spacing: 20,
-        length: 1,
-        colour: "#888",
-        snap: false
-    },
     zoom: {
         controls: true,
         startScale: 0.8,
         maxScale: 3,
         minScale: 0.3,
         scaleSpeed: 1.2
-    }
+    },
+    theme: (0, _themeDarkDefault.default)
 };
 var workspace = (0, _blocklyDefault.default).inject("block-editor", options);
 const runCode = ()=>{
@@ -605,8 +602,13 @@ const runCode = ()=>{
 };
 document.getElementById("gen-code").addEventListener("click", runCode);
 (0, _stlViewer.loadViewer)();
+const onresize = function(e) {
+    (0, _blocklyDefault.default).svgResize(workspace);
+};
+window.addEventListener("resize", onresize, false);
+onresize();
 
-},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk","./blocks_generator":"Tbo3C"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
+},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk","./blocks_generator":"Tbo3C","@blockly/theme-dark":"5uaqq"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define([
         "./browser"
@@ -61285,10 +61287,10 @@ function createBlockFromText(id, text) {
     var args = getArgs(text);
     console.log(args);
     var message = [];
-    message.push(`${name} %1`);
+    message.push(`${name} %1 `);
     for(var i = 0; i < args.length; i++){
-        var name = args[i].type == "statement" ? args[i].name : "";
-        message.push(` %${i + 2}`);
+        var name = args[i].type == "statement" ? "" : args[i].name;
+        message.push(` ${name} %${i + 2}`);
     }
     message = message.join(" ");
     var base = {
@@ -61325,16 +61327,11 @@ function createBlockFromText(id, text) {
     return base;
 }
 var colors = [
-    //"rgb(158, 1, 66)",
-    "rgb(213, 62, 79)",
-    "rgb(244, 109, 67)",
-    "rgb(253, 174, 97)",
-    "rgb(254, 224, 139)",
-    "rgb(230, 245, 152)",
-    "rgb(171, 221, 164)",
-    "rgb(102, 194, 165)",
-    "rgb(50, 136, 189)",
-    "rgb(94, 79, 162)"
+    //"rgb(227, 201, 170)",
+    "rgb(244, 147, 75)",
+    "rgb(188, 148, 94)",
+    "rgb(173, 182, 85)",
+    "rgb(200, 146, 48)"
 ];
 function generate() {
     var ci = 0;
@@ -61405,11 +61402,42 @@ module.exports = {
 };
 
 },{}],"lEMyO":[function(require,module,exports) {
-module.exports = JSON.parse('[{"type":"variables9","message0":"var %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(158, 1, 66)","tooltip":"","helpUrl":""},{"type":"constants","message0":"const %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(158, 1, 66)","tooltip":"","helpUrl":""}]');
+module.exports = JSON.parse('[{"type":"variables9","message0":"var %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(227, 201, 170)","tooltip":"","helpUrl":""},{"type":"constants","message0":"const %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(227, 201, 170)","tooltip":"","helpUrl":""}]');
 
 },{}],"9g72e":[function(require,module,exports) {
-module.exports = JSON.parse('[{"kind":"category","name":"Inputs","colour":"rgb(158, 1, 66)","contents":[{"kind":"block","type":"variables9"},{"kind":"block","type":"constants"}]}]');
+module.exports = JSON.parse('[{"kind":"category","name":"Inputs","colour":"rgb(227, 201, 170)","contents":[{"kind":"block","type":"variables9"},{"kind":"block","type":"constants"}]}]');
 
-},{}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
+},{}],"5uaqq":[function(require,module,exports) {
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */ /**
+ * @fileoverview Dark theme.
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _core = require("blockly/core");
+var _coreDefault = parcelHelpers.interopDefault(_core);
+/**
+ * Dark theme.
+ */ exports.default = (0, _coreDefault.default).Theme.defineTheme("dark", {
+    "base": (0, _coreDefault.default).Themes.Classic,
+    "componentStyles": {
+        "workspaceBackgroundColour": "#1e1e1e",
+        "toolboxBackgroundColour": "blackBackground",
+        "toolboxForegroundColour": "#fff",
+        "flyoutBackgroundColour": "#252526",
+        "flyoutForegroundColour": "#ccc",
+        "flyoutOpacity": 1,
+        "scrollbarColour": "#797979",
+        "insertionMarkerColour": "#fff",
+        "insertionMarkerOpacity": 0.3,
+        "scrollbarOpacity": 0.4,
+        "cursorColour": "#d0d0d0",
+        "blackBackground": "#333"
+    }
+});
+
+},{"blockly/core":"5HXMk","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
 
 //# sourceMappingURL=index.0aac9dc3.js.map

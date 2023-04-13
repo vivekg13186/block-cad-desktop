@@ -6,6 +6,8 @@ import {loadViewer,render_cad} from "./stl_viewer";
 import {generate} from "./blocks_generator";
 var gen_code = generate();
 Blockly.defineBlocksWithJsonArray(gen_code.blocks);
+import DarkTheme from '@blockly/theme-dark';
+
 
 var options = {
     toolbox: gen_code.toolbox,
@@ -20,22 +22,17 @@ var options = {
     media: 'https://blockly-demo.appspot.com/static/media/',
     rtl: false,
     scrollbars: true,
-    sounds: true,
-    // renderer: 'zelos',
+    sounds: false,
+     //renderer: 'zelos',
     oneBasedIndex: true,
-    grid: {
-        spacing: 20,
-        length: 1,
-        colour: '#888',
-        snap: false
-    },
     zoom: {
         controls: true,
         startScale: 0.8,
         maxScale: 3,
         minScale: 0.3,
         scaleSpeed: 1.2
-    }
+    },
+    theme: DarkTheme
 };
 
  
@@ -49,3 +46,10 @@ const runCode = () => {
 document.getElementById("gen-code").addEventListener("click", runCode);
 
 loadViewer();
+const onresize = function(e) {
+   
+    Blockly.svgResize(workspace);
+  };
+window.addEventListener('resize', onresize, false);
+onresize();
+ 

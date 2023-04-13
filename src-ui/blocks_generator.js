@@ -21,10 +21,10 @@ function createBlockFromText(id, text) {
     var args = getArgs(text);
     console.log(args);
     var message = [];
-    message.push(`${name} %1`);
+    message.push(`${name} %1 `);
     for (var i = 0; i < args.length; i++) {
-        var name =(args[i].type=="statement") ? args[i].name : "";
-        message.push(` %${i + 2}`);
+        var name =(args[i].type=="statement") ?   "":args[i].name;
+        message.push(` ${name} %${i + 2}`);
     }
     message = message.join(" ");
     var base = {
@@ -71,16 +71,12 @@ function createBlockFromText(id, text) {
 
 
 var colors = [
-    //"rgb(158, 1, 66)",
-"rgb(213, 62, 79)",
-"rgb(244, 109, 67)",
-"rgb(253, 174, 97)",
-"rgb(254, 224, 139)",
-"rgb(230, 245, 152)",
-"rgb(171, 221, 164)",
-"rgb(102, 194, 165)",
-"rgb(50, 136, 189)",
-"rgb(94, 79, 162)"];
+    
+    //"rgb(227, 201, 170)",
+	"rgb(244, 147, 75)",
+	"rgb(188, 148, 94)",
+	"rgb(173, 182, 85)",
+	"rgb(200, 146, 48)"];
 export function generate() {
     var ci = 0;
     for (var cat_name in blocks_def) {
