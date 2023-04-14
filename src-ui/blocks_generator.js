@@ -23,8 +23,14 @@ function createBlockFromText(id, text) {
     var message = [];
     message.push(`${name} %1 `);
     for (var i = 0; i < args.length; i++) {
-        var name =(args[i].type=="statement") ?   "":args[i].name;
-        message.push(` ${name} %${i + 2}`);
+      
+        if(args[i].type=="statement"){
+            
+            message.push(` %${i + 2}  `);
+        }else{
+   
+        message.push(` ${ args[i].name}  %${i + 2}  `);
+        }
     }
     message = message.join(" ");
     var base = {

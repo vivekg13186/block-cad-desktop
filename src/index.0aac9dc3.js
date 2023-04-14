@@ -564,11 +564,14 @@ var _blocklyDefault = parcelHelpers.interopDefault(_blockly);
 var _opencadCodeGen = require("./opencad_code_gen");
 var _javascript = require("blockly/javascript");
 var _stlViewer = require("./stl_viewer");
-var _blocksGenerator = require("./blocks_generator");
+var _openscad = require("./openscad");
 var _themeDark = require("@blockly/theme-dark");
 var _themeDarkDefault = parcelHelpers.interopDefault(_themeDark);
-var gen_code = (0, _blocksGenerator.generate)();
+var _splitJs = require("split.js");
+var _splitJsDefault = parcelHelpers.interopDefault(_splitJs);
+var gen_code = (0, _openscad.generate_blocks)();
 (0, _blocklyDefault.default).defineBlocksWithJsonArray(gen_code.blocks);
+console.log("kjkjk", gen_code);
 var options = {
     toolbox: gen_code.toolbox,
     collapse: true,
@@ -594,11 +597,27 @@ var options = {
     },
     theme: (0, _themeDarkDefault.default)
 };
+(0, _splitJsDefault.default)([
+    ".left",
+    ".right"
+], {
+    sizes: [
+        50,
+        50
+    ],
+    gutterSize: 3,
+    onDrag: function(sizes) {
+        (0, _blocklyDefault.default).svgResize(workspace);
+    }
+});
 var workspace = (0, _blocklyDefault.default).inject("block-editor", options);
 const runCode = ()=>{
-    const js_code = (0, _javascript.javascriptGenerator).workspaceToCode(workspace);
-    var cad_code = (0, _opencadCodeGen.generate_code)(js_code);
-    (0, _stlViewer.render_cad)(cad_code);
+    //const js_code = javascriptGenerator.workspaceToCode(workspace);
+    //var cad_code  = generate_code(js_code);
+    //render_cad(cad_code);
+    var code = (0, _openscad.codeGenerator).workspaceToCode(workspace);
+    console.log("openscad gen cde", code);
+    (0, _stlViewer.render_cad)(code);
 };
 document.getElementById("gen-code").addEventListener("click", runCode);
 (0, _stlViewer.loadViewer)();
@@ -608,7 +627,7 @@ const onresize = function(e) {
 window.addEventListener("resize", onresize, false);
 onresize();
 
-},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk","./blocks_generator":"Tbo3C","@blockly/theme-dark":"5uaqq"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
+},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./opencad_code_gen":"atnXl","blockly/javascript":"cHEZl","./stl_viewer":"cMhuk","@blockly/theme-dark":"5uaqq","split.js":"FcWZA","./openscad":"njCR8"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define([
         "./browser"
@@ -59415,7 +59434,7 @@ var _openscadCompiler = require("./openscad_compiler");
     loadModel(code, onLoad, onError) {
         const scope = this;
         (0, _openscadCompiler.compile_to_stl)(code, function(data) {
-            console.log(data, "da");
+            //console.log(data,"da");
             onLoad(scope.parse(data));
         }).catch(function(error) {
             onError(error);
@@ -61257,157 +61276,7 @@ class OrbitControls extends (0, _three.EventDispatcher) {
     }
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"Tbo3C":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generate", ()=>generate);
-var _blocksYaml = require("./blocks.yaml");
-var _blocksYamlDefault = parcelHelpers.interopDefault(_blocksYaml);
-var _baseBlocksJson = require("./base_blocks.json");
-var _baseBlocksJsonDefault = parcelHelpers.interopDefault(_baseBlocksJson);
-var _baseToolsJson = require("./base_tools.json");
-var _baseToolsJsonDefault = parcelHelpers.interopDefault(_baseToolsJson);
-function getName(text) {
-    return text.split("(")[0];
-}
-function getArgs(text) {
-    var start = text.indexOf("(");
-    var len = text.length;
-    var parts = text.substring(start + 1, len - 1).split(",");
-    return parts.map((p)=>{
-        var g = p.split(":");
-        return {
-            name: g[0],
-            type: g[1]
-        };
-    });
-}
-function createBlockFromText(id, text) {
-    var name = getName(text);
-    var args = getArgs(text);
-    console.log(args);
-    var message = [];
-    message.push(`${name} %1 `);
-    for(var i = 0; i < args.length; i++){
-        var name = args[i].type == "statement" ? "" : args[i].name;
-        message.push(` ${name} %${i + 2}`);
-    }
-    message = message.join(" ");
-    var base = {
-        "type": id,
-        "message0": message,
-        "args0": [],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": 105,
-        "tooltip": "",
-        "helpUrl": ""
-    };
-    var has_statement = args.filter((v)=>v.type == "statement").length > 0;
-    if (!has_statement) base.args0.push({
-        "type": "input_dummy"
-    });
-    args.map((v)=>{
-        if (v.type == "statement") {
-            base.args0.push({
-                "type": "input_dummy"
-            });
-            base.args0.push({
-                "type": "input_statement",
-                "name": v.name
-            });
-        } else base.args0.push({
-            "type": "field_input",
-            "name": v.name,
-            "text": v.type
-        });
-    });
-    console.log(base);
-    return base;
-}
-var colors = [
-    //"rgb(227, 201, 170)",
-    "rgb(244, 147, 75)",
-    "rgb(188, 148, 94)",
-    "rgb(173, 182, 85)",
-    "rgb(200, 146, 48)"
-];
-function generate() {
-    var ci = 0;
-    for(var cat_name in 0, _blocksYamlDefault.default){
-        var cat = (0, _blocksYamlDefault.default)[cat_name];
-        var tool = {
-            "kind": "category",
-            "name": cat_name,
-            "colour": colors[ci],
-            "contents": []
-        };
-        for(var blk_id in cat){
-            var blk = createBlockFromText(blk_id, cat[blk_id]);
-            blk.colour = colors[ci];
-            (0, _baseBlocksJsonDefault.default).push(blk);
-            tool.contents.push({
-                "kind": "block",
-                "type": blk_id
-            });
-        }
-        (0, _baseToolsJsonDefault.default).push(tool);
-        ci++;
-    }
-    return {
-        blocks: (0, _baseBlocksJsonDefault.default),
-        toolbox: {
-            "kind": "categoryToolbox",
-            "contents": (0, _baseToolsJsonDefault.default)
-        }
-    };
-}
-
-},{"./blocks.yaml":"aZPcE","./base_blocks.json":"lEMyO","./base_tools.json":"9g72e","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"aZPcE":[function(require,module,exports) {
-module.exports = {
-    "3D Primitive": {
-        "sphere1": "sphere(r:10)",
-        "sphere2": "sphere(d:10)",
-        "sphere3": "sphere(r:10,$fa:10,$fs:10,$fn:10)",
-        "sphere4": "sphere(d:10,$fa:10,$fs:10,$fn:10)",
-        "cube1": "cube(size:10,center:true)",
-        "cube2": "cube(x:10,y:10,center:true)",
-        "cylinder1": "cylinder(r:10,h:20,center:true)",
-        "cylinder2": "cylinder(r1:10,r2:10,h:10,center:true)",
-        "cylinder3": "cylinder(r1:10,r2:10,h:10,center:true,$fa:10,$fs:10,$fn:10)"
-    },
-    "2D Primitive": {
-        "square1": "square(size:12,center:true)",
-        "square2": "square(x:10,y:20,center:true)",
-        "square3": "square(size:10,center:true)",
-        "circle1": "circle(r:10,center:true)",
-        "circle2": "circle(d:10,center:true)",
-        "circle3": "circle(r:10,center:true,$fa:10,$fs:10,$fn:10)",
-        "circle4": "circle(d:10,center:true,$fa:10,$fs:10,$fn:10)",
-        "ploygon": "polygon(points:[90],paths:[90],convexity:10)",
-        "text": "text(text:String)"
-    },
-    "Transform": {
-        "translate": "translate(x:10,y:10,z:10,s:statement)",
-        "mirror": "mirror(x:10,y:10,z:10,s:statement)",
-        "rotate1": "rotate(a:10,s:statement)",
-        "rotate2": "rotate(a:10,x:10,y:10,z:10,s:statement)"
-    },
-    "Boolean Operation": {
-        "union": "union(s:statement)",
-        "difference": "difference(s:statement)",
-        "intersection": "difference(s:statement)"
-    }
-};
-
-},{}],"lEMyO":[function(require,module,exports) {
-module.exports = JSON.parse('[{"type":"variables9","message0":"var %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(227, 201, 170)","tooltip":"","helpUrl":""},{"type":"constants","message0":"const %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(227, 201, 170)","tooltip":"","helpUrl":""}]');
-
-},{}],"9g72e":[function(require,module,exports) {
-module.exports = JSON.parse('[{"kind":"category","name":"Inputs","colour":"rgb(227, 201, 170)","contents":[{"kind":"block","type":"variables9"},{"kind":"block","type":"constants"}]}]');
-
-},{}],"5uaqq":[function(require,module,exports) {
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"5uaqq":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2021 Google LLC
@@ -61438,6 +61307,763 @@ var _coreDefault = parcelHelpers.interopDefault(_core);
     }
 });
 
-},{"blockly/core":"5HXMk","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
+},{"blockly/core":"5HXMk","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"FcWZA":[function(require,module,exports) {
+// The programming goals of Split.js are to deliver readable, understandable and
+// maintainable code, while at the same time manually optimizing for tiny minified file size,
+// browser compatibility without additional requirements
+// and very few assumptions about the user's page layout.
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var global = typeof window !== "undefined" ? window : null;
+var ssr = global === null;
+var document = !ssr ? global.document : undefined;
+// Save a couple long function names that are used frequently.
+// This optimization saves around 400 bytes.
+var addEventListener = "addEventListener";
+var removeEventListener = "removeEventListener";
+var getBoundingClientRect = "getBoundingClientRect";
+var gutterStartDragging = "_a";
+var aGutterSize = "_b";
+var bGutterSize = "_c";
+var HORIZONTAL = "horizontal";
+var NOOP = function() {
+    return false;
+};
+// Helper function determines which prefixes of CSS calc we need.
+// We only need to do this once on startup, when this anonymous function is called.
+//
+// Tests -webkit, -moz and -o prefixes. Modified from StackOverflow:
+// http://stackoverflow.com/questions/16625140/js-feature-detection-to-detect-the-usage-of-webkit-calc-over-calc/16625167#16625167
+var calc = ssr ? "calc" : [
+    "",
+    "-webkit-",
+    "-moz-",
+    "-o-"
+].filter(function(prefix) {
+    var el = document.createElement("div");
+    el.style.cssText = "width:" + prefix + "calc(9px)";
+    return !!el.style.length;
+}).shift() + "calc";
+// Helper function checks if its argument is a string-like type
+var isString = function(v) {
+    return typeof v === "string" || v instanceof String;
+};
+// Helper function allows elements and string selectors to be used
+// interchangeably. In either case an element is returned. This allows us to
+// do `Split([elem1, elem2])` as well as `Split(['#id1', '#id2'])`.
+var elementOrSelector = function(el) {
+    if (isString(el)) {
+        var ele = document.querySelector(el);
+        if (!ele) throw new Error("Selector " + el + " did not match a DOM element");
+        return ele;
+    }
+    return el;
+};
+// Helper function gets a property from the properties object, with a default fallback
+var getOption = function(options, propName, def) {
+    var value = options[propName];
+    if (value !== undefined) return value;
+    return def;
+};
+var getGutterSize = function(gutterSize, isFirst, isLast, gutterAlign) {
+    if (isFirst) {
+        if (gutterAlign === "end") return 0;
+        if (gutterAlign === "center") return gutterSize / 2;
+    } else if (isLast) {
+        if (gutterAlign === "start") return 0;
+        if (gutterAlign === "center") return gutterSize / 2;
+    }
+    return gutterSize;
+};
+// Default options
+var defaultGutterFn = function(i, gutterDirection) {
+    var gut = document.createElement("div");
+    gut.className = "gutter gutter-" + gutterDirection;
+    return gut;
+};
+var defaultElementStyleFn = function(dim, size, gutSize) {
+    var style = {};
+    if (!isString(size)) style[dim] = calc + "(" + size + "% - " + gutSize + "px)";
+    else style[dim] = size;
+    return style;
+};
+var defaultGutterStyleFn = function(dim, gutSize) {
+    var obj;
+    return obj = {}, obj[dim] = gutSize + "px", obj;
+};
+// The main function to initialize a split. Split.js thinks about each pair
+// of elements as an independant pair. Dragging the gutter between two elements
+// only changes the dimensions of elements in that pair. This is key to understanding
+// how the following functions operate, since each function is bound to a pair.
+//
+// A pair object is shaped like this:
+//
+// {
+//     a: DOM element,
+//     b: DOM element,
+//     aMin: Number,
+//     bMin: Number,
+//     dragging: Boolean,
+//     parent: DOM element,
+//     direction: 'horizontal' | 'vertical'
+// }
+//
+// The basic sequence:
+//
+// 1. Set defaults to something sane. `options` doesn't have to be passed at all.
+// 2. Initialize a bunch of strings based on the direction we're splitting.
+//    A lot of the behavior in the rest of the library is paramatized down to
+//    rely on CSS strings and classes.
+// 3. Define the dragging helper functions, and a few helpers to go with them.
+// 4. Loop through the elements while pairing them off. Every pair gets an
+//    `pair` object and a gutter.
+// 5. Actually size the pair elements, insert gutters and attach event listeners.
+var Split = function(idsOption, options) {
+    if (options === void 0) options = {};
+    if (ssr) return {};
+    var ids = idsOption;
+    var dimension;
+    var clientAxis;
+    var position;
+    var positionEnd;
+    var clientSize;
+    var elements;
+    // Allow HTMLCollection to be used as an argument when supported
+    if (Array.from) ids = Array.from(ids);
+    // All DOM elements in the split should have a common parent. We can grab
+    // the first elements parent and hope users read the docs because the
+    // behavior will be whacky otherwise.
+    var firstElement = elementOrSelector(ids[0]);
+    var parent = firstElement.parentNode;
+    var parentStyle = getComputedStyle ? getComputedStyle(parent) : null;
+    var parentFlexDirection = parentStyle ? parentStyle.flexDirection : null;
+    // Set default options.sizes to equal percentages of the parent element.
+    var sizes = getOption(options, "sizes") || ids.map(function() {
+        return 100 / ids.length;
+    });
+    // Standardize minSize and maxSize to an array if it isn't already.
+    // This allows minSize and maxSize to be passed as a number.
+    var minSize = getOption(options, "minSize", 100);
+    var minSizes = Array.isArray(minSize) ? minSize : ids.map(function() {
+        return minSize;
+    });
+    var maxSize = getOption(options, "maxSize", Infinity);
+    var maxSizes = Array.isArray(maxSize) ? maxSize : ids.map(function() {
+        return maxSize;
+    });
+    // Get other options
+    var expandToMin = getOption(options, "expandToMin", false);
+    var gutterSize = getOption(options, "gutterSize", 10);
+    var gutterAlign = getOption(options, "gutterAlign", "center");
+    var snapOffset = getOption(options, "snapOffset", 30);
+    var snapOffsets = Array.isArray(snapOffset) ? snapOffset : ids.map(function() {
+        return snapOffset;
+    });
+    var dragInterval = getOption(options, "dragInterval", 1);
+    var direction = getOption(options, "direction", HORIZONTAL);
+    var cursor = getOption(options, "cursor", direction === HORIZONTAL ? "col-resize" : "row-resize");
+    var gutter = getOption(options, "gutter", defaultGutterFn);
+    var elementStyle = getOption(options, "elementStyle", defaultElementStyleFn);
+    var gutterStyle = getOption(options, "gutterStyle", defaultGutterStyleFn);
+    // 2. Initialize a bunch of strings based on the direction we're splitting.
+    // A lot of the behavior in the rest of the library is paramatized down to
+    // rely on CSS strings and classes.
+    if (direction === HORIZONTAL) {
+        dimension = "width";
+        clientAxis = "clientX";
+        position = "left";
+        positionEnd = "right";
+        clientSize = "clientWidth";
+    } else if (direction === "vertical") {
+        dimension = "height";
+        clientAxis = "clientY";
+        position = "top";
+        positionEnd = "bottom";
+        clientSize = "clientHeight";
+    }
+    // 3. Define the dragging helper functions, and a few helpers to go with them.
+    // Each helper is bound to a pair object that contains its metadata. This
+    // also makes it easy to store references to listeners that that will be
+    // added and removed.
+    //
+    // Even though there are no other functions contained in them, aliasing
+    // this to self saves 50 bytes or so since it's used so frequently.
+    //
+    // The pair object saves metadata like dragging state, position and
+    // event listener references.
+    function setElementSize(el, size, gutSize, i) {
+        // Split.js allows setting sizes via numbers (ideally), or if you must,
+        // by string, like '300px'. This is less than ideal, because it breaks
+        // the fluid layout that `calc(% - px)` provides. You're on your own if you do that,
+        // make sure you calculate the gutter size by hand.
+        var style = elementStyle(dimension, size, gutSize, i);
+        Object.keys(style).forEach(function(prop) {
+            // eslint-disable-next-line no-param-reassign
+            el.style[prop] = style[prop];
+        });
+    }
+    function setGutterSize(gutterElement, gutSize, i) {
+        var style = gutterStyle(dimension, gutSize, i);
+        Object.keys(style).forEach(function(prop) {
+            // eslint-disable-next-line no-param-reassign
+            gutterElement.style[prop] = style[prop];
+        });
+    }
+    function getSizes() {
+        return elements.map(function(element) {
+            return element.size;
+        });
+    }
+    // Supports touch events, but not multitouch, so only the first
+    // finger `touches[0]` is counted.
+    function getMousePosition(e) {
+        if ("touches" in e) return e.touches[0][clientAxis];
+        return e[clientAxis];
+    }
+    // Actually adjust the size of elements `a` and `b` to `offset` while dragging.
+    // calc is used to allow calc(percentage + gutterpx) on the whole split instance,
+    // which allows the viewport to be resized without additional logic.
+    // Element a's size is the same as offset. b's size is total size - a size.
+    // Both sizes are calculated from the initial parent percentage,
+    // then the gutter size is subtracted.
+    function adjust(offset) {
+        var a = elements[this.a];
+        var b = elements[this.b];
+        var percentage = a.size + b.size;
+        a.size = offset / this.size * percentage;
+        b.size = percentage - offset / this.size * percentage;
+        setElementSize(a.element, a.size, this[aGutterSize], a.i);
+        setElementSize(b.element, b.size, this[bGutterSize], b.i);
+    }
+    // drag, where all the magic happens. The logic is really quite simple:
+    //
+    // 1. Ignore if the pair is not dragging.
+    // 2. Get the offset of the event.
+    // 3. Snap offset to min if within snappable range (within min + snapOffset).
+    // 4. Actually adjust each element in the pair to offset.
+    //
+    // ---------------------------------------------------------------------
+    // |    | <- a.minSize               ||              b.minSize -> |    |
+    // |    |  | <- this.snapOffset      ||     this.snapOffset -> |  |    |
+    // |    |  |                         ||                        |  |    |
+    // |    |  |                         ||                        |  |    |
+    // ---------------------------------------------------------------------
+    // | <- this.start                                        this.size -> |
+    function drag(e) {
+        var offset;
+        var a = elements[this.a];
+        var b = elements[this.b];
+        if (!this.dragging) return;
+        // Get the offset of the event from the first side of the
+        // pair `this.start`. Then offset by the initial position of the
+        // mouse compared to the gutter size.
+        offset = getMousePosition(e) - this.start + (this[aGutterSize] - this.dragOffset);
+        if (dragInterval > 1) offset = Math.round(offset / dragInterval) * dragInterval;
+        // If within snapOffset of min or max, set offset to min or max.
+        // snapOffset buffers a.minSize and b.minSize, so logic is opposite for both.
+        // Include the appropriate gutter sizes to prevent overflows.
+        if (offset <= a.minSize + a.snapOffset + this[aGutterSize]) offset = a.minSize + this[aGutterSize];
+        else if (offset >= this.size - (b.minSize + b.snapOffset + this[bGutterSize])) offset = this.size - (b.minSize + this[bGutterSize]);
+        if (offset >= a.maxSize - a.snapOffset + this[aGutterSize]) offset = a.maxSize + this[aGutterSize];
+        else if (offset <= this.size - (b.maxSize - b.snapOffset + this[bGutterSize])) offset = this.size - (b.maxSize + this[bGutterSize]);
+        // Actually adjust the size.
+        adjust.call(this, offset);
+        // Call the drag callback continously. Don't do anything too intensive
+        // in this callback.
+        getOption(options, "onDrag", NOOP)(getSizes());
+    }
+    // Cache some important sizes when drag starts, so we don't have to do that
+    // continously:
+    //
+    // `size`: The total size of the pair. First + second + first gutter + second gutter.
+    // `start`: The leading side of the first element.
+    //
+    // ------------------------------------------------
+    // |      aGutterSize -> |||                      |
+    // |                     |||                      |
+    // |                     |||                      |
+    // |                     ||| <- bGutterSize       |
+    // ------------------------------------------------
+    // | <- start                             size -> |
+    function calculateSizes() {
+        // Figure out the parent size minus padding.
+        var a = elements[this.a].element;
+        var b = elements[this.b].element;
+        var aBounds = a[getBoundingClientRect]();
+        var bBounds = b[getBoundingClientRect]();
+        this.size = aBounds[dimension] + bBounds[dimension] + this[aGutterSize] + this[bGutterSize];
+        this.start = aBounds[position];
+        this.end = aBounds[positionEnd];
+    }
+    function innerSize(element) {
+        // Return nothing if getComputedStyle is not supported (< IE9)
+        // Or if parent element has no layout yet
+        if (!getComputedStyle) return null;
+        var computedStyle = getComputedStyle(element);
+        if (!computedStyle) return null;
+        var size = element[clientSize];
+        if (size === 0) return null;
+        if (direction === HORIZONTAL) size -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
+        else size -= parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom);
+        return size;
+    }
+    // When specifying percentage sizes that are less than the computed
+    // size of the element minus the gutter, the lesser percentages must be increased
+    // (and decreased from the other elements) to make space for the pixels
+    // subtracted by the gutters.
+    function trimToMin(sizesToTrim) {
+        // Try to get inner size of parent element.
+        // If it's no supported, return original sizes.
+        var parentSize = innerSize(parent);
+        if (parentSize === null) return sizesToTrim;
+        if (minSizes.reduce(function(a, b) {
+            return a + b;
+        }, 0) > parentSize) return sizesToTrim;
+        // Keep track of the excess pixels, the amount of pixels over the desired percentage
+        // Also keep track of the elements with pixels to spare, to decrease after if needed
+        var excessPixels = 0;
+        var toSpare = [];
+        var pixelSizes = sizesToTrim.map(function(size, i) {
+            // Convert requested percentages to pixel sizes
+            var pixelSize = parentSize * size / 100;
+            var elementGutterSize = getGutterSize(gutterSize, i === 0, i === sizesToTrim.length - 1, gutterAlign);
+            var elementMinSize = minSizes[i] + elementGutterSize;
+            // If element is too smal, increase excess pixels by the difference
+            // and mark that it has no pixels to spare
+            if (pixelSize < elementMinSize) {
+                excessPixels += elementMinSize - pixelSize;
+                toSpare.push(0);
+                return elementMinSize;
+            }
+            // Otherwise, mark the pixels it has to spare and return it's original size
+            toSpare.push(pixelSize - elementMinSize);
+            return pixelSize;
+        });
+        // If nothing was adjusted, return the original sizes
+        if (excessPixels === 0) return sizesToTrim;
+        return pixelSizes.map(function(pixelSize, i) {
+            var newPixelSize = pixelSize;
+            // While there's still pixels to take, and there's enough pixels to spare,
+            // take as many as possible up to the total excess pixels
+            if (excessPixels > 0 && toSpare[i] - excessPixels > 0) {
+                var takenPixels = Math.min(excessPixels, toSpare[i] - excessPixels);
+                // Subtract the amount taken for the next iteration
+                excessPixels -= takenPixels;
+                newPixelSize = pixelSize - takenPixels;
+            }
+            // Return the pixel size adjusted as a percentage
+            return newPixelSize / parentSize * 100;
+        });
+    }
+    // stopDragging is very similar to startDragging in reverse.
+    function stopDragging() {
+        var self = this;
+        var a = elements[self.a].element;
+        var b = elements[self.b].element;
+        if (self.dragging) getOption(options, "onDragEnd", NOOP)(getSizes());
+        self.dragging = false;
+        // Remove the stored event listeners. This is why we store them.
+        global[removeEventListener]("mouseup", self.stop);
+        global[removeEventListener]("touchend", self.stop);
+        global[removeEventListener]("touchcancel", self.stop);
+        global[removeEventListener]("mousemove", self.move);
+        global[removeEventListener]("touchmove", self.move);
+        // Clear bound function references
+        self.stop = null;
+        self.move = null;
+        a[removeEventListener]("selectstart", NOOP);
+        a[removeEventListener]("dragstart", NOOP);
+        b[removeEventListener]("selectstart", NOOP);
+        b[removeEventListener]("dragstart", NOOP);
+        a.style.userSelect = "";
+        a.style.webkitUserSelect = "";
+        a.style.MozUserSelect = "";
+        a.style.pointerEvents = "";
+        b.style.userSelect = "";
+        b.style.webkitUserSelect = "";
+        b.style.MozUserSelect = "";
+        b.style.pointerEvents = "";
+        self.gutter.style.cursor = "";
+        self.parent.style.cursor = "";
+        document.body.style.cursor = "";
+    }
+    // startDragging calls `calculateSizes` to store the inital size in the pair object.
+    // It also adds event listeners for mouse/touch events,
+    // and prevents selection while dragging so avoid the selecting text.
+    function startDragging(e) {
+        // Right-clicking can't start dragging.
+        if ("button" in e && e.button !== 0) return;
+        // Alias frequently used variables to save space. 200 bytes.
+        var self = this;
+        var a = elements[self.a].element;
+        var b = elements[self.b].element;
+        // Call the onDragStart callback.
+        if (!self.dragging) getOption(options, "onDragStart", NOOP)(getSizes());
+        // Don't actually drag the element. We emulate that in the drag function.
+        e.preventDefault();
+        // Set the dragging property of the pair object.
+        self.dragging = true;
+        // Create two event listeners bound to the same pair object and store
+        // them in the pair object.
+        self.move = drag.bind(self);
+        self.stop = stopDragging.bind(self);
+        // All the binding. `window` gets the stop events in case we drag out of the elements.
+        global[addEventListener]("mouseup", self.stop);
+        global[addEventListener]("touchend", self.stop);
+        global[addEventListener]("touchcancel", self.stop);
+        global[addEventListener]("mousemove", self.move);
+        global[addEventListener]("touchmove", self.move);
+        // Disable selection. Disable!
+        a[addEventListener]("selectstart", NOOP);
+        a[addEventListener]("dragstart", NOOP);
+        b[addEventListener]("selectstart", NOOP);
+        b[addEventListener]("dragstart", NOOP);
+        a.style.userSelect = "none";
+        a.style.webkitUserSelect = "none";
+        a.style.MozUserSelect = "none";
+        a.style.pointerEvents = "none";
+        b.style.userSelect = "none";
+        b.style.webkitUserSelect = "none";
+        b.style.MozUserSelect = "none";
+        b.style.pointerEvents = "none";
+        // Set the cursor at multiple levels
+        self.gutter.style.cursor = cursor;
+        self.parent.style.cursor = cursor;
+        document.body.style.cursor = cursor;
+        // Cache the initial sizes of the pair.
+        calculateSizes.call(self);
+        // Determine the position of the mouse compared to the gutter
+        self.dragOffset = getMousePosition(e) - self.end;
+    }
+    // adjust sizes to ensure percentage is within min size and gutter.
+    sizes = trimToMin(sizes);
+    // 5. Create pair and element objects. Each pair has an index reference to
+    // elements `a` and `b` of the pair (first and second elements).
+    // Loop through the elements while pairing them off. Every pair gets a
+    // `pair` object and a gutter.
+    //
+    // Basic logic:
+    //
+    // - Starting with the second element `i > 0`, create `pair` objects with
+    //   `a = i - 1` and `b = i`
+    // - Set gutter sizes based on the _pair_ being first/last. The first and last
+    //   pair have gutterSize / 2, since they only have one half gutter, and not two.
+    // - Create gutter elements and add event listeners.
+    // - Set the size of the elements, minus the gutter sizes.
+    //
+    // -----------------------------------------------------------------------
+    // |     i=0     |         i=1         |        i=2       |      i=3     |
+    // |             |                     |                  |              |
+    // |           pair 0                pair 1             pair 2           |
+    // |             |                     |                  |              |
+    // -----------------------------------------------------------------------
+    var pairs = [];
+    elements = ids.map(function(id, i) {
+        // Create the element object.
+        var element = {
+            element: elementOrSelector(id),
+            size: sizes[i],
+            minSize: minSizes[i],
+            maxSize: maxSizes[i],
+            snapOffset: snapOffsets[i],
+            i: i
+        };
+        var pair;
+        if (i > 0) {
+            // Create the pair object with its metadata.
+            pair = {
+                a: i - 1,
+                b: i,
+                dragging: false,
+                direction: direction,
+                parent: parent
+            };
+            pair[aGutterSize] = getGutterSize(gutterSize, i - 1 === 0, false, gutterAlign);
+            pair[bGutterSize] = getGutterSize(gutterSize, false, i === ids.length - 1, gutterAlign);
+            // if the parent has a reverse flex-direction, switch the pair elements.
+            if (parentFlexDirection === "row-reverse" || parentFlexDirection === "column-reverse") {
+                var temp = pair.a;
+                pair.a = pair.b;
+                pair.b = temp;
+            }
+        }
+        // Determine the size of the current element. IE8 is supported by
+        // staticly assigning sizes without draggable gutters. Assigns a string
+        // to `size`.
+        //
+        // Create gutter elements for each pair.
+        if (i > 0) {
+            var gutterElement = gutter(i, direction, element.element);
+            setGutterSize(gutterElement, gutterSize, i);
+            // Save bound event listener for removal later
+            pair[gutterStartDragging] = startDragging.bind(pair);
+            // Attach bound event listener
+            gutterElement[addEventListener]("mousedown", pair[gutterStartDragging]);
+            gutterElement[addEventListener]("touchstart", pair[gutterStartDragging]);
+            parent.insertBefore(gutterElement, element.element);
+            pair.gutter = gutterElement;
+        }
+        setElementSize(element.element, element.size, getGutterSize(gutterSize, i === 0, i === ids.length - 1, gutterAlign), i);
+        // After the first iteration, and we have a pair object, append it to the
+        // list of pairs.
+        if (i > 0) pairs.push(pair);
+        return element;
+    });
+    function adjustToMin(element) {
+        var isLast = element.i === pairs.length;
+        var pair = isLast ? pairs[element.i - 1] : pairs[element.i];
+        calculateSizes.call(pair);
+        var size = isLast ? pair.size - element.minSize - pair[bGutterSize] : element.minSize + pair[aGutterSize];
+        adjust.call(pair, size);
+    }
+    elements.forEach(function(element) {
+        var computedSize = element.element[getBoundingClientRect]()[dimension];
+        if (computedSize < element.minSize) {
+            if (expandToMin) adjustToMin(element);
+            else // eslint-disable-next-line no-param-reassign
+            element.minSize = computedSize;
+        }
+    });
+    function setSizes(newSizes) {
+        var trimmed = trimToMin(newSizes);
+        trimmed.forEach(function(newSize, i) {
+            if (i > 0) {
+                var pair = pairs[i - 1];
+                var a = elements[pair.a];
+                var b = elements[pair.b];
+                a.size = trimmed[i - 1];
+                b.size = newSize;
+                setElementSize(a.element, a.size, pair[aGutterSize], a.i);
+                setElementSize(b.element, b.size, pair[bGutterSize], b.i);
+            }
+        });
+    }
+    function destroy(preserveStyles, preserveGutter) {
+        pairs.forEach(function(pair) {
+            if (preserveGutter !== true) pair.parent.removeChild(pair.gutter);
+            else {
+                pair.gutter[removeEventListener]("mousedown", pair[gutterStartDragging]);
+                pair.gutter[removeEventListener]("touchstart", pair[gutterStartDragging]);
+            }
+            if (preserveStyles !== true) {
+                var style = elementStyle(dimension, pair.a.size, pair[aGutterSize]);
+                Object.keys(style).forEach(function(prop) {
+                    elements[pair.a].element.style[prop] = "";
+                    elements[pair.b].element.style[prop] = "";
+                });
+            }
+        });
+    }
+    return {
+        setSizes: setSizes,
+        getSizes: getSizes,
+        collapse: function collapse(i) {
+            adjustToMin(elements[i]);
+        },
+        destroy: destroy,
+        parent: parent,
+        pairs: pairs
+    };
+};
+exports.default = Split;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"njCR8":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "codeGenerator", ()=>codeGenerator);
+parcelHelpers.export(exports, "Command", ()=>Command);
+parcelHelpers.export(exports, "commands", ()=>commands);
+parcelHelpers.export(exports, "generate_blocks", ()=>generate_blocks);
+var _blockly = require("blockly");
+var _blocksYaml = require("./blocks.yaml");
+var _blocksYamlDefault = parcelHelpers.interopDefault(_blocksYaml);
+var _baseBlocksJson = require("./base_blocks.json");
+var _baseBlocksJsonDefault = parcelHelpers.interopDefault(_baseBlocksJson);
+var _baseToolsJson = require("./base_tools.json");
+var _baseToolsJsonDefault = parcelHelpers.interopDefault(_baseToolsJson);
+const codeGenerator = new (0, _blockly.CodeGenerator)("OpenSCAD");
+codeGenerator.scrub_ = function(block, code, thisOnly) {
+    const nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+    if (nextBlock && !thisOnly) return code + "\n" + codeGenerator.blockToCode(nextBlock);
+    return code;
+};
+function getCommandName(text) {
+    return text.split("(")[0];
+}
+function getArgs(text) {
+    var start = text.indexOf("(");
+    var len = text.length;
+    var parts = text.substring(start + 1, len - 1).split(",");
+    return parts.map((p)=>{
+        var g = p.split(":");
+        return {
+            name: g[0],
+            type: g[1]
+        };
+    });
+}
+class Command {
+    constructor(id, txt, color){
+        this.id = id;
+        this.txt = txt;
+        this.color = color;
+        this.name = getCommandName(txt);
+        this.args = getArgs(txt);
+        this.containsStatement = this.args.filter((i)=>i.type == "statement").length > 0;
+    }
+    noOfFields() {
+        if (this.containsStatement) return this.args.length - 1;
+        return this.args.length;
+    }
+    getBlockJSON() {
+        var message = [];
+        //title
+        message.push(`${this.name} `);
+        var ba = [];
+        //one less if ststment
+        var len = this.containsStatement ? this.args.length - 1 : this.args.length;
+        for(var i = 0; i < len; i++){
+            var v = this.args[i];
+            message.push(` ${v.name} %${i + 1}    `);
+            ba.push({
+                "type": "field_input",
+                "name": v.name,
+                "text": v.type
+            });
+        }
+        len += 1;
+        if (this.containsStatement) {
+            message.push(`  %${len++} %${len++} `);
+            ba.push({
+                "type": "input_dummy"
+            });
+            ba.push({
+                "type": "input_statement",
+                "name": "statements"
+            });
+        }
+        var base = {
+            "type": this.id,
+            "message0": message.join(" "),
+            "args0": ba,
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": this.color,
+            "tooltip": "",
+            "helpUrl": ""
+        };
+        this.setupCodeGen();
+        return base;
+    }
+    setupCodeGen() {
+        var self = this;
+        codeGenerator[this.id] = function(block) {
+            var params = [];
+            var body = "";
+            if (self.name == "translate") {
+                for(var i = 0; i < self.noOfFields(); i++){
+                    var a = self.args[i];
+                    var value = block.getFieldValue(a.name);
+                    params.push(`${value}`);
+                }
+                params = "[" + params.join(",") + "]";
+            } else {
+                for(var i = 0; i < self.noOfFields(); i++){
+                    var a = self.args[i];
+                    var value = block.getFieldValue(a.name);
+                    params.push(`${a.name}=${value}`);
+                }
+                params = params.join(",");
+            }
+            if (self.containsStatement) {
+                body = codeGenerator.statementToCode(block, "statements");
+                return `${self.name}(${params}) \n{ ${body} } \n;`;
+            }
+            return `${self.name}(${params});`;
+        };
+    }
+}
+const commands = {};
+var colors = [
+    //"rgb(227, 201, 170)",
+    "rgb(244, 147, 75)",
+    "rgb(188, 148, 94)",
+    "rgb(173, 182, 85)",
+    "rgb(200, 146, 48)"
+];
+function generate_blocks() {
+    var ci = 0;
+    for(var cat_name in 0, _blocksYamlDefault.default){
+        var cat = (0, _blocksYamlDefault.default)[cat_name];
+        var tool = {
+            "kind": "category",
+            "name": cat_name,
+            "colour": colors[ci],
+            "contents": []
+        };
+        for(var blk_id in cat){
+            commands[blk_id] = new Command(blk_id, cat[blk_id], colors[ci]);
+            (0, _baseBlocksJsonDefault.default).push(commands[blk_id].getBlockJSON());
+            tool.contents.push({
+                "kind": "block",
+                "type": blk_id
+            });
+        }
+        (0, _baseToolsJsonDefault.default).push(tool);
+        ci++;
+    }
+    return {
+        blocks: (0, _baseBlocksJsonDefault.default),
+        toolbox: {
+            "kind": "categoryToolbox",
+            "contents": (0, _baseToolsJsonDefault.default)
+        }
+    };
+}
+
+},{"./blocks.yaml":"aZPcE","./base_blocks.json":"lEMyO","./base_tools.json":"9g72e","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","blockly":"9OIg0"}],"aZPcE":[function(require,module,exports) {
+module.exports = {
+    "3D Primitive": {
+        "sphere1": "sphere(r:10)",
+        "sphere2": "sphere(d:10)",
+        "sphere3": "sphere(r:10,$fa:10,$fs:10,$fn:10)",
+        "sphere4": "sphere(d:10,$fa:10,$fs:10,$fn:10)",
+        "cube1": "cube(size:10,center:true)",
+        "cylinder1": "cylinder(r:10,h:20,center:true)",
+        "cylinder2": "cylinder(r1:10,r2:10,h:10,center:true)",
+        "cylinder3": "cylinder(r1:10,r2:10,h:10,center:true,$fa:10,$fs:10,$fn:10)"
+    },
+    "2D Primitive": {
+        "square1": "square(size:12,center:true)",
+        "square2": "square(x:10,y:20,center:true)",
+        "square3": "square(size:10,center:true)",
+        "circle1": "circle(r:10,center:true)",
+        "circle2": "circle(d:10,center:true)",
+        "circle3": "circle(r:10,center:true,$fa:10,$fs:10,$fn:10)",
+        "circle4": "circle(d:10,center:true,$fa:10,$fs:10,$fn:10)",
+        "ploygon": "polygon(points:[90],paths:[90],convexity:10)",
+        "text1": "text(text:String)"
+    },
+    "Transform": {
+        "translate": "translate(x:10,y:10,z:10,s:statement)",
+        "mirror": "mirror(x:10,y:10,z:10,s:statement)",
+        "rotate1": "rotate(a:10,s:statement)",
+        "rotate2": "rotate(a:10,x:10,y:10,z:10,s:statement)"
+    },
+    "Boolean Operation": {
+        "union": "union(s:statement)",
+        "difference": "difference(s:statement)",
+        "intersection": "intersection(s:statement)"
+    }
+};
+
+},{}],"lEMyO":[function(require,module,exports) {
+module.exports = JSON.parse('[{"type":"variables9","message0":"var %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(227, 201, 170)","tooltip":"","helpUrl":""},{"type":"constants","message0":"const %1 = %2","args0":[{"type":"field_input","name":"var_name","text":"a"},{"type":"field_input","name":"var_value","text":"89"}],"previousStatement":null,"nextStatement":null,"colour":"rgb(227, 201, 170)","tooltip":"","helpUrl":""}]');
+
+},{}],"9g72e":[function(require,module,exports) {
+module.exports = JSON.parse('[{"kind":"category","name":"Inputs","colour":"rgb(227, 201, 170)","contents":[{"kind":"block","type":"variables9"},{"kind":"block","type":"constants"}]}]');
+
+},{}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
 
 //# sourceMappingURL=index.0aac9dc3.js.map

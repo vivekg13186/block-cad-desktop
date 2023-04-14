@@ -4,7 +4,6 @@
   sphere3: sphere(r:10,$fa:10,$fs:10,$fn:10)
   sphere4: sphere(d:10,$fa:10,$fs:10,$fn:10)
   cube1: cube(size:10,center:true)
-  cube2: cube(x:10,y:10,center:true)
   cylinder1: cylinder(r:10,h:20,center:true)
   cylinder2: cylinder(r1:10,r2:10,h:10,center:true)
   cylinder3: cylinder(r1:10,r2:10,h:10,center:true,$fa:10,$fs:10,$fn:10)
@@ -17,7 +16,7 @@
   circle3: circle(r:10,center:true,$fa:10,$fs:10,$fn:10)
   circle4: circle(d:10,center:true,$fa:10,$fs:10,$fn:10)
   ploygon: polygon(points:[90],paths:[90],convexity:10)
-  text: text(text:String)
+  text1: text(text:String)
 Transform:
   translate: translate(x:10,y:10,z:10,s:statement)
   mirror: mirror(x:10,y:10,z:10,s:statement)
@@ -26,4 +25,4 @@ Transform:
 Boolean Operation:
   union: union(s:statement)
   difference: difference(s:statement)
-  intersection: difference(s:statement)
+  intersection: intersection(s:statement)

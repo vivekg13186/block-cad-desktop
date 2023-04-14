@@ -73,7 +73,7 @@ class STLLoader extends Loader {
 		const scope = this;
 		 
 		compile_to_stl(code,function (data) {
-			console.log(data,"da");
+			//console.log(data,"da");
 			onLoad(scope.parse(data));
 		  })
 		  .catch(function (error) {

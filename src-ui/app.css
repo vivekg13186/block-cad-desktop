@@ -28,7 +28,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid #ffffff35;
+    border-bottom: 1px solid #ffffff0a;
     background-color: rgb(51, 51, 51);
 }
 .toolbar-icon{
@@ -59,4 +59,16 @@ body {
 
 .geras-renderer.dark-theme .blocklyText{
     fill: #000;
+}
+
+.blocklyTreeLabel{
+    font-size: 14px;
+}
+.blocklyMainBackground{
+    stroke: #1e1e1e;
+}
+
+.gutter{
+    background-color: rgba(50, 50, 50, 1);
+    width: 3px;
 }
