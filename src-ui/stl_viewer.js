@@ -21,6 +21,7 @@ export function loadViewer() {
         10,
         100000
     );
+    camera.up.set( 0, 0, 1 );
     
 
 
@@ -34,14 +35,12 @@ export function loadViewer() {
     const geometry = new THREE.BoxGeometry(10, 10, 10);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-    const axesHelper = new THREE.AxesHelper( 50 );
+    const axesHelper = new THREE.AxesHelper( 15 );
     scene.add( axesHelper );
 
-    const size = 100;
-    const divisions = 100;
-    
-    const gridHelper = new THREE.GridHelper( size, divisions );
-    scene.add( gridHelper );
+   var grid =  new THREE.GridHelper(100, 100, "#666666", "#222222") 
+    grid.rotation.x = Math.PI/2;
+    scene.add( grid);
     scene.background = new THREE.Color("rgb(40, 40, 40)");
  
 
@@ -60,6 +59,7 @@ export function loadViewer() {
    
 
     renderer.setSize(pos.width, pos.height);
+    renderer.setPixelRatio( window.devicePixelRatio )
     right.appendChild(renderer.domElement);
 
     function onWindowResize() {
@@ -83,7 +83,7 @@ export function render_cad(code){
     loader.loadModel(code, (geometry) => {
         const mesh = new THREE.Mesh(geometry, material);
         mesh.geometry.computeVertexNormals(true);
-        mesh.geometry.center();
+        //mesh.geometry.center();
         group.clear();
         group.add(mesh);
     },(err)=>{

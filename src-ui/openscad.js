@@ -78,7 +78,7 @@ export class Command {
         codeGenerator[this.id]= function(block){
             var params = [];
             var body="";
-            if(self.name=="translate"){
+            if(self.name=="translate"||self.name=="mirror"||self.name=="rotate"){
                 for(var i=0;i<self.noOfFields();i++){
                     var a = self.args[i];
                     var value = block.getFieldValue(a.name);

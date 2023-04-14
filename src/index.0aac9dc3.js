@@ -29592,6 +29592,7 @@ function loadViewer() {
     var right = document.getElementById("viewer");
     var pos = right.getBoundingClientRect();
     camera = new _three.PerspectiveCamera(750, pos.width / pos.height, 10, 100000);
+    camera.up.set(0, 0, 1);
     const controls = new (0, _orbitControls.OrbitControls)(camera, renderer.domElement);
     controls.maxDistance = 700;
     controls.minDistance = 100;
@@ -29599,12 +29600,11 @@ function loadViewer() {
     const material = new _three.MeshBasicMaterial({
         color: 0x00ff00
     });
-    const axesHelper = new _three.AxesHelper(50);
+    const axesHelper = new _three.AxesHelper(15);
     scene.add(axesHelper);
-    const size = 100;
-    const divisions = 100;
-    const gridHelper = new _three.GridHelper(size, divisions);
-    scene.add(gridHelper);
+    var grid = new _three.GridHelper(100, 100, "#666666", "#222222");
+    grid.rotation.x = Math.PI / 2;
+    scene.add(grid);
     scene.background = new _three.Color("rgb(40, 40, 40)");
     const cube = new _three.Mesh(geometry, material);
     //scene.add(cube);
@@ -29614,6 +29614,7 @@ function loadViewer() {
     scene.add(secondaryLight);
     scene.add(group);
     renderer.setSize(pos.width, pos.height);
+    renderer.setPixelRatio(window.devicePixelRatio);
     right.appendChild(renderer.domElement);
     function onWindowResize() {
         var right = document.getElementById("viewer");
@@ -29633,7 +29634,7 @@ function render_cad(code) {
     loader.loadModel(code, (geometry)=>{
         const mesh = new _three.Mesh(geometry, material);
         mesh.geometry.computeVertexNormals(true);
-        mesh.geometry.center();
+        //mesh.geometry.center();
         group.clear();
         group.add(mesh);
     }, (err)=>{
@@ -61961,7 +61962,7 @@ class Command {
         codeGenerator[this.id] = function(block) {
             var params = [];
             var body = "";
-            if (self.name == "translate") {
+            if (self.name == "translate" || self.name == "mirror" || self.name == "rotate") {
                 for(var i = 0; i < self.noOfFields(); i++){
                     var a = self.args[i];
                     var value = block.getFieldValue(a.name);
@@ -62051,7 +62052,9 @@ module.exports = {
         "translate": "translate(x:10,y:10,z:10,s:statement)",
         "mirror": "mirror(x:10,y:10,z:10,s:statement)",
         "rotate1": "rotate(a:10,s:statement)",
-        "rotate2": "rotate(a:10,x:10,y:10,z:10,s:statement)"
+        "rotate2": "rotate(a:10,x:10,y:10,z:10,s:statement)",
+        "hull1": "hull(s:statement)",
+        "minkowski1": "minkowski(s:statement)"
     },
     "Boolean Operation": {
         "union": "union(s:statement)",

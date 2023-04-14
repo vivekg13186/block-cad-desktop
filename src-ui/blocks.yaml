@@ -24,6 +24,8 @@ Transform:
   mirror: mirror(x:10,y:10,z:10,s:statement)
   rotate1: rotate(a:10,s:statement)
   rotate2: rotate(a:10,x:10,y:10,z:10,s:statement)
+  hull1: hull(s:statement)
+  minkowski1: minkowski(s:statement)
 Boolean Operation:
   union: union(s:statement)
   difference: difference(s:statement)
