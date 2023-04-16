@@ -58792,10 +58792,11 @@ function init(e, c) {
     cube = document.createElement("div");
     cube.className = "cube";
     var orientations = Object.keys((0, _viewCubeControllerDefault.default).ORIENTATIONS);
+    console.log("cue", orientations);
     for(var i = 0; i < orientations.length; i++){
         var div = document.createElement("div");
-        div.dataset.orientation = orientation;
         var orientation = orientations[i];
+        div.dataset.orientation = orientation;
         div.className = `cube__face cube__face--${orientation}`;
         div.addEventListener("click", function(e) {
             var d = e.target;
@@ -58835,14 +58836,14 @@ const BACK = {
         z: 0
     }
 };
-const BOTTOM = {
+const TOP = {
     offsetFactor: {
         x: 0,
         y: 0,
         z: 1
     }
 };
-const TOP = {
+const BOTTOM = {
     offsetFactor: {
         x: 0,
         y: 0,

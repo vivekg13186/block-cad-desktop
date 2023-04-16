@@ -26,7 +26,7 @@ const BACK: Orientation = {
   },
 };
 
-const BOTTOM: Orientation = {
+const TOP: Orientation = {
   offsetFactor: {
     x: 0,
     y: 0,
@@ -34,7 +34,7 @@ const BOTTOM: Orientation = {
   },
 };
 
-const TOP: Orientation = {
+const BOTTOM: Orientation = {
   offsetFactor: {
     x: 0,
     y: 0,
@@ -99,7 +99,7 @@ class ViewCubeController {
 
       // The target position the camera should always look at
       const targetPosition = new THREE.Vector3(0, 0, 0);
-
+    
       const positionTween = new TWEEN.Tween(this.camera.position)
         .to(finishPosition, 300)
         .easing(TWEEN.Easing.Cubic.InOut)

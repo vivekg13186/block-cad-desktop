@@ -39,10 +39,12 @@ export function init(e, c) {
     cube  = document.createElement("div");
     cube.className="cube";
     var orientations  = Object.keys(ViewCubeController.ORIENTATIONS);
+    console.log("cue",orientations)
     for(var i=0;i<orientations.length;i++){
         var div = document.createElement("div");
-        div.dataset.orientation = orientation;
+       
         var orientation = orientations[i];
+        div.dataset.orientation = orientation;
         div.className=`cube__face cube__face--${orientation}`
         div.addEventListener("click",function(e){
             var d = e.target;

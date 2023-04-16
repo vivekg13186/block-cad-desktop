@@ -1,6 +1,6 @@
 .viewcube-container {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     margin: 10px;
     perspective: 600px;
     position: absolute;
@@ -52,9 +52,9 @@
   .viewcube-container  .cube__face--right {
     transform: rotateY(90deg) rotateX(180deg) rotateZ(0deg) translateZ(-60px);
   }
-  .viewcube-container  .cube__face--bottom {
+  .viewcube-container  .cube__face--top {
     transform: rotateX(180deg) translateZ(-60px);
   }
-  .viewcube-container  .cube__face--top {
+  .viewcube-container  .cube__face--bottom {
     transform: rotateZ(180deg) translateZ(-60px);
   }

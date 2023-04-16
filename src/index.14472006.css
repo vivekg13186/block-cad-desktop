@@ -78,8 +78,8 @@ body {
 }
 
 .viewcube-container {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   perspective: 600px;
   z-index: 2;
   margin: 10px;
@@ -138,11 +138,11 @@ body {
   transform: rotateY(90deg)rotateX(180deg)rotateZ(0)translateZ(-60px);
 }
 
-.viewcube-container .cube__face--bottom {
+.viewcube-container .cube__face--top {
   transform: rotateX(180deg)translateZ(-60px);
 }
 
-.viewcube-container .cube__face--top {
+.viewcube-container .cube__face--bottom {
   transform: rotateZ(180deg)translateZ(-60px);
 }
 
