@@ -30,3 +30,7 @@ Boolean Operation:
   union: union(s:statement)
   difference: difference(s:statement)
   intersection: intersection(s:statement)
+Flow Control:
+  for1: for(var:a,start:0,end:100,s:statement)
+  for2: for(var:a,start:0,step:1,end:100,s:statement)
+  if1: if(cond:a,s:statement)

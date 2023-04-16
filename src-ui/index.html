@@ -1,7 +1,6 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <script src="acorn.js"></script>
     </head>
     <body>
         <div class="app">
@@ -11,7 +10,7 @@
                         play_arrow
                         </span>
                     </div>
-                    <div class="toolbar-icon">
+                    <div class="toolbar-icon" id="save-code">
                         <span class="material-symbols-outlined">
                             save
                             </span>
@@ -20,9 +19,19 @@
                 <div id="block-editor"></div>
             </div>
             <div class="right">
+                <div class="toolbar">
+                    <div ><select id="setView">
+                        <option value="front">Front</option>
+                        <option value="top">Top</option>
+                        <option value="bottom">Bottom</option>
+                    </select></div>
+                    
+                </div>
                 <div id="viewer"></div>
+                <div class="viewcube-container"></div>
             </div>
         </div>
+        <script src="tween.umd.js" type="umd"></script>
         <script src="app.js" type="module"></script>
     </body>
 </html>

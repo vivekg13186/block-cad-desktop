@@ -13,6 +13,11 @@
   "tauri": {
     "allowlist": {
       "all": false,
+      "dialog": {
+        "all": true, 
+        "open": true,  
+        "save": true  
+      },
       "shell": {
         "all": true,
         "open": true,
@@ -69,7 +74,7 @@
         "fullscreen": false,
         "resizable": true,
         "title": "Block CAD",
-        "width": 800,
+        "width": 1000,
         "height": 600
       }
     ]

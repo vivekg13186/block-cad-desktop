@@ -72,13 +72,27 @@ export class Command {
         this.setupCodeGen();
         return base;
     }
-
+    
+    getForStatement(block){
+        var params = []
+        for(var i=0;i<this.noOfFields();i++){
+            var a = this.args[i];
+            var value = block.getFieldValue(a.name);
+            params.push(`${value}`); 
+        }
+        var v = params.shift();
+        var body  =  codeGenerator.statementToCode(block,"statements") ;
+       return `for(${v}=[${params.join(":")}]){ ${body} }`;
+    }
     setupCodeGen(){
         var self = this;
         codeGenerator[this.id]= function(block){
             var params = [];
             var body="";
-            if(self.name=="translate"||self.name=="mirror"||self.name=="rotate"){
+            if(self.name=="for"){
+                return self.getForStatement(block);
+            }
+            else if(self.name=="translate"||self.name=="mirror"||self.name=="rotate"){
                 for(var i=0;i<self.noOfFields();i++){
                     var a = self.args[i];
                     var value = block.getFieldValue(a.name);
@@ -117,7 +131,16 @@ var colors = [
 	"rgb(244, 147, 75)",
 	"rgb(188, 148, 94)",
 	"rgb(173, 182, 85)",
-	"rgb(200, 146, 48)"];
+	"rgb(200, 146, 48)",
+     
+	"rgb(27, 158, 119)",
+	"rgb(217, 95, 2)",
+"rgb(117, 112, 179)",
+	"rgb(231, 41, 138)",
+	"rgb(102, 166, 30)",
+	"rgb(230, 171, 2)",
+	"rgb(166, 118, 29)",
+	"rgb(102, 102, 102)" ];
 export function generate_blocks() {
     var ci = 0;
     for (var cat_name in blocks_def) {

@@ -35,7 +35,7 @@ export function loadViewer() {
     const geometry = new THREE.BoxGeometry(10, 10, 10);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-    const axesHelper = new THREE.AxesHelper( 15 );
+    const axesHelper = new THREE.AxesHelper( 25 );
     scene.add( axesHelper );
 
    var grid =  new THREE.GridHelper(100, 100, "#666666", "#222222") 

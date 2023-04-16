@@ -1,6 +1,6 @@
 import { Command } from '@tauri-apps/api/shell'
 import { tempdir } from '@tauri-apps/api/os';
-import { writeTextFile,readTextFile,BaseDirectory } from '@tauri-apps/api/fs';
+import { writeTextFile,readTextFile,BaseDirectory, readBinaryFile } from '@tauri-apps/api/fs';
 import { join,desktopDir } from '@tauri-apps/api/path';
 
 
@@ -16,13 +16,13 @@ export async function  compile_to_stl(openscad_code,callback) {
     var file_output = await join(root,"response.stl");
     console.log(file_output);
     //execute command
-    const command = new Command("run-openscad",[file_input,"-o",file_output]);
+    const command = new Command("run-openscad",[file_input,"-o",file_output,"--export-format","binstl"]);
 
 
     command.on('close', async function(data) {
       console.log(`command finished with code ${data.code} and signal ${data.signal}`);
-      const contents = await readTextFile('response.stl', { dir:  BaseDirectory.Desktop  });
-       callback(contents);
+      const contents = await readBinaryFile('response.stl', { dir:  BaseDirectory.Desktop  });
+       callback(contents.buffer);
     });
     command.on('error', error => console.error(`command error: "${error}"`));
     command.stdout.on('data', line => console.log(`command stdout: "${line}"`));

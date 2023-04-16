@@ -1,17 +1,13 @@
 import "./app.css"
 import Blockly from 'blockly';
-import { generate_code } from "./opencad_code_gen";
-import { javascriptGenerator } from 'blockly/javascript';
-import {loadViewer,render_cad} from "./stl_viewer";
+import {initSTLViewer,resizeSTLViewer,renderSTL} from "./STLViewer";
 import {generate_blocks,codeGenerator} from "./openscad";
-
-
 import DarkTheme from '@blockly/theme-dark';
 import Split from 'split.js'
+import { saveFile } from "./file";
 
 var gen_code = generate_blocks();
 Blockly.defineBlocksWithJsonArray(gen_code.blocks);
-console.log("kjkjk",gen_code);
 var options = {
     toolbox: gen_code.toolbox,
     collapse: true,
@@ -41,26 +37,28 @@ Split(['.left', '.right'], {
     sizes: [50, 50],
     gutterSize: 3,
     onDrag:function(sizes){
-        Blockly.svgResize(workspace);
+        onresize();
     }
 })
  
 
 var workspace = Blockly.inject("block-editor", options);
 const runCode = () => {
-    //const js_code = javascriptGenerator.workspaceToCode(workspace);
-    //var cad_code  = generate_code(js_code);
-    //render_cad(cad_code);
     var code = codeGenerator.workspaceToCode(workspace);
     console.log("openscad gen cde",code);
-    render_cad(code);
+    renderSTL(code);
 };
+initSTLViewer();
 document.getElementById("gen-code").addEventListener("click", runCode);
+document.getElementById("save-code").addEventListener("click", function(){
+    var code =Blockly.serialization.workspaces.save(workspace)
+    saveFile(code);
+});
 
-loadViewer();
+ 
 const onresize = function(e) {
-   
     Blockly.svgResize(workspace);
+    resizeSTLViewer();
   };
 window.addEventListener('resize', onresize, false);
 onresize();

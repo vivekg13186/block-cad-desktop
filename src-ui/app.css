@@ -44,8 +44,8 @@ body {
     flex-grow: 1;
 }
 .right{
-    background-color: blue;
     width: 50%;
+    flex-direction: column;
     display: flex;
 }
 
