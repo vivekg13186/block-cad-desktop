@@ -4,7 +4,7 @@ import {initSTLViewer,resizeSTLViewer,renderSTL} from "./STLViewer";
 import {generate_blocks,codeGenerator} from "./openscad";
 import DarkTheme from '@blockly/theme-dark';
 import Split from 'split.js'
-import { saveFile } from "./file";
+import { openFile, saveFile } from "./file";
 
 var gen_code = generate_blocks();
 Blockly.defineBlocksWithJsonArray(gen_code.blocks);
@@ -52,9 +52,17 @@ initSTLViewer();
 document.getElementById("gen-code").addEventListener("click", runCode);
 document.getElementById("save-code").addEventListener("click", function(){
     var code =Blockly.serialization.workspaces.save(workspace)
-    saveFile(code);
+    console.log(JSON.stringify(code));
+    saveFile(JSON.stringify(code));
 });
 
+
+document.getElementById("open-file").addEventListener("click", function(){
+ openFile(function(data){
+        console.log(data);
+        Blockly.serialization.workspaces.load(JSON.parse(data),workspace);
+    })
+})
  
 const onresize = function(e) {
     Blockly.svgResize(workspace);

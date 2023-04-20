@@ -618,7 +618,14 @@ const runCode = ()=>{
 document.getElementById("gen-code").addEventListener("click", runCode);
 document.getElementById("save-code").addEventListener("click", function() {
     var code = (0, _blocklyDefault.default).serialization.workspaces.save(workspace);
-    (0, _file.saveFile)(code);
+    console.log(JSON.stringify(code));
+    (0, _file.saveFile)(JSON.stringify(code));
+});
+document.getElementById("open-file").addEventListener("click", function() {
+    (0, _file.openFile)(function(data) {
+        console.log(data);
+        (0, _blocklyDefault.default).serialization.workspaces.load(JSON.parse(data), workspace);
+    });
 });
 const onresize = function(e) {
     (0, _blocklyDefault.default).svgResize(workspace);
@@ -26927,14 +26934,43 @@ module.exports = JSON.parse('[{"kind":"category","name":"Inputs","colour":"rgb(2
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "saveFile", ()=>saveFile);
+parcelHelpers.export(exports, "openFile", ()=>openFile);
 var _dialog = require("@tauri-apps/api/dialog");
 var _fs = require("@tauri-apps/api/fs");
 const saveFile = async (data)=>{
     const suggestedFilename = "sample.bcad";
+    const filePath = await (0, _dialog.save)({
+        title: "Save BCAD File",
+        filters: [
+            {
+                name: "B CAD file",
+                extensions: [
+                    "bcad"
+                ]
+            }
+        ]
+    });
+    console.log(filePath, data);
+    if (filePath && data) await (0, _fs.writeTextFile)(filePath, data);
+};
+const openFile = (callback)=>{
+    console.log("open file");
     // Save into the default downloads directory, like in the browser
-    const filePath = await (0, _dialog.save)();
-    // Now we can write the file to the disk
-    await (0, _fs.writeTextFile)(filePath, data);
+    (0, _dialog.open)({
+        title: "Open BCAD File",
+        filters: [
+            {
+                name: "B CAD file",
+                extensions: [
+                    "bcad"
+                ]
+            }
+        ]
+    }).then(function(filePath) {
+        if (filePath) (0, _fs.readTextFile)(filePath).then(function(value) {
+            callback(value);
+        });
+    });
 };
 
 },{"@tauri-apps/api/dialog":"kQ2jH","@tauri-apps/api/fs":"5Ublj","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"kQ2jH":[function(require,module,exports) {
