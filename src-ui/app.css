@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body {
     display: flex;
     flex-direction: column;
@@ -12,63 +13,78 @@ body {
     overflow: hidden;
     font-family: 'Roboto', sans-serif;
     user-select: none;
-  }
-.app{
+}
+
+.app {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex: auto 1 1;
 }
 
-.left{
+.content {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.left {
     width: 50%;
     flex-direction: column;
     display: flex;
 }
-.toolbar{
+
+.toolbar {
     width: 100%;
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid #ffffff0a;
     background-color: rgb(51, 51, 51);
 }
-.toolbar-icon{
+
+.toolbar-icon {
     padding: 5px;
     color: #aaa;
     cursor: pointer;
-    
+
 }
-.toolbar-icon:hover{
+
+.toolbar-icon:hover {
     color: #fff;
 }
-#block-editor{
+
+#block-area {
     flex-grow: 1;
 }
-.right{
+
+.right {
     width: 50%;
     flex-direction: column;
     display: flex;
 }
 
-#viewer{
-    flex: auto 1 1;
-}
-.blocklyTreeRow{
-    padding-top: 5px;
-   
+#viewer {
+    flex-grow: 1;
 }
 
-.geras-renderer.dark-theme .blocklyText{
+.blocklyTreeRow {
+    padding-top: 5px;
+
+}
+
+.geras-renderer.dark-theme .blocklyText {
     fill: #000;
 }
 
-.blocklyTreeLabel{
+.blocklyTreeLabel {
     font-size: 14px;
 }
-.blocklyMainBackground{
+
+.blocklyMainBackground {
     stroke: #1e1e1e;
 }
 
-.gutter{
+.gutter {
     background-color: rgba(50, 50, 50, 1);
     width: 3px;
 }
+

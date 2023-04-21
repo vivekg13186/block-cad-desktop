@@ -6,8 +6,14 @@ import DarkTheme from '@blockly/theme-dark';
 import Split from 'split.js'
 import { openFile, saveFile } from "./file";
 
+import * as Statusbar from "./status_bar";
+
 var gen_code = generate_blocks();
 Blockly.defineBlocksWithJsonArray(gen_code.blocks);
+
+const blocklyArea = document.getElementById("block-area");
+const  blocklyDiv = document.getElementById('block-editor');
+
 var options = {
     toolbox: gen_code.toolbox,
     collapse: true,
@@ -42,7 +48,7 @@ Split(['.left', '.right'], {
 })
  
 
-var workspace = Blockly.inject("block-editor", options);
+var workspace = Blockly.inject(blocklyDiv, options);
 const runCode = () => {
     var code = codeGenerator.workspaceToCode(workspace);
     console.log("openscad gen cde",code);
@@ -65,9 +71,25 @@ document.getElementById("open-file").addEventListener("click", function(){
 })
  
 const onresize = function(e) {
-    Blockly.svgResize(workspace);
+    var element = blocklyArea;
+  let x = 0;
+  let y = 0;
+  do {
+    x += element.offsetLeft;
+    y += element.offsetTop;
+    element = element.offsetParent;
+  } while (element);
+  // Position blocklyDiv over blocklyArea.
+  blocklyDiv.style.left = x + 'px';
+  blocklyDiv.style.top = y + 'px';
+  blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+  blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+  Blockly.svgResize(workspace);
+    
     resizeSTLViewer();
   };
 window.addEventListener('resize', onresize, false);
-onresize();
+
  
+const status_bar = Statusbar.init(document.getElementById("status-bar"));
+onresize();

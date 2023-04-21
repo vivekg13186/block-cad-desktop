@@ -568,8 +568,11 @@ var _themeDarkDefault = parcelHelpers.interopDefault(_themeDark);
 var _splitJs = require("split.js");
 var _splitJsDefault = parcelHelpers.interopDefault(_splitJs);
 var _file = require("./file");
+var _statusBar = require("./status_bar");
 var gen_code = (0, _openscad.generate_blocks)();
 (0, _blocklyDefault.default).defineBlocksWithJsonArray(gen_code.blocks);
+const blocklyArea = document.getElementById("block-area");
+const blocklyDiv = document.getElementById("block-editor");
 var options = {
     toolbox: gen_code.toolbox,
     collapse: true,
@@ -608,7 +611,7 @@ var options = {
         onresize();
     }
 });
-var workspace = (0, _blocklyDefault.default).inject("block-editor", options);
+var workspace = (0, _blocklyDefault.default).inject(blocklyDiv, options);
 const runCode = ()=>{
     var code = (0, _openscad.codeGenerator).workspaceToCode(workspace);
     console.log("openscad gen cde", code);
@@ -628,13 +631,27 @@ document.getElementById("open-file").addEventListener("click", function() {
     });
 });
 const onresize = function(e) {
+    var element = blocklyArea;
+    let x = 0;
+    let y = 0;
+    do {
+        x += element.offsetLeft;
+        y += element.offsetTop;
+        element = element.offsetParent;
+    }while (element);
+    // Position blocklyDiv over blocklyArea.
+    blocklyDiv.style.left = x + "px";
+    blocklyDiv.style.top = y + "px";
+    blocklyDiv.style.width = blocklyArea.offsetWidth + "px";
+    blocklyDiv.style.height = blocklyArea.offsetHeight + "px";
     (0, _blocklyDefault.default).svgResize(workspace);
     (0, _stlviewer.resizeSTLViewer)();
 };
 window.addEventListener("resize", onresize, false);
+const status_bar = _statusBar.init(document.getElementById("status-bar"));
 onresize();
 
-},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","@blockly/theme-dark":"5uaqq","split.js":"FcWZA","./openscad":"njCR8","./file":"9wfuV","./STLViewer":"8tU2l"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
+},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","@blockly/theme-dark":"5uaqq","split.js":"FcWZA","./openscad":"njCR8","./file":"9wfuV","./STLViewer":"8tU2l","./status_bar":"kYKWa"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define([
         "./browser"
@@ -58942,6 +58959,59 @@ class ViewCubeController {
 }
 exports.default = ViewCubeController;
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"kYKWa":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "init", ()=>init);
+parcelHelpers.export(exports, "setStatus", ()=>setStatus);
+var _statusCss = require("./status.css");
+function init(element) {
+    if (!element) return;
+    var rootElement = element;
+    rootElement.classList.add("status-bar");
+    var iconElement = document.createElement("div");
+    var progressElement = document.createElement("progress");
+    var messageElement = document.createElement("div");
+    iconElement.classList.add("icon");
+    progressElement.classList.add("progress");
+    messageElement.classList.add("message");
+    rootElement.appendChild(iconElement);
+    rootElement.appendChild(messageElement);
+    rootElement.appendChild(progressElement);
+    var sb = {
+        rootElement,
+        iconElement,
+        progressElement,
+        messageElement
+    };
+    progressElement.setAttribute("max", "100");
+    setStatus(sb, "Welcome to Block CAD", "info", 0);
+    return sb;
+}
+function _getIcon(tag) {
+    switch(tag){
+        case "info":
+            return `<span class="material-symbols-outlined">
+            info
+            </span>`;
+        case "warn":
+            return `<span class="material-symbols-outlined">
+            error
+            </span>`;
+        case "error":
+            return `<span class="material-symbols-outlined">
+            bug_report
+            </span>`;
+        default:
+            return "<i></i>";
+    }
+}
+function setStatus(sb, message, tag, progress) {
+    sb.messageElement.innerText = message;
+    sb.progressElement.value = progress;
+    sb.iconElement.innerHTML = _getIcon(tag);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./status.css":"lO53e"}],"lO53e":[function() {},{}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
 
 //# sourceMappingURL=index.0aac9dc3.js.map
