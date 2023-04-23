@@ -1,0 +1,52 @@
+{
+  "2DPrimitives": [
+    {
+      "id": "rectangle",
+      "name": "rectangle",
+      "args": {
+        "size": {
+          "type": "vec2",
+          "optional": false,
+          "default":"[10,10]"
+        },
+        "center":{
+          "type": "vec2",
+          "optional": true,
+          "default":"[0,0]"
+        }
+      }
+    },
+    {
+      "id": "square",
+      "name": "square",
+      "args": {
+        "size": {
+          "type": "number",
+          "optional": false,
+          "default":"10"
+        },
+        "center":{
+          "type": "vec2",
+          "optional": true,
+          "default":"[0,0]"
+        }
+      }
+    },
+    {
+      "id": "roundedRectangle",
+      "name": "roundedRectangle",
+      "args": {
+        "size": {
+          "type": "number",
+          "optional": false,
+          "default":"10"
+        },
+        "center":{
+          "type": "vec2",
+          "optional": true,
+          "default":"[0,0]"
+        }
+      }
+    }
+  ]
+}

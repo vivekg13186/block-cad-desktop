@@ -568,7 +568,7 @@ var _themeDarkDefault = parcelHelpers.interopDefault(_themeDark);
 var _splitJs = require("split.js");
 var _splitJsDefault = parcelHelpers.interopDefault(_splitJs);
 var _file = require("./file");
-var _statusBar = require("./status_bar");
+var _statusbar = require("./Statusbar");
 var gen_code = (0, _openscad.generate_blocks)();
 (0, _blocklyDefault.default).defineBlocksWithJsonArray(gen_code.blocks);
 const blocklyArea = document.getElementById("block-area");
@@ -648,10 +648,10 @@ const onresize = function(e) {
     (0, _stlviewer.resizeSTLViewer)();
 };
 window.addEventListener("resize", onresize, false);
-const status_bar = _statusBar.init(document.getElementById("status-bar"));
+const status_bar = _statusbar.init(document.getElementById("status-bar"));
 onresize();
 
-},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","@blockly/theme-dark":"5uaqq","split.js":"FcWZA","./openscad":"njCR8","./file":"9wfuV","./STLViewer":"8tU2l","./status_bar":"kYKWa"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
+},{"./app.css":"2yJcC","blockly":"9OIg0","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","@blockly/theme-dark":"5uaqq","split.js":"FcWZA","./openscad":"njCR8","./file":"9wfuV","./STLViewer":"8tU2l","./Statusbar":"8hNYZ"}],"2yJcC":[function() {},{}],"9OIg0":[function(require,module,exports) {
 (function(root, factory) {
     if (typeof define === "function" && define.amd) define([
         "./browser"
@@ -58959,14 +58959,14 @@ class ViewCubeController {
 }
 exports.default = ViewCubeController;
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"kYKWa":[function(require,module,exports) {
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"8hNYZ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "init", ()=>init);
 parcelHelpers.export(exports, "setStatus", ()=>setStatus);
 var _statusCss = require("./status.css");
 function init(element) {
-    if (!element) return;
+    if (!element) return null;
     var rootElement = element;
     rootElement.classList.add("status-bar");
     var iconElement = document.createElement("div");
@@ -59012,6 +59012,6 @@ function setStatus(sb, message, tag, progress) {
     sb.iconElement.innerHTML = _getIcon(tag);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jho5n","./status.css":"lO53e"}],"lO53e":[function() {},{}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
+},{"./status.css":"lO53e","@parcel/transformer-js/src/esmodule-helpers.js":"jho5n"}],"lO53e":[function() {},{}]},["OllPx","fLZVI"], "fLZVI", "parcelRequireb5f3")
 
 //# sourceMappingURL=index.0aac9dc3.js.map

@@ -13,12 +13,14 @@ body {
 }
 
 .app {
+  background-color: #000;
   flex-direction: column;
   flex: auto;
   display: flex;
 }
 
 .content {
+  background-color: #639;
   flex-direction: row;
   flex-grow: 1;
   display: flex;
@@ -26,6 +28,7 @@ body {
 
 .left {
   width: 50%;
+  background-color: red;
   flex-direction: column;
   display: flex;
 }
@@ -54,6 +57,7 @@ body {
 
 .right {
   width: 50%;
+  background-color: #00f;
   flex-direction: column;
   display: flex;
 }
@@ -83,78 +87,27 @@ body {
   background-color: #323232;
 }
 
-.viewcube-container {
-  width: 80px;
-  height: 80px;
-  perspective: 600px;
-  z-index: 2;
-  margin: 10px;
-  position: absolute;
-  bottom: 40px;
-  right: 60px;
-}
-
-.viewcube-container .cube {
-  width: 100px;
-  height: 100px;
-  transform-style: preserve-3d;
-  text-transform: uppercase;
-  position: relative;
-  transform: translateZ(-300px);
-}
-
-.viewcube-container .cube__face {
-  width: 120px;
-  height: 120px;
-  color: #7d7d7d;
-  text-align: center;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  background: #fff;
-  border: 2px solid gray;
-  justify-content: center;
-  align-items: center;
-  font-size: 25px;
-  font-weight: bold;
-  line-height: 100px;
-  transition: all .1s;
+.toolbar {
+  width: 100%;
+  background-color: #333;
+  border-bottom: 1px solid #ffffff0a;
+  flex-direction: row;
   display: flex;
-  position: absolute;
 }
 
-.viewcube-container .cube__face:hover {
+.toolbar-icon {
+  color: #aaa;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.toolbar-icon:hover {
   color: #fff;
-  background: #adadad;
-}
-
-.viewcube-container .cube__face--front {
-  transform: rotateY(0)rotateX(90deg)translateZ(-60px);
-}
-
-.viewcube-container .cube__face--back {
-  transform: rotateX(270deg)translateZ(-60px);
-}
-
-.viewcube-container .cube__face--left {
-  transform: rotateY(-90deg)rotateX(180deg)rotateZ(0)translateZ(-60px);
-}
-
-.viewcube-container .cube__face--right {
-  transform: rotateY(90deg)rotateX(180deg)rotateZ(0)translateZ(-60px);
-}
-
-.viewcube-container .cube__face--top {
-  transform: rotateX(180deg)translateZ(-60px);
-}
-
-.viewcube-container .cube__face--bottom {
-  transform: rotateZ(180deg)translateZ(-60px);
 }
 
 .status-bar {
-  min-height: 20px;
-  max-height: 20px;
+  min-height: 25px;
+  max-height: 25px;
   color: #c2c2cc;
   background: #212121;
   border-top: 1px solid #ffffff0f;

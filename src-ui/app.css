@@ -19,18 +19,21 @@ body {
     display: flex;
     flex-direction: column;
     flex: auto 1 1;
+    background-color: #000;
 }
 
 .content {
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+    background-color: rebeccapurple;
 }
 
 .left {
     width: 50%;
     flex-direction: column;
     display: flex;
+    background-color: red;
 }
 
 .toolbar {
@@ -60,6 +63,7 @@ body {
     width: 50%;
     flex-direction: column;
     display: flex;
+    background-color: blue;
 }
 
 #viewer {

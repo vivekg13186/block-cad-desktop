@@ -5,7 +5,6 @@ import { OrbitControls } from "./OrbitControls";
 
 const loader = new STLLoader();
 const textureLoader = new THREE.TextureLoader();
-const imageLoader = new THREE.ImageLoader();
 
 
 const renderer = new THREE.WebGLRenderer();
@@ -32,8 +31,6 @@ export function loadViewer() {
     controls.maxDistance = 700;
     controls.minDistance = 100;
 
-    const geometry = new THREE.BoxGeometry(10, 10, 10);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
     const axesHelper = new THREE.AxesHelper( 25 );
     scene.add( axesHelper );
@@ -42,22 +39,11 @@ export function loadViewer() {
     grid.rotation.x = Math.PI/2;
     scene.add( grid);
     scene.background = new THREE.Color("rgb(40, 40, 40)");
- 
-
-
-    const cube = new THREE.Mesh(geometry, material);
-    
-    //scene.add(cube);
     camera.position.z = 5;
-  
     const secondaryLight = new THREE.PointLight(0xff0000, 1, 100);
     secondaryLight.position.set(5, 5, 5);
     scene.add(secondaryLight);
-
     scene.add(group);
-
-   
-
     renderer.setSize(pos.width, pos.height);
     renderer.setPixelRatio( window.devicePixelRatio )
     right.appendChild(renderer.domElement);

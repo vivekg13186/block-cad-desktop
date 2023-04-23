@@ -6,7 +6,7 @@ import DarkTheme from '@blockly/theme-dark';
 import Split from 'split.js'
 import { openFile, saveFile } from "./file";
 
-import * as Statusbar from "./status_bar";
+import * as Statusbar from "./Statusbar";
 
 var gen_code = generate_blocks();
 Blockly.defineBlocksWithJsonArray(gen_code.blocks);
