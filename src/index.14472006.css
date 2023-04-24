@@ -87,24 +87,6 @@ body {
   background-color: #323232;
 }
 
-.toolbar {
-  width: 100%;
-  background-color: #333;
-  border-bottom: 1px solid #ffffff0a;
-  flex-direction: row;
-  display: flex;
-}
-
-.toolbar-icon {
-  color: #aaa;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.toolbar-icon:hover {
-  color: #fff;
-}
-
 .status-bar {
   min-height: 25px;
   max-height: 25px;
@@ -134,6 +116,24 @@ body {
 
 .status-bar .progress {
   margin-right: 10px;
+}
+
+.toolbar {
+  width: 100%;
+  background-color: #333;
+  border-bottom: 1px solid #ffffff0a;
+  flex-direction: row;
+  display: flex;
+}
+
+.toolbar-icon {
+  color: #aaa;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.toolbar-icon:hover {
+  color: #fff;
 }
 
 /*# sourceMappingURL=index.14472006.css.map */

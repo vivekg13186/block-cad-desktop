@@ -1,13 +1,14 @@
 import Split from "split.js"
 
-import  {Toolbar} from "./Toolbar";
-import {GLViewer} from "./GLViewer";
+import  {Toolbar} from "./widgets/Toolbar";
+import {GLViewer} from "./gl/GLViewer";
 import "./app.css"
  
 import {BlocklyEditor} from "./BlockEditor";
 import DarkTheme from '@blockly/theme-dark';
 import {getBlocks,getToolbox,getCodeGenerator} from './jscad/blocks';
 import "./jscad/Primitives3D";
+import "./jscad/Primitives2D";
 import { renderAction,initAction } from "./actions";
 
 var blockEditor = new BlocklyEditor(getBlocks(),getToolbox(),getCodeGenerator(),DarkTheme,document.getElementById("block-area") as HTMLDivElement);

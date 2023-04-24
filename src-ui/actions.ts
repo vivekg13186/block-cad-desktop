@@ -5,8 +5,8 @@ import {objSerializer} from "@jscad/io"
 import * as THREE from "three";
 
 
-import {statusBar} from "./Statusbar";
-import { GLViewer } from "./GLViewer";
+import {statusBar} from "./widgets/Statusbar";
+import { GLViewer } from "./gl/GLViewer";
 
 var current_filename:string|null = null;
 
