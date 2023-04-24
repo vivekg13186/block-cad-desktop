@@ -252,7 +252,7 @@ addBlock("star1", {
 }, function (block) {
     try {
         var vertices = parseNum(block.getFieldValue("startAngle"));
-        var outerRadius = parseNum(block.getFieldValue("endAngle"));
+        var outerRadius = parseNum(block.getFieldValue("outerRadius"));
         var innerRadius = parseNum(block.getFieldValue("innerRadius"));
         stack.push(star({ vertices,outerRadius,innerRadius}));
     } catch (e) {

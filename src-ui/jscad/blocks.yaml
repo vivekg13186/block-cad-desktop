@@ -1,0 +1,38 @@
+---
+Primitives 2D:
+  rectangle1: "rectangle(size:vec3)"
+  rectangle2: "rectangle(size:vec2,center:vec2)"
+  square1: "square(size:number)"
+  square2: "square(size:number,center:vec2)"
+  roundedRectangle1: "roundedRectangle(size:number)"
+  roundedRectangle2: "square(size:number,center:vec2,segments:number)"
+  ellipse1: "ellipse(radius:vec2)"
+  ellipse2: "ellipse(radius:vec2,center:vec2,startAngle:degree,endAngle:degree,segments:number)"
+  circle1: "circle(radius:vec2)"
+  circle2: "circle(radius:vec2,center:vec2,startAngle:degree,endAngle:degree,segments:number)"
+  star1: "star(vertices:number,outerRadius:number)"
+  star2: "star(vertices:number,outerRadius:number,innerRadius:number)"
+Primitives 3D:
+  cuboid1: "cuboid(size:vec3)"
+  cuboid2: "cuboid(size:vec3,center:vec3)"
+  cube1: "cube(size:number)"
+  cube2: "cube(size:number,center:vec3)"
+  roundedCuboid1: "roundedCuboid(size:vec3,roundRadius:number)"
+  roundedCuboid2: "roundedCuboid(size:vec3,center:vec3,roundRadius:number)"
+  ellipsoid1: "ellipsoid(radius:vec3)"
+  ellipsoid2: "ellipsoid(radius:vec3,center:vec3,segments:number)"
+  sphere1: "sphere(radius:number)"
+  sphere2: "sphere(radius:number,center:vec3,segments:number)"
+  geodesicSphere: "geodesicSphere(radius:number,frequency:number)"
+  cylinder1: "cylinder(radius:number,height:number)"
+  cylinder2: "cylinder(radius:number,height:number,center:vec3,segments:number)"
+  cylinderElliptic: "cylinderElliptic(height:number,startRadius:vec2,endRadius:vec2)"
+  roundedCylinder1: "roundedCylinder(radius:number,height:number,roundRadius:number)"
+  roundedCylinder2: "roundedCylinder(radius:number,height:number,roundRadius:number,center:vec3,segments:number)"
+  torus: "torus(innerRadius:number,outerRadius:number)"
+Transforms:
+  rotate: "rotate([(Math.PI * 2 / 4), (Math.PI * 2 / 24), (Math.PI * 2 / 12)], myshape)"
+Operations:
+Extrustions:
+Offsets:
+

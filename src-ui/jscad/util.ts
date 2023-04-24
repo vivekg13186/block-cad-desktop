@@ -1,3 +1,15 @@
+export function parseVec3or2(txt) {
+    try {
+        var v = JSON.parse(txt);
+        if (v.length == 3 || v.length==2) {
+            return v;
+        }
+    } catch (e) {
+      console.log(e);
+    }
+    return [0, 0, 0];
+}
+
 export function parseVec3(txt) {
     try {
         var v = JSON.parse(txt);
