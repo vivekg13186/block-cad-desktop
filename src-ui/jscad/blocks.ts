@@ -1,7 +1,7 @@
  
 import * as Blockly from "blockly";
 
- const codeGenerator = new Blockly.CodeGenerator('cad');
+export const codeGenerator = new Blockly.CodeGenerator('cad');
   
 codeGenerator.scrub_ = function (block, code, thisOnly) {
     const nextBlock =

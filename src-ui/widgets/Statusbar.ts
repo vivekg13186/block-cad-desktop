@@ -31,7 +31,7 @@ import "./status.css"
      _getIcon(tag:string) {
         switch (tag) {
             case "info":
-                return `<span class="material-symbols-outlined" style="color:white">
+                return `<span class="material-symbols-outlined" style="color:green">
                 info
                 </span>`;
             case "warn":

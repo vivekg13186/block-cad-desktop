@@ -34,6 +34,7 @@ addBlock("cuboid1", {
     }
 }, function (block) {
     try{
+        console.log("cuboid");
         var size = parseVec3(block.getFieldValue("size"));
         stack.push(cuboid({ size: size }));
     }catch(e){

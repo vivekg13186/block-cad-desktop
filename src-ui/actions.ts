@@ -67,13 +67,16 @@ export async function renderAction() {
    
     try{
         stack.splice(0,stack.length);
+         
         blockEditor.generateCode();
         var len=stack.length;
-        statusBar.setStatus( `New geom ${len}`, "error", 0);
+        
         const rawData = objSerializer.serialize({}, stack);
         const blob = new Blob(rawData)
         glViewer.updateBlobObj(blob);
+        statusBar.setStatus( `render completed`, "info", 0);
     }catch(e){
+        console.log(e);
         statusBar.logError(e);
     }
    

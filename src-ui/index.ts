@@ -8,8 +8,12 @@ import {BlocklyEditor} from "./BlockEditor";
 import DarkTheme from '@blockly/theme-dark';
 import {getBlocks,getToolbox,getCodeGenerator} from './jscad/blocks';
 import "./jscad/Primitives3D";
-import "./jscad/Primitives2D";
 import "./jscad/TransformBlocks";
+import "./jscad/OperationsBlocks";
+import "./jscad/Primitives2D";
+import "./jscad/OtherBlocks";
+import "./jscad/ExtrusionsBlocks";
+import "./jscad/ExpansionBlocks";
 import { renderAction,initAction } from "./actions";
 
 var blockEditor = new BlocklyEditor(getBlocks(),getToolbox(),getCodeGenerator(),DarkTheme,document.getElementById("block-area") as HTMLDivElement);
