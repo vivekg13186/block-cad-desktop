@@ -60,6 +60,9 @@ export class GLViewer {
         requestAnimationFrame(this.animate.bind(this));
         this.renderer.render(this.scene, this.camera);
     }
+    clearScene(){
+        this.group.clear();
+    }
     async updateBlobObj(blob:Blob){
         
         const blog_string = await blob.text();
@@ -75,7 +78,7 @@ export class GLViewer {
         this.updateObjMesh(mesh);
     }
     updateObjMesh(mesh) {
-        this.group.clear();
+        
         this.group.add(mesh);
     }
 

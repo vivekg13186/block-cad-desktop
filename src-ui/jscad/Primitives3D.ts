@@ -1,7 +1,7 @@
 import { cube, cuboid, roundedCuboid,ellipsoid,sphere,geodesicSphere ,cylinder,cylinderElliptic,
     roundedCylinder,torus} from "@jscad/modeling/src/primitives";
 import { addBlock, addToolboxCatogery } from "./blocks";
-import {stack} from "./eval";
+import { scope } from './Scope';
 import * as Blockly from "blockly";
 import { statusBar } from "../widgets/Statusbar";
 import {parseNum,parseVec3,parseVec2} from "./util";
@@ -36,7 +36,7 @@ addBlock("cuboid1", {
     try{
         console.log("cuboid");
         var size = parseVec3(block.getFieldValue("size"));
-        stack.push(cuboid({ size: size }));
+        scope.push(cuboid({ size: size }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -53,7 +53,7 @@ addBlock("cuboid2", {
     try{
         var size = parseVec3(block.getFieldValue("size"));
         var center = parseVec3(block.getFieldValue("center"));
-        stack.push(cuboid({ size: size, center: center }));
+        scope.push(cuboid({ size: size, center: center }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -72,7 +72,7 @@ addBlock("cube1", {
     try{
         var size = parseNum(block.getFieldValue("size"));
          
-        stack.push(cube({  size }));
+        scope.push(cube({  size }));
        
     }catch(e){
         statusBar.logError(e);
@@ -90,7 +90,7 @@ addBlock("cube2", {
     try{
         var size = parseNum(block.getFieldValue("size"));
         var center = parseVec3(block.getFieldValue("center"));
-        stack.push(cube({ size: size, center: center }));
+        scope.push(cube({ size: size, center: center }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -112,7 +112,7 @@ addBlock("roundedCuboid1", {
     try{
         var size = parseVec3(block.getFieldValue("size"));
         var roundRadius = parseNum(block.getFieldValue("roundRadius"));
-        stack.push( roundedCuboid({ size, roundRadius }));
+        scope.push( roundedCuboid({ size, roundRadius }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -132,7 +132,7 @@ addBlock("roundedCuboid2", {
         var roundRadius = parseNum(block.getFieldValue("roundRadius"));
         var center = parseVec3(block.getFieldValue("center"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push( roundedCuboid({ size, roundRadius, center, segments }));
+        scope.push( roundedCuboid({ size, roundRadius, center, segments }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -150,7 +150,7 @@ addBlock("ellipsoid1", {
 }, function (block) {
     try{
         var radius = parseVec3(block.getFieldValue("radius"));
-        stack.push( ellipsoid({ radius }));
+        scope.push( ellipsoid({ radius }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -169,7 +169,7 @@ addBlock("ellipsoid2", {
         var radius = parseVec3(block.getFieldValue("radius"));
         var center = parseVec3(block.getFieldValue("center"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push( ellipsoid({ radius,center,segments }));
+        scope.push( ellipsoid({ radius,center,segments }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -187,7 +187,7 @@ addBlock("sphere1", {
 }, function (block) {
     try{
         var radius = parseNum(block.getFieldValue("radius"));
-        stack.push( sphere({ radius }));
+        scope.push( sphere({ radius }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -206,7 +206,7 @@ addBlock("sphere2", {
         var radius = parseNum(block.getFieldValue("radius"));
         var center = parseVec3(block.getFieldValue("center"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push( sphere({ radius,center,segments }));
+        scope.push( sphere({ radius,center,segments }));
     }catch(e){
         statusBar.logError(e);
     }
@@ -225,7 +225,7 @@ addBlock("geodesicSphere", {
     try{
         var radius = parseNum(block.getFieldValue("radius"));
         var frequency = parseNum(block.getFieldValue("frequency"));
-        stack.push( geodesicSphere({ radius ,frequency}));
+        scope.push( geodesicSphere({ radius ,frequency}));
     }catch(e){
         statusBar.logError(e);
     }
@@ -244,7 +244,7 @@ addBlock("cylinder1", {
     try{
         var radius = parseNum(block.getFieldValue("radius"));
         var height = parseNum(block.getFieldValue("height"));
-        stack.push( cylinder({ radius ,height}));
+        scope.push( cylinder({ radius ,height}));
     }catch(e){
         statusBar.logError(e);
     }
@@ -264,7 +264,7 @@ addBlock("cylinder2", {
         var height = parseNum(block.getFieldValue("height"));
         var center = parseVec3(block.getFieldValue("center"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push( cylinder({ radius ,height,center,segments}));
+        scope.push( cylinder({ radius ,height,center,segments}));
     }catch(e){
         statusBar.logError(e);
     }
@@ -283,7 +283,7 @@ addBlock("cylinderElliptic", {
         var startRadius = parseVec2(block.getFieldValue("startRadius"));
         var height = parseNum(block.getFieldValue("height"));
         var endRadius = parseVec2(block.getFieldValue("endRadius"));
-        stack.push( cylinderElliptic({ startRadius,height,endRadius}));
+        scope.push( cylinderElliptic({ startRadius,height,endRadius}));
     }catch(e){
         statusBar.logError(e);
     }
@@ -302,7 +302,7 @@ addBlock("roundedCylinder1", {
         var radius = parseNum(block.getFieldValue("radius"));
         var height = parseNum(block.getFieldValue("height"));
         var roundRadius = parseNum(block.getFieldValue("roundRadius"));
-        stack.push( roundedCylinder({ radius,height,roundRadius}));
+        scope.push( roundedCylinder({ radius,height,roundRadius}));
     }catch(e){
         statusBar.logError(e);
     }
@@ -323,7 +323,7 @@ addBlock("roundedCylinder2", {
         var roundRadius = parseNum(block.getFieldValue("roundRadius"));
         var center = parseVec3(block.getFieldValue("center"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push( roundedCylinder({ radius,height,roundRadius,center,segments}));
+        scope.push( roundedCylinder({ radius,height,roundRadius,center,segments}));
     }catch(e){
         statusBar.logError(e);
     }
@@ -342,7 +342,7 @@ addBlock("torus1", {
         var innerRadius = parseNum(block.getFieldValue("innerRadius"));
         var outerRadius = parseNum(block.getFieldValue("outerRadius"));
 
-        stack.push( torus({ innerRadius,outerRadius}));
+        scope.push( torus({ innerRadius,outerRadius}));
     }catch(e){
         statusBar.logError(e);
     }
@@ -359,7 +359,7 @@ outerRotation : PI * 2*/
 toolbox.contents.push({ "kind": "block", "type": "torus2" });
 addBlock("torus2", {
     init: function () {
-        var arg = [["innerRadius", "10"],["innerRotation", "0"],["innerSegments", "32"],["outerRadius", "4"],["startAngle", "4"],["outerSegments", "4"],["outerRotation", "4"]];
+        var arg = [["innerRadius", "1"],["innerRotation", "0"],["innerSegments", "32"],["outerRadius", "4"],["startAngle", "0"],["outerSegments", "32"],["outerRotation", Math.PI*2]];
         setupBlock(this, "Tours", arg);
     }
 }, function (block) {
@@ -372,7 +372,8 @@ addBlock("torus2", {
         var startAngle = parseNum(block.getFieldValue("startAngle"));
         var outerSegments = parseNum(block.getFieldValue("outerSegments"));
         var outerRotation = parseNum(block.getFieldValue("outerRotation"));
-        stack.push( torus({ innerRadius,innerRotation,innerSegments,outerRadius,startAngle,outerSegments,outerRotation}));
+        console.log({ innerRadius,innerRotation,innerSegments,outerRadius,startAngle,outerSegments,outerRotation})
+        scope.push( torus({ innerRadius,innerRotation,innerSegments,outerRadius,startAngle,outerSegments,outerRotation}));
     }catch(e){
         statusBar.logError(e);
     }

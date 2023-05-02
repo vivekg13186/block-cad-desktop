@@ -1,9 +1,10 @@
-import { transforms } from '@jscad/modeling'
+import { booleans,hulls } from '@jscad/modeling'
+
 import { addBlock, addToolboxCatogery, codeGenerator } from "./blocks";
-import {stack} from "./eval";
 import * as Blockly from "blockly";
 import { statusBar } from "../widgets/Statusbar";
-import {parseNum,parseVec3,parseVec2,parseVec3or2} from "./util";
+import {parseNum,parseVec3,parseVec2,parseVec3or2, generateStatements} from "./util";
+import { scope } from './Scope';
 
 var toolbox = addToolboxCatogery("Operations");
 
@@ -30,18 +31,15 @@ function setupBlock(b, name, arg) {
 toolbox.contents.push({ "kind": "block", "type": "union" });
 addBlock("union", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [];
         setupBlock(this, "Union", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        
+        var t = booleans.union(...generateStatements(block));
+        
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -53,18 +51,15 @@ addBlock("union", {
 toolbox.contents.push({ "kind": "block", "type": "intersect" });
 addBlock("intersect", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [];
         setupBlock(this, "Intersect", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        
+        var t = booleans.intersect(...generateStatements(block));
+        
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -75,18 +70,15 @@ addBlock("intersect", {
 toolbox.contents.push({ "kind": "block", "type": "subtract" });
 addBlock("subtract", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [];
         setupBlock(this, "Subtract", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        
+        var t = booleans.subtract(...generateStatements(block));
+        
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -98,18 +90,15 @@ addBlock("subtract", {
 toolbox.contents.push({ "kind": "block", "type": "hull" });
 addBlock("hull", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [];
         setupBlock(this, "Hull", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        
+        var t = hulls.hull(...generateStatements(block));
+        
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -120,18 +109,15 @@ addBlock("hull", {
 toolbox.contents.push({ "kind": "block", "type": "hullchain" });
 addBlock("hullchain", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [];
         setupBlock(this, "Hull Chain", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        
+        var t = hulls.hullChain(...generateStatements(block));
+        
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -140,24 +126,3 @@ addBlock("hullchain", {
 });
 
 
-toolbox.contents.push({ "kind": "block", "type": "scission" });
-addBlock("scission", {
-    init: function () {
-        var arg = [["pos", "[10,10,10]"]];
-        setupBlock(this, "Scission", arg);
-    }
-}, function (block) {
-    try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
-    }catch(e){
-        statusBar.logError(e);
-    }
-    
-    return "";
-});

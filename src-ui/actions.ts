@@ -7,6 +7,7 @@ import * as THREE from "three";
 
 import {statusBar} from "./widgets/Statusbar";
 import { GLViewer } from "./gl/GLViewer";
+import { scope } from "./jscad/Scope";
 
 var current_filename:string|null = null;
 
@@ -66,14 +67,15 @@ export function openFileAction(callback) {
 export async function renderAction() {
    
     try{
-        stack.splice(0,stack.length);
-         
-        blockEditor.generateCode();
-        var len=stack.length;
+        scope.reset();
+        glViewer.clearScene();
+        await blockEditor.generateCode();
+        scope.scopeItem.items.map(si=>{
+            const rawData = objSerializer.serialize({}, si);
+            const blob = new Blob(rawData);
+            glViewer.updateBlobObj(blob);
+        })
         
-        const rawData = objSerializer.serialize({}, stack);
-        const blob = new Blob(rawData)
-        glViewer.updateBlobObj(blob);
         statusBar.setStatus( `render completed`, "info", 0);
     }catch(e){
         console.log(e);

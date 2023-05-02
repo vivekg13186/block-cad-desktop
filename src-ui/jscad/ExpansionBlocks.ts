@@ -1,9 +1,9 @@
 import { transforms } from '@jscad/modeling'
 import { addBlock, addToolboxCatogery, codeGenerator } from "./blocks";
-import {stack} from "./eval";
+import {scope} from "./Scope";
 import * as Blockly from "blockly";
 import { statusBar } from "../widgets/Statusbar";
-import {parseNum,parseVec3,parseVec2,parseVec3or2} from "./util";
+import {parseNum,parseVec3,parseVec2,parseVec3or2, generateStatements} from "./util";
 
 var toolbox = addToolboxCatogery("Expansions");
 
@@ -35,13 +35,10 @@ addBlock("expand", {
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
+        
         var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        var t = transforms.translate(pos,...generateStatements(block));
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -58,13 +55,10 @@ addBlock("offset", {
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
+         
         var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        var t = transforms.translate(pos,...generateStatements(block));
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }

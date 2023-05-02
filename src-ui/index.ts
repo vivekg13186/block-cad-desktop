@@ -11,7 +11,7 @@ import "./jscad/Primitives3D";
 import "./jscad/TransformBlocks";
 import "./jscad/OperationsBlocks";
 import "./jscad/Primitives2D";
-import "./jscad/OtherBlocks";
+//import "./jscad/OtherBlocks";
 import "./jscad/ExtrusionsBlocks";
 import "./jscad/ExpansionBlocks";
 import { renderAction,initAction } from "./actions";

@@ -1,9 +1,10 @@
-import { transforms } from '@jscad/modeling'
+import { extrusions } from '@jscad/modeling'
 import { addBlock, addToolboxCatogery, codeGenerator } from "./blocks";
-import {stack} from "./eval";
+
 import * as Blockly from "blockly";
 import { statusBar } from "../widgets/Statusbar";
-import {parseNum,parseVec3,parseVec2,parseVec3or2} from "./util";
+import {generateStatements, parseNum, parseVec3, parseVec3or2} from "./util";
+import { scope } from './Scope';
 
 var toolbox = addToolboxCatogery("Extrusions");
 
@@ -27,21 +28,41 @@ function setupBlock(b, name, arg) {
     b.setHelpUrl("");
 }
 
-toolbox.contents.push({ "kind": "block", "type": "linear_extrude" });
-addBlock("linear_extrude", {
+toolbox.contents.push({ "kind": "block", "type": "linear_extrude1" });
+addBlock("linear_extrude1", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [["height", "10"]];
         setupBlock(this, "Linear Extrude", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+         
+        var height = parseNum(block.getFieldValue("height"));
+    
+        var t = extrusions.extrudeLinear({height},...generateStatements(block));
+         
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "linear_extrude2" });
+addBlock("linear_extrude2", {
+    init: function () {
+        var arg = [["height", "10"],["twistAngle", "10"],["twistSteps", "10"]];
+        setupBlock(this, "Linear Extrude", arg);
+    }
+}, function (block) {
+    try{
+       
+        var height = parseNum(block.getFieldValue("height"));
+        var twistAngle = parseNum(block.getFieldValue("twistAngle"));
+        var twistSteps = parseNum(block.getFieldValue("twistSteps"));
+        var t = extrusions.extrudeLinear({height,twistAngle,twistSteps},...generateStatements(block));
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -50,21 +71,21 @@ addBlock("linear_extrude", {
 });
 
 
+
 toolbox.contents.push({ "kind": "block", "type": "rectangular_extrude" });
 addBlock("rectangular_extrude", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [["size", "10"],["height", "10"]];
         setupBlock(this, "Rectangular Extrude", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+       
+        var size = parseNum(block.getFieldValue("size"));
+        var height = parseNum(block.getFieldValue("height"));
+       
+        var t = extrusions.extrudeRectangular({size,height},...generateStatements(block));
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -75,18 +96,18 @@ addBlock("rectangular_extrude", {
 toolbox.contents.push({ "kind": "block", "type": "rotate_extrude" });
 addBlock("rotate_extrude", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [["startAngle", "0"],["angle", Math.PI * 2],["overflow", 'cap'],["segments", '12']];
         setupBlock(this, "Rotate Extrude", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+       
+        var startAngle = parseNum(block.getFieldValue("startAngle"));
+        var angle = parseNum(block.getFieldValue("angle"));
+        var overflow =  block.getFieldValue("height");
+        var segments = parseNum(block.getFieldValue("segments"));
+        var t = extrusions.extrudeRotate({startAngle,angle,overflow,segments},generateStatements(block)[0]);
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -98,18 +119,16 @@ addBlock("rotate_extrude", {
 toolbox.contents.push({ "kind": "block", "type": "project" });
 addBlock("project", {
     init: function () {
-        var arg = [["pos", "[10,10,10]"]];
+        var arg = [["axis", "[0,0,1]"],["origin", "[0,0,0]"]];
         setupBlock(this, "Project", arg);
     }
 }, function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+       
+        var axis = parseVec3(block.getFieldValue("axis"));
+        var origin = parseVec3(block.getFieldValue("origin"));
+        var t = extrusions.project({axis,origin},...generateStatements(block));
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }

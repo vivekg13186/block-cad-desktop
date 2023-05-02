@@ -1,7 +1,7 @@
 
 import { rectangle, square, roundedRectangle, ellipse, circle, polygon, star } from "@jscad/modeling/src/primitives";
 import { addBlock, addToolboxCatogery } from "./blocks";
-import { stack } from "./eval";
+import { scope } from './Scope';
 import * as Blockly from "blockly";
 import { statusBar } from "../widgets/Statusbar";
 import { parseNum, parseVec2 } from "./util";
@@ -36,7 +36,7 @@ addBlock("rectangle1", {
 }, function (block) {
     try {
         var size = parseVec2(block.getFieldValue("size"));
-        stack.push(rectangle({ size: size }));
+        scope.push(rectangle({ size: size }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -55,7 +55,7 @@ addBlock("rectangle2", {
     try {
         var size = parseVec2(block.getFieldValue("size"));
         var center = parseVec2(block.getFieldValue("center"));
-        stack.push(rectangle({ size, center }));
+        scope.push(rectangle({ size, center }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -73,7 +73,7 @@ addBlock("square1", {
 }, function (block) {
     try {
         var size = parseNum(block.getFieldValue("size"));
-        stack.push(square({ size }));
+        scope.push(square({ size }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -91,7 +91,7 @@ addBlock("square2", {
     try {
         var size = parseNum(block.getFieldValue("size"));
         var center = parseVec2(block.getFieldValue("center"));
-        stack.push(square({ size, center }));
+        scope.push(square({ size, center }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -109,7 +109,7 @@ addBlock("roundedRectangle1", {
 }, function (block) {
     try {
         var size = parseVec2(block.getFieldValue("size"));
-        stack.push(roundedRectangle({ size }));
+        scope.push(roundedRectangle({ size }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -129,7 +129,7 @@ addBlock("roundedRectangle2", {
         var roundRadius = parseNum(block.getFieldValue("roundRadius"));
         var center = parseVec2(block.getFieldValue("center"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push(roundedRectangle({ size, roundRadius, center, segments }));
+        scope.push(roundedRectangle({ size, roundRadius, center, segments }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -145,8 +145,8 @@ addBlock("ellipse1", {
     }
 }, function (block) {
     try {
-        var radius = parseVec2(block.getFieldValue("size"));
-        stack.push(ellipse({ radius }));
+        var radius = parseVec2(block.getFieldValue("radius"));
+        scope.push(ellipse({ radius }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -167,12 +167,12 @@ addBlock("ellipse2", {
     }
 }, function (block) {
     try {
-        var radius = parseVec2(block.getFieldValue("size"));
+        var radius = parseVec2(block.getFieldValue("radius"));
         var center = parseVec2(block.getFieldValue("center"));
         var startAngle = parseNum(block.getFieldValue("startAngle"));
         var endAngle = parseNum(block.getFieldValue("endAngle"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push(ellipse({ radius ,center,startAngle,endAngle,segments}));
+        scope.push(ellipse({ radius ,center,startAngle,endAngle,segments}));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -183,13 +183,13 @@ addBlock("ellipse2", {
 toolbox.contents.push({ "kind": "block", "type": "circle1" });
 addBlock("circle1", {
     init: function () {
-        var arg = [["radius", "[5, 10]"]];
+        var arg = [["radius", "10"]];
         setupBlock(this, "Circle", arg);
     }
 }, function (block) {
     try {
-        var radius = parseVec2(block.getFieldValue("size"));
-        stack.push(circle({ radius }));
+        var radius = parseNum(block.getFieldValue("radius"));
+        scope.push(circle({ radius }));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -200,7 +200,7 @@ addBlock("circle1", {
 toolbox.contents.push({ "kind": "block", "type": "circle2" });
 addBlock("circle2", {
     init: function () {
-        var arg = [["radius", "[5, 10]"]
+        var arg = [["radius", "2"]
             , ["center", "[5, 5]"]
             , ["startAngle", "1.57"]
             , ["endAngle", "1.5"]
@@ -210,12 +210,12 @@ addBlock("circle2", {
     }
 }, function (block) {
     try {
-        var radius = parseVec2(block.getFieldValue("size"));
+        var radius = parseNum(block.getFieldValue("radius"));
         var center = parseVec2(block.getFieldValue("center"));
         var startAngle = parseNum(block.getFieldValue("startAngle"));
         var endAngle = parseNum(block.getFieldValue("endAngle"));
         var segments = parseNum(block.getFieldValue("segments"));
-        stack.push(circle({ radius ,center,startAngle,endAngle,segments}));
+        scope.push(circle({ radius ,center,startAngle,endAngle,segments}));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -235,7 +235,7 @@ addBlock("star1", {
         var vertices = parseNum(block.getFieldValue("startAngle"));
         var outerRadius = parseNum(block.getFieldValue("endAngle"));
        
-        stack.push(star({ vertices,outerRadius}));
+        scope.push(star({ vertices,outerRadius}));
     } catch (e) {
         statusBar.logError(e);
     }
@@ -254,7 +254,7 @@ addBlock("star1", {
         var vertices = parseNum(block.getFieldValue("startAngle"));
         var outerRadius = parseNum(block.getFieldValue("outerRadius"));
         var innerRadius = parseNum(block.getFieldValue("innerRadius"));
-        stack.push(star({ vertices,outerRadius,innerRadius}));
+        scope.push(star({ vertices,outerRadius,innerRadius}));
     } catch (e) {
         statusBar.logError(e);
     }

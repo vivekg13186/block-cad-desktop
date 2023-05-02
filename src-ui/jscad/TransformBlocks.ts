@@ -1,9 +1,9 @@
 import { transforms } from '@jscad/modeling'
 import { addBlock, addToolboxCatogery, codeGenerator } from "./blocks";
-import {stack} from "./eval";
+import { scope } from './Scope';
 import * as Blockly from "blockly";
 import { statusBar } from "../widgets/Statusbar";
-import {parseNum,parseVec3,parseVec2,parseVec3or2} from "./util";
+import {getValue, generateStatements, getArgs} from "./util";
 
 var toolbox = addToolboxCatogery("Transforms");
 
@@ -33,15 +33,11 @@ addBlock("transform", {
         var arg = [["pos", "[10,10,10]"]];
         setupBlock(this, "Transform", arg);
     }
-}, function (block) {
+}, async function (block)  {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var pos = parseVec3or2(block.getFieldValue("pos"));
-        var args = stack;
-        console.log("transfomr",args);
-        var t = transforms.translate(pos,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        var pos = await getValue(block,"pos");
+        var t = transforms.translate(pos,...generateStatements(block));
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -55,14 +51,13 @@ addBlock("rotate", {
         var arg = [["angle", "[10,10,10]"]];
         setupBlock(this, "Rotate", arg);
     }
-}, function (block) {
+}, async function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var angle = parseVec3or2(block.getFieldValue("angle"));
-        var args = stack;
-        var t =transforms.rotate(angle,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        
+        var angle =  await getValue(block,"angle");
+        var t =transforms.rotate(angle,...generateStatements(block));
+        
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
@@ -76,17 +71,248 @@ addBlock("scale", {
         var arg = [["factor", "[10,10,10]"]];
         setupBlock(this, "Scale", arg);
     }
-}, function (block) {
+}, async function (block) {
     try{
-        codeGenerator.statementToCode(block, "statements");
-        var factor = parseVec3or2(block.getFieldValue("factor"));
-        var args = stack;
-        var t = transforms.scale(factor,...args);
-        stack.splice(0,stack.length);
-        stack.push(t);
+        
+        var factor =  await getValue(block,"factor");
+        var t = transforms.scale(factor,...generateStatements(block));
+        
+        scope.push(t);
     }catch(e){
         statusBar.logError(e);
     }
     
     return "";
 });
+
+toolbox.contents.push({ "kind": "block", "type": "align" });
+addBlock("align", {
+    init: function () {
+        var arg = [["modes", "['min', 'none', 'none']"]];
+        setupBlock(this, "Align", arg);
+    }
+},async function (block) {
+    try{
+        
+        var modes =  await getValue(block,"modes");
+        var t = transforms.align({modes},...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "align2" });
+addBlock("align2", {
+    init: function () {
+        var arg = [["modes", "['min', 'none', 'none']"],["relativeTo","[10, null, 10]"],["grouped","true"]];
+        setupBlock(this, "Align", arg);
+    }
+}, async function (block) {
+    try{
+        var args = await getArgs(block,["modes","relativeTo","grouped"]);
+        var t = transforms.align(args,...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "center1" });
+addBlock("center1", {
+    init: function () {
+        var arg = [["axes", "[true,true,false]"]];
+        setupBlock(this, "Center", arg);
+    }
+}, async function (block) {
+    try{
+        
+        var axes = await getValue(block,"axes");
+        var t = transforms.center({axes},...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "centerX" });
+addBlock("centerX", {
+    init: function () {
+        var arg = [];
+        setupBlock(this, "Center X", arg);
+    }
+}, function (block) {
+    try{
+        var t = transforms.centerX(...generateStatements(block));
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "centerY" });
+addBlock("centerY", {
+    init: function () {
+        var arg = [];
+        setupBlock(this, "Center Y", arg);
+    }
+}, function (block) {
+    try{
+        
+        var t = transforms.centerY(...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "centerZ" });
+addBlock("centerZ", {
+    init: function () {
+        var arg = [];
+        setupBlock(this, "Center Z", arg);
+    }
+}, function (block) {
+    try{
+        
+        var t = transforms.centerZ(...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "center2" });
+addBlock("center2", {
+    init: function () {
+        var arg = [["axes", "[true,true,false]"],["relativeTo","[0,0,0]"]];
+        setupBlock(this, "Center", arg);
+    }
+}, async function (block) {
+    try{
+        var args  = await getArgs(block,["axes","relativeTo"])
+        var t = transforms.center(args,...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+
+toolbox.contents.push({ "kind": "block", "type": "mirrorX" });
+addBlock("mirrorX", {
+    init: function () {
+        var arg = [];
+        setupBlock(this, "Mirror X", arg);
+    }
+}, function (block) {
+    try{
+        
+        var t = transforms.mirrorX(...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "mirrorY" });
+addBlock("mirrorY", {
+    init: function () {
+        var arg = [];
+        setupBlock(this, "Mirror Y", arg);
+    }
+}, function (block) {
+    try{
+        
+        var t = transforms.mirrorY(...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+toolbox.contents.push({ "kind": "block", "type": "mirrorZ" });
+addBlock("mirrorZ", {
+    init: function () {
+        var arg = [];
+        setupBlock(this, "Mirror Z", arg);
+    }
+}, function (block) {
+    try{
+        
+        var t = transforms.mirrorZ(...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+
+toolbox.contents.push({ "kind": "block", "type": "mirror1" });
+addBlock("mirror1", {
+    init: function () {
+        var arg = [["origin", "[3,3,3]"]];
+        setupBlock(this, "Origin", arg);
+    }
+}, async function (block) {
+    try{
+        
+        var args  = await getArgs(block,["origin"])
+        var t = transforms.mirror(args,...generateStatements(block));
+        
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
+
+toolbox.contents.push({ "kind": "block", "type": "mirror2" });
+addBlock("mirror2", {
+    init: function () {
+        var arg = [["origin", "[3,3,3]"],["normal","[1, 0, 1]"]];
+        setupBlock(this, "Origin", arg);
+    }
+}, async function (block) {
+    try{
+        var args  = await getArgs(block,["origin","normal"])
+        var t = transforms.mirror(args,...generateStatements(block));
+        scope.push(t);
+    }catch(e){
+        statusBar.logError(e);
+    }
+    
+    return "";
+});
+
