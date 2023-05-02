@@ -1,0 +1,857 @@
+{
+    "Primitives 2D": {
+        "id": "primitive_2d",
+        "blocks": {
+            "rectangle1": {
+                "title": "Rectangle",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec2",
+                        "value": "[3, 4]"
+                    }
+                ]
+            },
+            "rectangle2": {
+                "title": "Rectangle",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec2",
+                        "value": "[3, 4]"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec2",
+                        "value": "[5, 5]"
+                    }
+                ]
+            },
+            "square1": {
+                "title": "Square",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "num",
+                        "value": "3"
+                    }
+                ]
+            },
+            "square2": {
+                "title": "Square",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "num",
+                        "value": "3"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec2",
+                        "value": "[5,5]"
+                    }
+                ]
+            },
+            "roundedRectangle1": {
+                "title": "Rounded Rectangle",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec2",
+                        "value": "[10, 20]"
+                    }
+                ]
+            },
+            "roundedRectangle2": {
+                "title": "Rounded Rectangle",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec2",
+                        "value": "[10, 20]"
+                    },
+                    {
+                        "name": "roundRadius",
+                        "type": "num",
+                        "value": "2"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec2",
+                        "value": "[5, 5]"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "64"
+                    }
+                ]
+            },
+            "ellipse1": {
+                "title": "Ellipse",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "vec2",
+                        "value": "[10, 20]"
+                    }
+                ]
+            },
+            "ellipse2": {
+                "title": "Ellipse",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "vec2",
+                        "value": "[10, 20]"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec2",
+                        "value": "[10, 20]"
+                    },
+                    {
+                        "name": "startAngle",
+                        "type": "num",
+                        "value": "1.57"
+                    },
+                    {
+                        "name": "endAngle",
+                        "type": "num",
+                        "value": "1.5"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "64"
+                    }
+                ]
+            },
+            "circle1": {
+                "title": "Circle",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "circle2": {
+                "title": "Circle",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "2"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec2",
+                        "value": "[10, 20]"
+                    },
+                    {
+                        "name": "startAngle",
+                        "type": "num",
+                        "value": "1.57"
+                    },
+                    {
+                        "name": "endAngle",
+                        "type": "num",
+                        "value": "1.5"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "64"
+                    }
+                ]
+            },
+            "star1": {
+                "title": "Star",
+                "arg": [
+                    {
+                        "name": "vertices",
+                        "type": "num",
+                        "value": "8"
+                    },
+                    {
+                        "name": "outerRadius",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "star2": {
+                "title": "Star",
+                "arg": [
+                    {
+                        "name": "vertices",
+                        "type": "num",
+                        "value": "8"
+                    },
+                    {
+                        "name": "outerRadius",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "innerRadius",
+                        "type": "num",
+                        "value": "20"
+                    }
+                ]
+            }
+        }
+    },
+    "Primitives 3D": {
+        "id": "primitive_3d",
+        "blocks": {
+            "cuboid1": {
+                "title": "Cuboid",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    }
+                ]
+            },
+            "cuboid2": {
+                "title": "Cuboid",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    }
+                ]
+            },
+            "cube1": {
+                "title": "Cube",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "cube2": {
+                "title": "Cube",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    }
+                ]
+            },
+            "roundedCuboid1": {
+                "title": "Cube",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "roundRadius",
+                        "type": "num",
+                        "value": "0.25"
+                    }
+                ]
+            },
+            "roundedCuboid2": {
+                "title": "Cube",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "roundRadius",
+                        "type": "num",
+                        "value": "0.25"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "32"
+                    }
+                ]
+            },
+            "ellipsoid1": {
+                "title": "Ellipsoid",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    }
+                ]
+            },
+            "ellipsoid2": {
+                "title": "Ellipsoid",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "64"
+                    }
+                ]
+            },
+            "sphere1": {
+                "title": "Sphere",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "3.5"
+                    }
+                ]
+            },
+            "sphere2": {
+                "title": "Sphere",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "64"
+                    }
+                ]
+            },
+            "geodesicSphere": {
+                "title": "geodesicSphere",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "3.5"
+                    },
+                    {
+                        "name": "frequency",
+                        "type": "num",
+                        "value": "18"
+                    }
+                ]
+            },
+            "cylinder1": {
+                "title": "Cyinder",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "3.5"
+                    },
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "cylinder2": {
+                "title": "Cylinder",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "3.5"
+                    },
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "64"
+                    }
+                ]
+            },
+            "cylinderElliptic": {
+                "title": "Cylinder Elliptic",
+                "arg": [
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "3.5"
+                    },
+                    {
+                        "name": "startRadius",
+                        "type": "vec2",
+                        "value": "[10,5]"
+                    },
+                    {
+                        "name": "endRadius",
+                        "type": "vec2",
+                        "value": "[8,3]"
+                    }
+                ]
+            },
+            "roundedCylinder1": {
+                "title": "Rounded Cylinder",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "5"
+                    },
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "roundRadius",
+                        "type": "num",
+                        "value": "0.5"
+                    }
+                ]
+            },
+            "roundedCylinder2": {
+                "title": "Rounded Cylinder",
+                "arg": [
+                    {
+                        "name": "radius",
+                        "type": "num",
+                        "value": "5"
+                    },
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "roundRadius",
+                        "type": "num",
+                        "value": "0.5"
+                    },
+                    {
+                        "name": "center",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "64"
+                    }
+                ]
+            },
+            "torus1": {
+                "title": "Torus",
+                "arg": [
+                    {
+                        "name": "innerRadius",
+                        "type": "num",
+                        "value": "5"
+                    },
+                    {
+                        "name": "outerRadius",
+                        "type": "num",
+                        "value": "100"
+                    }
+                ]
+            },
+            "torus2": {
+                "title": "Rounded Cylinder",
+                "arg": [
+                    {
+                        "name": "innerRadius",
+                        "type": "num",
+                        "value": "5"
+                    },
+                    {
+                        "name": "innerRotation",
+                        "type": "num",
+                        "value": "0"
+                    },
+                    {
+                        "name": "innerSegments",
+                        "type": "num",
+                        "value": "32"
+                    },
+                    {
+                        "name": "outerRadius",
+                        "type": "num",
+                        "value": "100"
+                    },
+                    {
+                        "name": "startAngle",
+                        "type": "num",
+                        "value": "0"
+                    },
+                    {
+                        "name": "outerSegments",
+                        "type": "num",
+                        "value": "32"
+                    },
+                    {
+                        "name": "outerRotation",
+                        "type": "num",
+                        "value": "6.28"
+                    }
+                ]
+            }
+        }
+    },
+    "Transforms": {
+        "id": "transform",
+        "blocks": {
+            "transform": {
+                "title": "Transform",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "pos",
+                        "type": "vec3",
+                        "value": "[3, 4,5]"
+                    }
+                ]
+            },
+            "rotate": {
+                "title": "Rotate",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "angle",
+                        "type": "vec3",
+                        "value": "[3, 4,5]"
+                    }
+                ]
+            },
+            "scale": {
+                "title": "Scale",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "factor",
+                        "type": "vec3",
+                        "value": "[3, 4,5]"
+                    }
+                ]
+            },
+            "align1": {
+                "title": "Align",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "modes",
+                        "type": "svec3",
+                        "value": "[3, 4,5]"
+                    }
+                ]
+            },
+            "align2": {
+                "title": "Align",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "modes",
+                        "type": "svec3",
+                        "value": "[3, 4,5]"
+                    },
+                    {
+                        "name": "relativeTo",
+                        "type": "nvec3",
+                        "value": "[10,null,10]"
+                    },
+                    {
+                        "name": "grouped",
+                        "type": "bool",
+                        "value": "false"
+                    }
+                ]
+            },
+            "center1": {
+                "title": "Center",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "axes",
+                        "type": "bvec3",
+                        "value": "[true,true,false]"
+                    }
+                ]
+            },
+            "center2": {
+                "title": "Center",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "axes",
+                        "type": "bvec3",
+                        "value": "[true,true,false]"
+                    },
+                    {
+                        "name": "relativeTo",
+                        "type": "vec3",
+                        "value": "[0,0,0]"
+                    }
+                ]
+            },
+            "centerX": {
+                "title": "Center X",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "centerY": {
+                "title": "Center Y",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "centerZ": {
+                "title": "Center Z",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "mirrorX": {
+                "title": "Mirror X",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "mirrorY": {
+                "title": "Mirror Y",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "mirrorZ": {
+                "title": "Mirror Z",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "mirror1": {
+                "title": "Mirror",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "origin",
+                        "type": "vec3",
+                        "value": "[3,3,3]"
+                    }
+                ]
+            },
+            "mirror2": {
+                "title": "Mirror",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "origin",
+                        "type": "vec3",
+                        "value": "[3,3,3]"
+                    },
+                    {
+                        "name": "normal",
+                        "type": "vec3",
+                        "value": "[1,0,1]"
+                    }
+                ]
+            }
+        }
+    },
+    "Operations": {
+        "id": "operations",
+        "blocks": {
+            "union": {
+                "title": "Union",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "intersect": {
+                "title": "Intersect",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "subtract": {
+                "title": "Subtract",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "hull": {
+                "title": "Hull",
+                "isStatementBlock": true,
+                "arg": []
+            },
+            "hullChain": {
+                "title": "Hull Chain",
+                "isStatementBlock": true,
+                "arg": []
+            }
+        }
+    },
+    "Extrusions": {
+        "id": "extrusions",
+        "blocks": {
+            "linear_extrude1": {
+                "title": "Linear Extrude",
+                "arg": [
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "linear_extrude2": {
+                "title": "Linear Extrude",
+                "arg": [
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "twistAngle",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "twistSteps",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "rectangular_extrude": {
+                "title": "Rectangular Extrude",
+                "arg": [
+                    {
+                        "name": "size",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "height",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "rotate_extrude": {
+                "title": "Rotate Extrude",
+                "arg": [
+                    {
+                        "name": "startAngle",
+                        "type": "num",
+                        "value": "10"
+                    },
+                    {
+                        "name": "angle",
+                        "type": "num",
+                        "value": "1.65"
+                    },{
+                        "name": "overflow",
+                        "type": "str",
+                        "value": "cap"
+                    },{
+                        "name": "segments",
+                        "type": "num",
+                        "value": "12"
+                    }
+                ]
+            },
+            "project": {"title": "Project",
+            "arg": [
+                {
+                    "name": "axis",
+                    "type": "vec3",
+                    "value": "[0,0,1]"
+                },
+                {
+                    "name": "origin",
+                    "type": "vec3",
+                    "value": "[0,0,0]"
+                } 
+            ]}
+        }
+    },
+    "Expansions":{
+        "id" :"expansions",
+        "blocks":{
+            "expand":{
+                "title" : "Expand",
+                "arg": [
+                    {
+                        "name": "delta",
+                        "type": "num",
+                        "value": "11"
+                    },
+                    {
+                        "name": "corners",
+                        "type": "str",
+                        "value": "edge"
+                    }, {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "16"
+                    }
+                ]
+            
+            },
+            "offset":{
+                "title" : "Offset",
+                "arg": [
+                    {
+                        "name": "delta",
+                        "type": "num",
+                        "value": "11"
+                    },
+                    {
+                        "name": "corners",
+                        "type": "str",
+                        "value": "edge"
+                    }, {
+                        "name": "segments",
+                        "type": "num",
+                        "value": "16"
+                    }
+                ]
+            
+            }
+        }
+    }
+}

@@ -6,16 +6,17 @@ import "./app.css"
  
 import {BlocklyEditor} from "./BlockEditor";
 import DarkTheme from '@blockly/theme-dark';
-import {getBlocks,getToolbox,getCodeGenerator} from './jscad/blocks';
-import "./jscad/Primitives3D";
-import "./jscad/TransformBlocks";
-import "./jscad/OperationsBlocks";
-import "./jscad/Primitives2D";
+import {getBlocks,getToolbox,getCodeGenerator, load_blocks} from './jscad/blocks';
+//import "./jscad/Primitives3D";
+//import "./jscad/TransformBlocks";
+//import "./jscad/OperationsBlocks";
+//import "./jscad/Primitives2D";
 //import "./jscad/OtherBlocks";
-import "./jscad/ExtrusionsBlocks";
-import "./jscad/ExpansionBlocks";
+//import "./jscad/ExtrusionsBlocks";
+//import "./jscad/ExpansionBlocks";
 import { renderAction,initAction } from "./actions";
 
+load_blocks();
 var blockEditor = new BlocklyEditor(getBlocks(),getToolbox(),getCodeGenerator(),DarkTheme,document.getElementById("block-area") as HTMLDivElement);
 
 Split(['.left', '.right'], {

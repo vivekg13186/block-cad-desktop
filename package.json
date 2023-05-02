@@ -24,6 +24,7 @@
     "@tweenjs/tween.js": "^19.0.0",
     "axios": "^1.3.5",
     "blockly": "^9.3.2",
+    "lodash": "^4.17.21",
     "mozjexl": "^1.1.6",
     "split.js": "^1.6.5",
     "three": "^0.151.3",
