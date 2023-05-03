@@ -8,7 +8,7 @@ import {BlocklyEditor} from "./BlockEditor";
 import DarkTheme from '@blockly/theme-dark';
 import {getBlocks,getToolbox,getCodeGenerator, load_blocks} from './jscad/blocks';
  
-import { renderAction,initAction } from "./actions";
+import { renderAction,initAction, saveAsFileAction, openFileAction } from "./actions";
 
 load_blocks();
 var blockEditor = new BlocklyEditor(getBlocks(),getToolbox(),getCodeGenerator(),DarkTheme,document.getElementById("block-area") as HTMLDivElement);
@@ -30,6 +30,14 @@ var toolbar = new Toolbar(t1,  function handleAction(cmd){
     console.log(cmd);
     if(cmd=="render"){
          renderAction();
+    }else if(cmd=="save"){
+        saveAsFileAction(blockEditor.getBlocklyCode());
+    }else if(cmd=="open"){
+        openFileAction(function(code){
+            blockEditor.setBlocklyCode(code);
+        })
+    }else if(cmd=="new"){
+        blockEditor.resetEditor();
     }
     
 });

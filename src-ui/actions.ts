@@ -1,7 +1,6 @@
 import { BlocklyEditor } from "./BlockEditor";
 import { saveToFile, saveToNewFile, openFile } from "./file";
 import { objSerializer } from "@jscad/io"
-import * as THREE from "three";
 
 
 import { statusBar } from "./widgets/Statusbar";
@@ -23,7 +22,7 @@ export function initAction(be: BlocklyEditor, gv: GLViewer) {
 export function saveFileAction(code: string) {
     if (current_filename) {
         saveToFile(current_filename, code).then(function () {
-            statusBar.setStatus(`${current_filename} saved`, "error", 0);
+            statusBar.setStatus(`${current_filename} saved`, "info", 0);
         }).catch(function (e) {
             statusBar.setStatus(`Error while saving file`, "error", 0);
         });
@@ -31,7 +30,7 @@ export function saveFileAction(code: string) {
         saveToNewFile(code).then(function (filename) {
             if (filename) {
                 current_filename = filename;
-                statusBar.setStatus(`${current_filename} saved`, "error", 0);
+                statusBar.setStatus(`${current_filename} saved`, "infoe", 0);
             }
         }).catch(function (e) {
             statusBar.setStatus(`Error while saving file ${current_filename}`, "error", 0);
@@ -45,7 +44,7 @@ export function saveAsFileAction(code: string) {
     saveToNewFile(code).then(function (filename) {
         if (filename) {
             current_filename = filename;
-            statusBar.setStatus(`${current_filename} saved`, "error", 0);
+            statusBar.setStatus(`${current_filename} saved`, "info", 0);
         }
     }).catch(function (e) {
         statusBar.setStatus(`Error while saving file ${current_filename}`, "error", 0);

@@ -50,7 +50,7 @@ export class BlocklyEditor{
         Blockly.serialization.workspaces.load({},this.workspace);
     }
     getBlocklyCode(){
-        return Blockly.serialization.workspaces.save(this.workspace);
+        return JSON.stringify(Blockly.serialization.workspaces.save(this.workspace));
     }
     
     setBlocklyCode(data:string){

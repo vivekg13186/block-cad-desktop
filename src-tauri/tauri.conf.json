@@ -45,7 +45,7 @@
         "removeFile": true,
         "renameFile": true,
         "exists": true,
-        "scope": ["$APP/*", "$DESKTOP/*","%TEMP/*"]
+        "scope": ["$APP/*", "$DESKTOP/*","%TEMP/*","/*"]
       },
       "path": {
         "all": true
