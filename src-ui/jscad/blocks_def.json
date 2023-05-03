@@ -728,6 +728,7 @@
         "blocks": {
             "linear_extrude1": {
                 "title": "Linear Extrude",
+                "isStatementBlock": true,
                 "arg": [
                     {
                         "name": "height",
@@ -738,6 +739,7 @@
             },
             "linear_extrude2": {
                 "title": "Linear Extrude",
+                "isStatementBlock": true,
                 "arg": [
                     {
                         "name": "height",
@@ -758,6 +760,7 @@
             },
             "rectangular_extrude": {
                 "title": "Rectangular Extrude",
+                "isStatementBlock": true,
                 "arg": [
                     {
                         "name": "size",
@@ -773,6 +776,7 @@
             },
             "rotate_extrude": {
                 "title": "Rotate Extrude",
+                "isStatementBlock": true,
                 "arg": [
                     {
                         "name": "startAngle",
@@ -795,6 +799,7 @@
                 ]
             },
             "project": {"title": "Project",
+            "isStatementBlock": true,
             "arg": [
                 {
                     "name": "axis",

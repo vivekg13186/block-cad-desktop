@@ -62,6 +62,7 @@ export function addToolboxCatogery(name: string) {
 
 
 import * as blocks_def from "./blocks_def.json";
+import { Command, scope } from "./Scope";
 
 var blocks_hashmap = {};
 function block_init_wrapper(){
@@ -91,7 +92,21 @@ function block_init_wrapper(){
 
 function code_gen_wrapper(block){
     var blk_id = this.type;
-    console.log("code_gen_for",blk_id);
+    var blk_def = blocks_hashmap[blk_id];
+    var arg_value = {};
+    _.forEach(blk_def.arg,function(v){
+         arg_value[v.name]=block.getFieldValue(v.name);
+    })
+    var statements=[];
+    if(blk_def.isStatementBlock){
+        scope.newScope();
+        codeGenerator.statementToCode(block, "statements");
+        statements = scope.scopeItem.items;
+        scope.popScope();
+    }
+    var cmd = new Command(blk_id,arg_value,statements,blk_def);
+    scope.push(cmd);
+    return "null";
 }
 export function load_blocks(){
     _.forEach(blocks_def, function(cat, cat_id) {
