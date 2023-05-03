@@ -1,25 +1,54 @@
-import { Command } from "./Scope";
+import { Command, scope } from "./Scope";
 import * as jscad from "@jscad/modeling";
 import * as _ from "lodash"
+import mozjexl from 'mozjexl';
 
-function evalA(txt) {
-    return JSON.parse(txt);
+async function  evalA(txt) {
+    return mozjexl.eval(txt,scope.context);
 }
 
-function evalStatements(st) {
+async function evalStatements(st) {
     var result = [];
     if (!st) return;
-    st.map(s => {
-        result.push(convertToJSCAD(s));
-    })
+    for(var i=0;i<st.length;i++){
+        var s = await convertToJSCAD(st[i]);
+        if(s){
+            result.push(s);
+        }
+    }
+  
     return result;
 }
-export function convertToJSCAD(cmd: Command) {
-    var args = {};
-    _.forEach(cmd.args, function (v, key) {
-        args[key] = evalA(v);
-    })
+export async function convertToJSCAD(cmd: Command) {
 
+
+    if(cmd.id=="var"){
+        scope.setVar(cmd.args["name"],await evalA(cmd.args["="]));
+        return null;
+    }else if(cmd.id=="if"){
+        var truth  = await evalA(cmd.args['condition']);
+        if(truth){
+            return await evalStatements(cmd.children);
+        }
+    }else if(cmd.id== "for"){
+        var index_name = cmd.args['var'];
+        var start   = await evalA(cmd.args['start']);
+        var step   = await evalA(cmd.args['step']);
+        var end   = await evalA(cmd.args['end']);
+        var result = [];
+        for(var i=start;i<end;){
+            scope.setVar(index_name,i);
+            result.push(await evalStatements(cmd.children));
+            i+=step;
+        }
+        return result;
+    }
+    var args = {};
+    for(var k in cmd.args){
+        args[k] = await evalA(cmd.args[k]);
+    }
+    
+   console.log(cmd.id,args);
     switch (cmd.id) {
         case "rectangle1":
         case "rectangle2":
@@ -68,56 +97,56 @@ export function convertToJSCAD(cmd: Command) {
         case "torus2":
             return jscad.primitives.torus(args);
         case "transform":
-            return jscad.transforms.translate(args["pos"], evalStatements(cmd.children));
+            return jscad.transforms.translate(args["pos"], await evalStatements(cmd.children));
         case "rotate":
-            return jscad.transforms.translate(args["angle"], evalStatements(cmd.children));
+            return jscad.transforms.translate(args["angle"], await evalStatements(cmd.children));
         case "scale":
-            return jscad.transforms.translate(args["factor"], evalStatements(cmd.children));
+            return jscad.transforms.translate(args["factor"],await  evalStatements(cmd.children));
         case "align1":
         case "align2":
-            return jscad.transforms.align(args, evalStatements(cmd.children));
+            return jscad.transforms.align(args, await evalStatements(cmd.children));
         case "center1":
         case "center2":
-            return jscad.transforms.center(args, evalStatements(cmd.children));
+            return jscad.transforms.center(args, await evalStatements(cmd.children));
         case "centerX":
-            return jscad.transforms.centerX(evalStatements(cmd.children));
+            return jscad.transforms.centerX(await evalStatements(cmd.children));
         case "centerY":
-            return jscad.transforms.centerY(evalStatements(cmd.children));
+            return jscad.transforms.centerY(await evalStatements(cmd.children));
         case "centerZ":
-            return jscad.transforms.centerZ(evalStatements(cmd.children));
+            return jscad.transforms.centerZ(await evalStatements(cmd.children));
         case "mirrorX":
-            return jscad.transforms.mirrorX(evalStatements(cmd.children));
+            return jscad.transforms.mirrorX(await evalStatements(cmd.children));
         case "mirrorY":
-            return jscad.transforms.mirrorY(evalStatements(cmd.children));
+            return jscad.transforms.mirrorY(await evalStatements(cmd.children));
         case "mirrorZ":
-            return jscad.transforms.mirrorZ(evalStatements(cmd.children));
+            return jscad.transforms.mirrorZ(await evalStatements(cmd.children));
         case "mirror1":
         case "mirror2":
-            return jscad.transforms.mirror(args, evalStatements(cmd.children));
+            return jscad.transforms.mirror(args,await  evalStatements(cmd.children));
         case "union":
-            return jscad.booleans.union(evalStatements(cmd.children));
+            return jscad.booleans.union(await evalStatements(cmd.children));
         case "intersect":
-            return jscad.booleans.intersect(evalStatements(cmd.children));
+            return jscad.booleans.intersect(await evalStatements(cmd.children));
         case "subtract":
-            return jscad.booleans.subtract(evalStatements(cmd.children));
+            return jscad.booleans.subtract(await evalStatements(cmd.children));
         case "hull":
-            return jscad.hulls.hull(evalStatements(cmd.children));
+            return jscad.hulls.hull(await evalStatements(cmd.children));
         case "hullChain":
-            return jscad.hulls.hullChain(evalStatements(cmd.children));
+            return jscad.hulls.hullChain(await evalStatements(cmd.children));
         case "linear_extrude1":
         case "linear_extrude2":
-            return jscad.extrusions.extrudeLinear(args, evalStatements(cmd.children));
+            return jscad.extrusions.extrudeLinear(args, await evalStatements(cmd.children));
         case "rectangular_extrude":
-            return jscad.extrusions.extrudeRectangular(args, evalStatements(cmd.children));
+            return jscad.extrusions.extrudeRectangular(args,await  evalStatements(cmd.children));
         case "rotate_extrude":
-            return jscad.extrusions.extrudeRotate(args, evalStatements(cmd.children)[0]);
+            return jscad.extrusions.extrudeRotate(args,(await  evalStatements(cmd.children))[0]);
         case "project":
-            return jscad.extrusions.project(args, evalStatements(cmd.children)[0]);
+            return jscad.extrusions.project(args,(await  evalStatements(cmd.children))[0]);
         case "expand":
-            return jscad.expansions.expand(args, evalStatements(cmd.children)[0]);
+            return jscad.expansions.expand(args,(await  evalStatements(cmd.children))[0]);
         case "offset":
-            return jscad.expansions.offset(args, evalStatements(cmd.children)[0]);
-
-
+            return jscad.expansions.offset(args,(await  evalStatements(cmd.children))[0]);
+        
+        
     }
 }

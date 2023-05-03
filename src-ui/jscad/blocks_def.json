@@ -1,4 +1,61 @@
 {
+    "Logic": {
+        "id": "logic",
+        "blocks": {
+            "var": {
+                "title": "var",
+                "arg": [
+                    {
+                        "name": "name",
+                        "type": "str",
+                        "value": "a"
+                    },
+                    {
+                        "name": "=",
+                        "type": "str",
+                        "value": "0"
+                    }
+                ]
+            },
+            "for": {
+                "title": "for",
+                "isStatementBlock":true,
+                "arg": [
+                    {
+                        "name": "var",
+                        "type": "str",
+                        "value": "a"
+                    },
+                    {
+                        "name": "start",
+                        "type": "num",
+                        "value": "0"
+                    },
+                    {
+                        "name": "step",
+                        "type": "num",
+                        "value": "1"
+                    },
+                    {
+                        "name": "end",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "if": {
+                "title": "if",
+                "isStatementBlock":true,
+                "arg": [
+                    {
+                        "name": "condition",
+                        "type": "str",
+                        "value": "a>10"
+                    }
+                ]
+            }
+        }
+    },
     "Primitives 2D": {
         "id": "primitive_2d",
         "blocks": {
@@ -787,38 +844,42 @@
                         "name": "angle",
                         "type": "num",
                         "value": "1.65"
-                    },{
+                    },
+                    {
                         "name": "overflow",
                         "type": "str",
                         "value": "cap"
-                    },{
+                    },
+                    {
                         "name": "segments",
                         "type": "num",
                         "value": "12"
                     }
                 ]
             },
-            "project": {"title": "Project",
-            "isStatementBlock": true,
-            "arg": [
-                {
-                    "name": "axis",
-                    "type": "vec3",
-                    "value": "[0,0,1]"
-                },
-                {
-                    "name": "origin",
-                    "type": "vec3",
-                    "value": "[0,0,0]"
-                } 
-            ]}
+            "project": {
+                "title": "Project",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "axis",
+                        "type": "vec3",
+                        "value": "[0,0,1]"
+                    },
+                    {
+                        "name": "origin",
+                        "type": "vec3",
+                        "value": "[0,0,0]"
+                    }
+                ]
+            }
         }
     },
-    "Expansions":{
-        "id" :"expansions",
-        "blocks":{
-            "expand":{
-                "title" : "Expand",
+    "Expansions": {
+        "id": "expansions",
+        "blocks": {
+            "expand": {
+                "title": "Expand",
                 "arg": [
                     {
                         "name": "delta",
@@ -829,16 +890,16 @@
                         "name": "corners",
                         "type": "str",
                         "value": "edge"
-                    }, {
+                    },
+                    {
                         "name": "segments",
                         "type": "num",
                         "value": "16"
                     }
                 ]
-            
             },
-            "offset":{
-                "title" : "Offset",
+            "offset": {
+                "title": "Offset",
                 "arg": [
                     {
                         "name": "delta",
@@ -849,13 +910,13 @@
                         "name": "corners",
                         "type": "str",
                         "value": "edge"
-                    }, {
+                    },
+                    {
                         "name": "segments",
                         "type": "num",
                         "value": "16"
                     }
                 ]
-            
             }
         }
     }

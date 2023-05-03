@@ -7,13 +7,7 @@ import "./app.css"
 import {BlocklyEditor} from "./BlockEditor";
 import DarkTheme from '@blockly/theme-dark';
 import {getBlocks,getToolbox,getCodeGenerator, load_blocks} from './jscad/blocks';
-//import "./jscad/Primitives3D";
-//import "./jscad/TransformBlocks";
-//import "./jscad/OperationsBlocks";
-//import "./jscad/Primitives2D";
-//import "./jscad/OtherBlocks";
-//import "./jscad/ExtrusionsBlocks";
-//import "./jscad/ExpansionBlocks";
+ 
 import { renderAction,initAction } from "./actions";
 
 load_blocks();
@@ -32,10 +26,10 @@ var t1=null;
 
 t1 = document.getElementById("toolbar");
 if(t1){
-var toolbar = new Toolbar(t1,function handleAction(cmd){
+var toolbar = new Toolbar(t1,  function handleAction(cmd){
     console.log(cmd);
     if(cmd=="render"){
-        renderAction();
+         renderAction();
     }
     
 });

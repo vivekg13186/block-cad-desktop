@@ -20,7 +20,7 @@ export class Toolbar{
         this.root.appendChild(element);
     }
     click(command:string){
-        this.callback(command);
+         this.callback(command);
     }
 
 }

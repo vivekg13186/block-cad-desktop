@@ -1,6 +1,5 @@
 import { BlocklyEditor } from "./BlockEditor";
 import { saveToFile, saveToNewFile, openFile } from "./file";
-import { stack } from "./jscad/eval";
 import { objSerializer } from "@jscad/io"
 import * as THREE from "three";
 
@@ -65,7 +64,7 @@ export function openFileAction(callback) {
     })
 }
 
-export function renderAction() {
+export  async function renderAction() {
 
     try {
         scope.reset();
@@ -74,13 +73,20 @@ export function renderAction() {
         scope.scopeItem.items.map(si => {
             console.log(si.toJSON());
         })
-        scope.scopeItem.items.map(si => {
-            console.log()
-            const jscadObj = convertToJSCAD(si);
-            const rawData = objSerializer.serialize({}, jscadObj);
-            const blob = new Blob(rawData);
-            glViewer.updateBlobObj(blob);
-        })
+        for(var i=0;i< scope.scopeItem.items.length;i++){
+            var si = scope.scopeItem.items[i];
+            const jscadObj = await convertToJSCAD(si);
+            if (jscadObj != null) {
+                var objs = jscadObj.length?jscadObj:[jscadObj];
+                for(var i=0;i<objs.length;i++){
+                    const rawData = objSerializer.serialize({}, objs[i]);
+                    const blob = new Blob(rawData);
+                    glViewer.updateBlobObj(blob);
+                }
+                
+            }
+        }
+       
 
         statusBar.setStatus(`render completed`, "info", 0);
     } catch (e) {

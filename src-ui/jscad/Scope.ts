@@ -48,9 +48,11 @@ class ScopeItem{
 }
 export class Scope{
     scopeItem: ScopeItem;
+    context:{};
 
     constructor(){
         this.scopeItem=new ScopeItem(null);
+        this.context={};
     }
     newScope(){
         this.scopeItem=new ScopeItem(this.scopeItem);
@@ -63,6 +65,9 @@ export class Scope{
     }
     reset(){
         this.scopeItem=new ScopeItem(null);
+    }
+    setVar(name,value){
+        this.context[name]=value;
     }
 }
 
