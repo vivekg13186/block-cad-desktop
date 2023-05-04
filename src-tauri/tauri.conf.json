@@ -3,12 +3,12 @@
     "beforeDevCommand": "",
     "beforeBuildCommand": "",
     "devPath": "http://localhost:1234",
-    "distDir": "../src",
+    "distDir": "../dist",
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "block-cad-desktop",
-    "version": "0.0.0"
+    "productName": "Block CAD",
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {

@@ -25,3 +25,6 @@ dist-ssr
 .parcel-cache
 .vscode
 yarn.lock
+
+
+dist
