@@ -390,7 +390,7 @@
                     {
                         "name": "radius",
                         "type": "num",
-                        "value": "3.5"
+                        "value": "5"
                     }
                 ]
             },
@@ -399,8 +399,8 @@
                 "arg": [
                     {
                         "name": "radius",
-                        "type": "vec3",
-                        "value": "[10,10,10]"
+                        "type": "num",
+                        "value": "5"
                     },
                     {
                         "name": "center",
@@ -617,7 +617,39 @@
                     {
                         "name": "angle",
                         "type": "vec3",
-                        "value": "[3, 4,5]"
+                        "value": "[90,0,0]"
+                    }
+                ]
+            },
+            "rotateX": {
+                "title": "Rotate X",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "angle",
+                        "type": "num",
+                        "value": "90"
+                    }
+                ]
+            },"rotateY": {
+                "title": "Rotate Y",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "angle",
+                        "type": "num",
+                        "value": "90"
+                    }
+                ]
+            },
+            "rotateZ": {
+                "title": "Rotate Z",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "angle",
+                        "type": "num",
+                        "value": "90"
                     }
                 ]
             },

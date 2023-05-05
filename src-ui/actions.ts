@@ -33,7 +33,7 @@ export function saveFileAction(code: string) {
             statusBar.setStatus(`Error while saving file`, "error", 0);
         });
     } else {
-        saveToNewFile(code).then(function (filename) {
+        saveToNewFile(code,current_filename).then(function (filename) {
             if (filename) {
                 current_filename = filename;
                 statusBar.setStatus(`${current_filename} saved`, "infoe", 0);
@@ -47,7 +47,7 @@ export function saveFileAction(code: string) {
 
 
 export function saveAsFileAction(code: string) {
-    saveToNewFile(code).then(function (filename) {
+    saveToNewFile(code,current_filename).then(function (filename) {
         if (filename) {
             current_filename = filename;
             statusBar.setStatus(`${current_filename} saved`, "info", 0);

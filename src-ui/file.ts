@@ -21,13 +21,14 @@ export async function exportSaveFilePath(){
         }]
     });
 }
-export async function  saveToNewFile (data:string) {
+export async function  saveToNewFile (data:string,defaultPath) {
     const filePath = await save({
         title: "Save B-CAD File",
         filters: [{
             name: "B-CAD file",
             extensions: ["bcad"]
-        }]
+        }],
+        defaultPath:defaultPath
     });
    if(filePath){
     await invoke('write_file',{"filepath":filePath ,content : data});
