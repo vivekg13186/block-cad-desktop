@@ -1,10 +1,11 @@
 import { Command, scope } from "./Scope";
 import * as jscad from "@jscad/modeling";
-import * as _ from "lodash"
-import mozjexl from 'mozjexl';
+import * as _ from "lodash";
+import {parse,eval} from "expression-eval";
 
 async function  evalA(txt) {
-    return mozjexl.eval(txt,scope.context);
+    var ast = parse(txt)
+    return eval(ast,scope.context);
 }
 
 async function evalStatements(st) {
