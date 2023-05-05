@@ -8,7 +8,7 @@ import {BlocklyEditor} from "./BlockEditor";
 import DarkTheme from '@blockly/theme-dark';
 import {getBlocks,getToolbox,getCodeGenerator, load_blocks} from './jscad/blocks';
  
-import { renderAction,initAction, saveAsFileAction, openFileAction } from "./actions";
+import { renderAction,initAction, saveAsFileAction, openFileAction, exportFile } from "./actions";
 
 load_blocks();
 var blockEditor = new BlocklyEditor(getBlocks(),getToolbox(),getCodeGenerator(),DarkTheme,document.getElementById("block-area") as HTMLDivElement);
@@ -38,6 +38,8 @@ var toolbar = new Toolbar(t1,  function handleAction(cmd){
         })
     }else if(cmd=="new"){
         blockEditor.resetEditor();
+    }else if(cmd=="export"){
+        exportFile();
     }
     
 });
@@ -45,7 +47,8 @@ toolbar.addIcon("new",`<span class="material-symbols-outlined">note_add</span>`,
 toolbar.addIcon("open",`<span class="material-symbols-outlined">folder_open</span>`,"Open Drawing");
 toolbar.addIcon("save",`<span class="material-symbols-outlined">save</span>`,"Save Drawing");
 toolbar.addIcon("render",`<span class="material-symbols-outlined">play_arrow</span>`,"Render Drawing");
-
+toolbar.addIcon("export",`<span class="material-symbols-outlined">upgrade</span>`,"Export to STL or OBJ");
+ 
 }
 
 var t2 = document.getElementById("viewer") as HTMLDivElement;

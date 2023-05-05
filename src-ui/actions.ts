@@ -1,6 +1,6 @@
 import { BlocklyEditor } from "./BlockEditor";
-import { saveToFile, saveToNewFile, openFile } from "./file";
-import { objSerializer } from "@jscad/io"
+import { saveToFile, saveToNewFile, openFile, exportSaveFilePath } from "./file";
+import { objSerializer,stlSerializer } from "@jscad/io"
 
 
 import { statusBar } from "./widgets/Statusbar";
@@ -14,6 +14,12 @@ var blockEditor: BlocklyEditor;
 var glViewer: GLViewer;
 
 
+
+function printScope(){
+    scope.scopeItem.items.map(si => {
+        console.log(si.toJSON());
+    })
+}
 export function initAction(be: BlocklyEditor, gv: GLViewer) {
     glViewer = gv;
     blockEditor = be;
@@ -63,30 +69,60 @@ export function openFileAction(callback) {
     })
 }
 
+async function convertToSTL(){
+    blockEditor.generateCode();
+    var jscadObjs = [];
+    for(var i=0;i< scope.scopeItem.items.length;i++){
+        var si = scope.scopeItem.items[i];
+        const jscadObj = await convertToJSCAD(si);
+        if (jscadObj != null) {
+             jscadObjs.push(jscadObj);
+        }
+    }
+    return stlSerializer.serialize({binary:false},...jscadObjs).join("\n");
+}
+
+async function convertToOBJ(){
+    blockEditor.generateCode();
+    var jscadObjs = [];
+    for(var i=0;i< scope.scopeItem.items.length;i++){
+        var si = scope.scopeItem.items[i];
+        const jscadObj = await convertToJSCAD(si);
+        if (jscadObj != null) {
+             jscadObjs.push(jscadObj);
+        }
+    }
+    return objSerializer.serialize({triangulate:true},...jscadObjs)[0];
+}
+
+export  async function exportFile() {
+    try{
+        printScope();
+        var filepath = await exportSaveFilePath();
+        if(filepath){
+            if(filepath.endsWith(".obj")){
+                var code  = await convertToOBJ();
+                saveToFile(filepath,code);
+                statusBar.setStatus(`Model exported to ${filepath}`, "info", 0);
+            }else if(filepath.endsWith(".stl")){
+                var code = await convertToSTL();
+                saveToFile(filepath,code);
+                statusBar.setStatus(`Model exported to ${filepath}`, "info", 0);
+            }
+        }
+    }catch(e){
+        statusBar.setStatus(`Error while exporting to file ${filepath} : ${e}`, "error", 0);
+    };
+}
+ 
 export  async function renderAction() {
 
     try {
         scope.reset();
         glViewer.clearScene();
         blockEditor.generateCode();
-        scope.scopeItem.items.map(si => {
-            console.log(si.toJSON());
-        })
-        for(var i=0;i< scope.scopeItem.items.length;i++){
-            var si = scope.scopeItem.items[i];
-            const jscadObj = await convertToJSCAD(si);
-            if (jscadObj != null) {
-                var objs = jscadObj.length?jscadObj:[jscadObj];
-                for(var i=0;i<objs.length;i++){
-                    const rawData = objSerializer.serialize({}, objs[i]);
-                    const blob = new Blob(rawData);
-                    glViewer.updateBlobObj(blob);
-                }
-                
-            }
-        }
-       
-
+        var code  = await convertToOBJ();
+        glViewer.updateBlobObj(code);
         statusBar.setStatus(`render completed`, "info", 0);
     } catch (e) {
         console.log(e);
@@ -96,6 +132,4 @@ export  async function renderAction() {
 }
 
 
-export function newFileAction() {
-
-}
+ 

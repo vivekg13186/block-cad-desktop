@@ -65,7 +65,7 @@ export class GLViewer {
     }
     async updateBlobObj(blob:Blob){
         
-        const blog_string = await blob.text();
+        const blog_string = blob;//await blob.text();
         console.log(blog_string);
         const mesh = loader.parse(blog_string);
         mesh.material = material;

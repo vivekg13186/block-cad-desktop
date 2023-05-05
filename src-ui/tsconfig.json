@@ -3,6 +3,7 @@
       "strictNullChecks": false,
       "noImplicitAny": false,
       "resolveJsonModule": true,
+      "lib": ["ES2021","DOM"]
     }
   }
   

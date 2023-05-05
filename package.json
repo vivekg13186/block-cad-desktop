@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "tauri": "tauri",
-    "ui-parcel": "npx parcel ./src-ui/index.html --dist-dir ./src -p 1234",
+    "parcel": "npx parcel ./src-ui/index.html --dist-dir ./src -p 1234",
     "prodd":"npx parcel build ./src-ui/index.html && yarn tauri build --debug",
     "prod":"npx parcel build ./src-ui/index.html && yarn tauri build --debug"
   },
