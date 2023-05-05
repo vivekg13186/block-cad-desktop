@@ -599,14 +599,47 @@
     "Transforms": {
         "id": "transform",
         "blocks": {
-            "transform": {
-                "title": "Transform",
+            "translate": {
+                "title": "Translate",
                 "isStatementBlock": true,
                 "arg": [
                     {
                         "name": "pos",
                         "type": "vec3",
-                        "value": "[3, 4,5]"
+                        "value": "[10,0,0]"
+                    }
+                ]
+            },
+            "translateX": {
+                "title": "Translate X",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "pos",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "translateY": {
+                "title": "Translate Y",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "pos",
+                        "type": "num",
+                        "value": "10"
+                    }
+                ]
+            },
+            "translateZ": {
+                "title": "Translate Z",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "pos",
+                        "type": "num",
+                        "value": "10"
                     }
                 ]
             },
@@ -660,7 +693,40 @@
                     {
                         "name": "factor",
                         "type": "vec3",
-                        "value": "[3, 4,5]"
+                        "value": "[2,2,2]"
+                    }
+                ]
+            },
+            "scaleX": {
+                "title": "Scale X",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "factor",
+                        "type": "num",
+                        "value": "2"
+                    }
+                ]
+            },
+            "scaleY": {
+                "title": "Scale Y",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "factor",
+                        "type": "num",
+                        "value": "2"
+                    }
+                ]
+            },
+            "scaleZ": {
+                "title": "Scale Z",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "factor",
+                        "type": "num",
+                        "value": "2"
                     }
                 ]
             },

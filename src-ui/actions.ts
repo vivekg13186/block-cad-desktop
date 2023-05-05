@@ -118,6 +118,7 @@ export  async function exportFile() {
 export  async function renderAction() {
 
     try {
+        statusBar.setStatus(`render started`, "info", 10);
         scope.reset();
         glViewer.clearScene();
         blockEditor.generateCode();

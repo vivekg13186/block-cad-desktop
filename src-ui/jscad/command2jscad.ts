@@ -98,8 +98,17 @@ export async function convertToJSCAD(cmd: Command) {
         case "torus1":
         case "torus2":
             return jscad.primitives.torus(args);
-        case "transform":
-            return jscad.transforms.translate(args["pos"], await evalStatements(cmd.children));
+        case "translate":
+            return jscad.transforms.translate(args["pos"], ... await evalStatements(cmd.children));
+        case "translateX": {
+            return jscad.transforms.translateX(args["pos"],... await evalStatements(cmd.children));
+        } 
+        case "translateY": {
+            return jscad.transforms.translateY(args["pos"],... await evalStatements(cmd.children));
+        }
+        case "translateZ": {
+            return jscad.transforms.translateZ(args["pos"],... await evalStatements(cmd.children));
+        }
         case "rotate": {
             var v = args["angle"];
             v[0] = degToRad(v[0]);
@@ -121,6 +130,15 @@ export async function convertToJSCAD(cmd: Command) {
 
         case "scale":
             return jscad.transforms.translate(args["factor"], await evalStatements(cmd.children));
+            case "scaleX": {
+                return jscad.transforms.scaleX(args["factor"], await evalStatements(cmd.children));
+            } 
+            case "scaleY": {
+                return jscad.transforms.scaleY(args["factor"], await evalStatements(cmd.children));
+            }
+            case "scaleZ": {
+                return jscad.transforms.scaleZ(args["factor"], await evalStatements(cmd.children));
+            }
         case "align1":
         case "align2":
             return jscad.transforms.align(args, await evalStatements(cmd.children));
