@@ -27,7 +27,11 @@ export async function convertToJSCAD(cmd: Command) {
     if (cmd.id == "var") {
         scope.setVar(cmd.args["name"], await evalA(cmd.args["="]));
         return null;
-    } else if (cmd.id == "if") {
+    }else if (cmd.id == "#") {
+        
+            return await evalStatements(cmd.children);
+        
+    }  else if (cmd.id == "if") {
         var truth = await evalA(cmd.args['condition']);
         if (truth) {
             return await evalStatements(cmd.children);

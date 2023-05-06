@@ -8,7 +8,7 @@ import {BlocklyEditor} from "./BlockEditor";
 import DarkTheme from '@blockly/theme-dark';
 import {getBlocks,getToolbox,getCodeGenerator, load_blocks} from './jscad/blocks';
  
-import { renderAction,initAction, saveAsFileAction, openFileAction, exportFile } from "./actions";
+import { renderAction,initAction, saveAsFileAction, openFileAction, exportFile, saveFileAction } from "./actions";
 
 load_blocks();
 var blockEditor = new BlocklyEditor(getBlocks(),getToolbox(),getCodeGenerator(),DarkTheme,document.getElementById("block-area") as HTMLDivElement);
@@ -30,7 +30,7 @@ var toolbar = new Toolbar(t1,  function handleAction(cmd){
     console.log(cmd);
     if(cmd=="render"){
          renderAction();
-    }else if(cmd=="save"){
+    }else if(cmd=="saveas"){
         saveAsFileAction(blockEditor.getBlocklyCode());
     }else if(cmd=="open"){
         openFileAction(function(code){
@@ -40,12 +40,15 @@ var toolbar = new Toolbar(t1,  function handleAction(cmd){
         blockEditor.resetEditor();
     }else if(cmd=="export"){
         exportFile();
+    }else if(cmd=="save"){
+        saveFileAction(blockEditor.getBlocklyCode());
     }
     
 });
 toolbar.addIcon("new",`<span class="material-symbols-outlined">note_add</span>`,"New Drawing");
 toolbar.addIcon("open",`<span class="material-symbols-outlined">folder_open</span>`,"Open Drawing");
 toolbar.addIcon("save",`<span class="material-symbols-outlined">save</span>`,"Save Drawing");
+toolbar.addIcon("saveas",`<span class="material-symbols-outlined">save_as</span>`,"Save As Drawing");
 toolbar.addIcon("render",`<span class="material-symbols-outlined">play_arrow</span>`,"Render Drawing");
 toolbar.addIcon("export",`<span class="material-symbols-outlined">upgrade</span>`,"Export to STL or OBJ");
  

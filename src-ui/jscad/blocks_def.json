@@ -53,6 +53,17 @@
                         "value": "a>10"
                     }
                 ]
+            },
+            "#": {
+                "title": "#",
+                "isStatementBlock":true,
+                "arg": [
+                    {
+                        "name": "",
+                        "type": "str",
+                        "value": "comment"
+                    }
+                ]
             }
         }
     },
