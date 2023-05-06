@@ -315,7 +315,7 @@
                 ]
             },
             "roundedCuboid1": {
-                "title": "Cube",
+                "title": "Rounded Cuboid",
                 "arg": [
                     {
                         "name": "size",
@@ -330,7 +330,7 @@
                 ]
             },
             "roundedCuboid2": {
-                "title": "Cube",
+                "title": "Rounded Cuboid",
                 "arg": [
                     {
                         "name": "size",
@@ -415,7 +415,7 @@
                 ]
             },
             "geodesicSphere": {
-                "title": "geodesicSphere",
+                "title": "GeodesicSphere",
                 "arg": [
                     {
                         "name": "radius",
@@ -430,7 +430,7 @@
                 ]
             },
             "cylinder1": {
-                "title": "Cyinder",
+                "title": "Cylinder",
                 "arg": [
                     {
                         "name": "radius",
