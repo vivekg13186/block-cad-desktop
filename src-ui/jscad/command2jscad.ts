@@ -184,37 +184,29 @@ export async function convertToJSCAD(cmd: Command) {
         case "offset":
             return jscad.expansions.offset(args, (await evalStatements(cmd.children))[0]);
 
-        case "hole":{
-            var pos = args["pos"];
-            var radius = args["radius"];
-            var segments= args["segments"];
-            var height = args["height"];
-            var parent = (await evalStatements(cmd.children))[0];
-            var holes_object= jscad.primitives.cylinder({center:pos,radius:radius,segments:segments,height:height});
-            return jscad.booleans.subtract(...[parent,holes_object]);
-        }
+ 
         case "grid_holes":{
             var pos = args["pos"];
-            var radius = args["radius"];
-            var segments= args["segments"];
-            var height = args["height"];
+            
             var offsetX = args["offsetX"];
             var offsetY = args["offsetY"];
             var rows = args["rows"];
             var cols = args["cols"];
-            var parent = (await evalStatements(cmd.children))[0];
+            var hole_object = (await evalStatements(cmd.children))[0];
+            var parent = (await evalStatements(cmd.children))[1];
             var holes_objects=[]
             for(var r=0;r<rows;r++){
                 for(var c = 0;c<cols;c++){
                     var x = c*offsetX;
-                    var y = r*offsetY;
-                    var cylinder = jscad.primitives.cylinder({center:pos,radius:radius,segments:segments,height:height});
-                    var holes = jscad.transforms.translate([x,y,0],cylinder);
-                    holes_objects.push(holes);
+                    var y = r*offsetY;  
+                    var hole_ref = jscad.geometries.geom3.clone(hole_object);
+                    hole_ref = jscad.transforms.translate([x,y,0],hole_ref);
+                    hole_ref=jscad.transforms.translate(pos,hole_ref);
+                    holes_objects.push(hole_ref);
                 }
             }
-           
-            return jscad.booleans.subtract(...[parent,holes_objects]);
+            var objs = [parent].concat(holes_objects);
+            return jscad.booleans.subtract(...objs);
         }
     }
 }

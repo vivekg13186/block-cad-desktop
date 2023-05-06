@@ -1021,32 +1021,7 @@
     "Holes":{
         "id" : "holes",
         "blocks":{
-            "hole":{
-                "title": "Hole",
-                "isStatementBlock":true,
-                "arg": [
-                    {
-                        "name": "pos",
-                        "type": "vec3",
-                        "value": "[10,10,10]"
-                    },
-                    {
-                        "name": "radius",
-                        "type": "num",
-                        "value": "5"
-                    },
-                    {
-                        "name": "height",
-                        "type": "num",
-                        "value": "5"
-                    },
-                    {
-                        "name": "segments",
-                        "type": "num",
-                        "value": "32"
-                    }
-                ]
-            }, 
+          
             "grid_holes":{
                 "title": "Grid Hole",
                 "isStatementBlock":true,
@@ -1056,16 +1031,7 @@
                         "type": "vec3",
                         "value": "[10,10,10]"
                     },
-                    {
-                        "name": "radius",
-                        "type": "num",
-                        "value": "5"
-                    },
-                    {
-                        "name": "height",
-                        "type": "num",
-                        "value": "5"
-                    },
+                    
                     {
                         "name": "offsetX",
                         "type": "num",
@@ -1085,11 +1051,6 @@
                         "name": "cols",
                         "type": "num",
                         "value": "2"
-                    },
-                    {
-                        "name": "segments",
-                        "type": "num",
-                        "value": "32"
                     }
                 ]
             }
