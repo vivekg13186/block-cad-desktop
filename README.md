@@ -1,6 +1,6 @@
 # BLOCK CAD
 
-Scratch Programming style 3d modeling software.Designed to simplify 3d modelling for 3d printing.
+Scratch programming style 3d modelling software.Designed to simplify 3d modelling for 3d printing.
 
 # Usage
 
