@@ -9,4 +9,4 @@ Scratch Programming style 3d modeling software.Designed to simplify 3d modelling
 
 # Download 
 
-https://github.com/vivekg13186/block-cad-desktop/releases/tag/v0.0.1
+https://github.com/vivekg13186/block-cad-desktop/releases/
