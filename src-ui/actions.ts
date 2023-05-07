@@ -132,5 +132,7 @@ export  async function renderAction() {
 
 }
 
-
+export async function newFile() {
+    current_filename=null;
+}
  
