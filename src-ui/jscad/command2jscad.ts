@@ -212,5 +212,28 @@ export async function convertToJSCAD(cmd: Command) {
             var objs = [parent].concat(holes_objects);
             return jscad.booleans.subtract(...objs);
         }
+        case "grid_copy":{
+            var pos = args["pos"];
+            
+            var offsetX = args["offsetX"];
+            var offsetY = args["offsetY"];
+            var rows = args["rows"];
+            var cols = args["cols"];
+            var hole_object = (await evalStatements(cmd.children))[0];
+            var parent = (await evalStatements(cmd.children))[1];
+            var holes_objects=[]
+            for(var r=0;r<rows;r++){
+                for(var c = 0;c<cols;c++){
+                    var x = c*offsetX;
+                    var y = r*offsetY;  
+                    var hole_ref = jscad.geometries.geom3.clone(hole_object);
+                    hole_ref = jscad.transforms.translate([x,y,0],hole_ref);
+                    hole_ref=jscad.transforms.translate(pos,hole_ref);
+                    holes_objects.push(hole_ref);
+                }
+            }
+            var objs = [parent].concat(holes_objects);
+            return jscad.booleans.union(...objs);
+        }
     }
 }

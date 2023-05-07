@@ -59,7 +59,7 @@
                 "isStatementBlock":true,
                 "arg": [
                     {
-                        "name": "",
+                        "name": "title",
                         "type": "str",
                         "value": "comment"
                     }
@@ -886,6 +886,38 @@
                 "title": "Hull Chain",
                 "isStatementBlock": true,
                 "arg": []
+            },
+            "grid_copy": {
+                "title": "Grid Copy",
+                "isStatementBlock": true,
+                "arg": [
+                    {
+                        "name": "pos",
+                        "type": "vec3",
+                        "value": "[10,10,10]"
+                    },
+                    
+                    {
+                        "name": "offsetX",
+                        "type": "num",
+                        "value": "5"
+                    },
+                    {
+                        "name": "offsetY",
+                        "type": "num",
+                        "value": "5"
+                    },
+                    {
+                        "name": "rows",
+                        "type": "num",
+                        "value": "2"
+                    },
+                    {
+                        "name": "cols",
+                        "type": "num",
+                        "value": "2"
+                    }
+                ]
             }
         }
     },
